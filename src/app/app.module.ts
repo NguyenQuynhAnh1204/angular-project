@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-
+import { CardComponent } from './user-card/card.component';
 
 @NgModule({
   imports: [
@@ -14,7 +14,8 @@ import { AppComponent } from './app.component';
     ReactiveFormsModule
   ],
   declarations: [
-    AppComponent
+    AppComponent,
+    CardComponent
   ],
   bootstrap: [
     AppComponent
