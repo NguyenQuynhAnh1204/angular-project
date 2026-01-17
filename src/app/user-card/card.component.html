@@ -5,9 +5,18 @@
         <img [src]="user.avatar" alt="">
     </div>
 
-   <div class="user-inf">
+    <div class="user-inf">
         <h4>{{user.name}}</h4>
         <p>{{user.description}}</p>
-        <button (click)="onClick(user.id)">View More</button>
-   </div>
+
+        <button class="btn-blue" (click)="onClick(user.id)" *ngIf="user.age >= 20; else noAge">
+            View More
+        </button>
+
+        <ng-template #noAge>
+            <button (click)="onClick(user.id)" class="btn-red">
+                No More
+            </button>
+        </ng-template>
+    </div>
 </div>

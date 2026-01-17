@@ -1,5 +1,5 @@
 @use 'styles/mixin' as *;
-
+@use 'styles/color' as *;
 
 .user-card {
     @include df-center;
@@ -15,7 +15,7 @@
         padding: 24px;
         width: 100%;
         flex: 1;
-        background-color: #002aff;
+        background-color: $primary;
         @include df-center;
         img {
             width: 100px;
@@ -44,11 +44,14 @@
         }
         button {
             border: none;
-            background-color: #002aff;
+            background-color: $primary;
             color: #fff;
-            padding: 10px 12px;
+            padding: 8px 12px;
             border-radius: 10px;
             cursor: pointer;
+        }
+        .btn-red {
+            background-color: red;
         }
     }
 }
