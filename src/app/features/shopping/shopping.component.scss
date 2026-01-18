@@ -1,0 +1,6 @@
+@use "styles/mixin" as *;
+
+.user-list {
+  @include df-center;
+  gap: 24px;
+}

@@ -1,0 +1,11 @@
+<div class="user-item">
+  <div class="card-avatar">
+    <img [src]="user.avatar" alt="">
+  </div>
+
+  <div class="user-inf">
+    <h4>{{user.name}}</h4>
+    <p>{{user.description}}</p>
+    <button (click)="onClick(user.id)">View More</button>
+  </div>
+</div>
