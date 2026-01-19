@@ -1,0 +1,22 @@
+<div class="product-item">
+    <div class="product-img">
+        <img [src]="product.img" alt="">
+    </div>
+
+    <div class="product-inf">
+        <div class="product-name">
+            <h5>{{product.name}}</h5>
+            <p>{{product.description}}</p>
+        </div>
+        <div class="product-price">
+            <p>{{product.unit}}</p>
+            <p class="price">${{product.price}}</p>
+        </div>
+
+        <div class="button-box">
+            <button class="primary">Buy Now</button>
+            <button>Add Cart</button>
+        </div>
+    </div>
+</div>
+

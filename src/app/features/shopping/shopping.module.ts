@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ShoppingComponent } from './shopping.component';
-import { ListCardComponent, CardComponent } from './shared/components';
+import { ListCardComponent, CardComponent, ListProductComponent, ProductItemComponent } from './shared/components';
 
 const SHOPPING_ROUTERS: Routes = [
   {
@@ -14,7 +14,10 @@ const SHOPPING_ROUTERS: Routes = [
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(SHOPPING_ROUTERS)],
   exports: [ShoppingComponent],
-  declarations: [ShoppingComponent, ListCardComponent, CardComponent],
+  declarations: [
+    ShoppingComponent, ListCardComponent, CardComponent, 
+    ListProductComponent, ProductItemComponent
+  ],
   providers: [],
 })
 export class ShoppingModule {}

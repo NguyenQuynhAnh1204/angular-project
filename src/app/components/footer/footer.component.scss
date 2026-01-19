@@ -1,0 +1,29 @@
+@use 'styles/mixin' as *;
+@use 'styles/color' as *;
+
+
+.footer {
+    padding: 16px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #323232;
+    color: #fff;
+    h5 {
+        margin: 10px 0;
+        font-size: 14px;
+    }
+    ul {
+        line-height: 1.4;
+        li {
+            color: #ccc;
+            font-size: 12px;
+            list-style-type: none;
+            cursor: pointer;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}

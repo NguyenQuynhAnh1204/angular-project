@@ -38,13 +38,5 @@ export const userList: User[] = [
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     avatar: 'assets/img/avatar.jpg',
-  },
-  {
-    id: 5,
-    name: 'Quỳnh Anh',
-    age: 20,
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    avatar: 'assets/img/avatar.jpg',
-  },
+  }
 ];
