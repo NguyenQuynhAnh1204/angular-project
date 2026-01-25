@@ -25,7 +25,7 @@ export const products :IProduct[] =  [
     {
         id: 2,
         img: "assets/img/product.jpg",
-        name: "Son thỏi cao cấp",
+        name: "Son thỏi hạ cấp",
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
         price: 150,
         unit: '50g',
@@ -35,7 +35,7 @@ export const products :IProduct[] =  [
     {
         id: 3,
         img: "assets/img/product.jpg",
-        name: "Son thỏi cao cấp",
+        name: "Son thỏi rẻ tiền",
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
         price: 150,
         unit: '50g',
@@ -45,7 +45,7 @@ export const products :IProduct[] =  [
     {
         id: 4,
         img: "assets/img/product.jpg",
-        name: "Son thỏi cao cấp",
+        name: "Son thỏi hạ cấp",
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
         price: 150,
         unit: '50g',
@@ -55,7 +55,7 @@ export const products :IProduct[] =  [
     {
         id: 5,
         img: "assets/img/product.jpg",
-        name: "Son thỏi cao cấp",
+        name: "Son thỏi rẻ tiền",
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
         price: 150,
         unit: '50g',

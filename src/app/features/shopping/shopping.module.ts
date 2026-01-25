@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ShoppingComponent } from './shopping.component';
 import { ListCardComponent, CardComponent, ListProductComponent, ProductItemComponent } from './shared/components';
+import { FormsModule, ɵInternalFormsSharedModule } from "@angular/forms";
 
 const SHOPPING_ROUTERS: Routes = [
   {
@@ -12,7 +13,7 @@ const SHOPPING_ROUTERS: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(SHOPPING_ROUTERS)],
+  imports: [CommonModule, RouterModule.forChild(SHOPPING_ROUTERS), ɵInternalFormsSharedModule, FormsModule],
   exports: [ShoppingComponent],
   declarations: [
     ShoppingComponent, ListCardComponent, CardComponent, 

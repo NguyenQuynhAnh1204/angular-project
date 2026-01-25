@@ -1,4 +1,4 @@
-<div class="product-item">
+<div class="product-detail">
     <div class="product-img">
         <img [src]="product.img" alt="">
     </div>
@@ -14,8 +14,8 @@
         </div>
 
         <div class="button-box">
-            <button class="primary">Buy Now</button>
-            <button>Add Cart</button>
+            <button (click)="buy()">Buy Now</button>
+            <button (click)="addCart(product.id)">Add Cart</button>
         </div>
     </div>
 </div>
