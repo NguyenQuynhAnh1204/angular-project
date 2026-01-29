@@ -1,0 +1,21 @@
+<div class="file-item" [class.haveLink]="item.link">
+    <div class="file-inf">
+        <div>
+            <img src="" alt="ảnh">
+        </div>
+        <div class="detail">
+            <p class="file-name" [class.haveLink]="item.link">{{item.file?.name || item.link}}</p>
+
+            <p class="file-size" *ngIf="item.file">{{item.file.size / 1024 / 1024 | number:'1.1-2'}} MB</p>
+        </div>
+    </div>
+
+    <div class="progress">
+        <mat-progress-bar class="progress-bar" mode="determinate">
+        </mat-progress-bar>
+        <button (click)="onDelete(item)" class="btn-delete">
+            <mat-icon class="icon-close" >close</mat-icon>
+        </button>
+    </div>
+</div>
+
