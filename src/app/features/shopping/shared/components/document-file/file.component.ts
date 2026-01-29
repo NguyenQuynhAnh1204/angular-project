@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { fromEvent } from 'rxjs';
 
 interface UploadItem {
     file?:File,
@@ -12,53 +13,110 @@ interface UploadItem {
 })
 export class DocumentFileComponent implements OnInit {
 
+    
     public acceptFile = ".pdf,.docx";
-
+    
     public countFile = 0;
-
+    
     public uploads : UploadItem[] = [];
-
+    
     public haveLink = false;
-
+    
     public errors = {
         file: '',
         link: ''
     }
+    
+    @ViewChild('dragBox') dragBox!: ElementRef<HTMLDivElement>;
+    @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+    @ViewChild('inputLink') inputLink!: ElementRef<HTMLInputElement>;
+    @ViewChild('btnAdd') btnAdd!: ElementRef<HTMLButtonElement>;
+    @ViewChild('btnClear') btnClear!:  ElementRef<HTMLButtonElement>;
 
     constructor() { }
     
     ngOnInit() { }
 
-    isLink(link: string): boolean {
+    ngAfterViewInit() {
+        const dragOver$ = fromEvent<DragEvent>(this.dragBox.nativeElement, 'dragover'); 
+        const drop$ = fromEvent<DragEvent>(this.dragBox.nativeElement, 'drop');
+        const upload$ = fromEvent<InputEvent>(this.fileInput.nativeElement, 'change');
+
+        const link$ = fromEvent<InputEvent>(this.inputLink.nativeElement, 'input');
+        const addLink$ = fromEvent<MouseEvent>(this.btnAdd.nativeElement, 'click');
+        const btnClear$ = fromEvent<MouseEvent>(this.btnClear.nativeElement, 'click');
+
+        dragOver$.subscribe(
+            (event) => {
+                event.preventDefault();
+            }
+        )
+
+        drop$.subscribe(
+            (event) => {
+                event.preventDefault();
+                const files = event.dataTransfer?.files;
+                if (!files?.length) return;
+                Array.from(files).forEach(file => this.handleFile(file));
+            }
+        )
+
+        upload$.subscribe(
+            (event) => {
+                const input = event.target as HTMLInputElement;
+                let files = input.files;
+                if(!files?.length) return;
+                Array.from(files).forEach(file => this.handleFile(file));
+                input.value = '';
+            }
+        )
+
+        link$.subscribe(
+            (event) => {
+                const input = event.target as HTMLInputElement;
+                const value = input.value.trim();
+                if (value) {
+                    const isLink = this.isLink(value);
+                    if(!isLink) return;
+                    this.haveLink = true;
+                }
+            }
+        )
+
+        addLink$.subscribe(
+            () => {
+                if (!this.haveLink) return;
+                const input = this.inputLink.nativeElement;
+                const link = input.value.trim();
+                if (!link) return;
+                const duplicate = this.uploads.some(item => item.link === link);
+                if (duplicate) return;
+                this.uploads = [...this.uploads, { link }];
+                this.countFile++;
+                input.value = '';
+                this.haveLink = false;
+            }
+        )
+
+        btnClear$.subscribe(
+            () => {
+                this.uploads = [];
+                this.countFile = 0;
+            }
+        )
+    }
+
+    private isLink(link: string): boolean {
         return link.startsWith('http://') || link.startsWith('https://');
     }
 
-    validateFile(file: File): boolean {
+    private validateFile(file: File): boolean {
         const types = [
             'application/pdf',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
         ]
         const maxSize = 25 * 1024 * 1024;
         return types.includes(file.type) && file.size <= maxSize;
-    }
-
-    onDragOver(event: Event): void {
-        event.preventDefault();
-    }
-
-    onDropSuccess(event: DragEvent ): void {
-        event.preventDefault();
-        const files = event.dataTransfer?.files;
-        if (!files?.length) return;
-        Array.from(files).forEach(file => this.handleFile(file));
-    }
-
-    onFileSelected(event: Event): void {
-        const input = event.target as HTMLInputElement;
-        let files = input.files;
-        if(!files?.length) return;
-        Array.from(files).forEach(file => this.handleFile(file));
-        input.value = '';
     }
 
     private handleFile(file: File): void {
@@ -73,36 +131,10 @@ export class DocumentFileComponent implements OnInit {
         this.countFile = this.uploads.length;
     }
 
-    onLinkSelected(event: Event): void {
-        const input = event.target as HTMLInputElement;
-        const value = input.value.trim();
-        if (value) {
-            const isLink = this.isLink(value);
-            if(!isLink) return;
-            this.haveLink = true;
-        }
-    }
-
-    addLink(inputLink: HTMLInputElement): void {
-        if(!this.haveLink) return;
-        const link = inputLink.value.trim();
-        const duplicate = this.uploads.some(item => item.link === link);
-        if (duplicate) return;
-        this.uploads = [...this.uploads, {link}];
-        this.countFile++;
-        inputLink.value = '';
-        this.haveLink = false;
-    }
-
     onDelete(item: UploadItem): void {
         if(!item) return;
         this.uploads = this.uploads.filter(f => f.link !== item.link || f.file !== item.file);
         this.countFile = this.uploads.length;
-    }
-
-    clear() : void {
-        this.uploads = [];
-        this.countFile = 0;
     }
 
     

@@ -2,7 +2,7 @@
 
     <div class="document">
         <h4>Tài liệu</h4>
-        <div class="input" (dragover)="onDragOver($event)" (drop)="onDropSuccess($event)">
+        <div class="input" #dragBox>
             <div>
                 <mat-icon class="icon-attch-file" (click)="dragInput.click()" >attach_file</mat-icon>
                 <input type="file" hidden #dragInput multiple [accept]="acceptFile">
@@ -10,7 +10,7 @@
             <div>
                 Kéo thả tài liệu vào đây hoặc 
                 <span type="button" class="btn-down" (click)="fileInput.click()">Tải lên</span>
-                <input #fileInput type="file" hidden multiple  (change)="onFileSelected($event)" [accept]="acceptFile"/>
+                <input #fileInput type="file" hidden multiple [accept]="acceptFile"/>
             </div>
     
             <div>
@@ -23,13 +23,15 @@
     <div class="url">
         <h4>Liên kết URL</h4>
         <div class="input-url">
-            <input type="text" placeholder="Gõ hoặc dán liên kết" (input)="onLinkSelected($event)" #inputLink>
-            <button class="btn-add_link" [class.haveLink]="haveLink" (click)="addLink(inputLink)"  [disabled]="!inputLink.value.trim()">Thêm</button>
+            <input type="text" placeholder="Gõ hoặc dán liên kết" #inputLink>
+            <button class="btn-add_link" [class.haveLink]="haveLink"  
+                [disabled]="!inputLink.value.trim()"
+                #btnAdd
+            >Thêm</button>
         </div>
         
         <div>
             <h4 *ngIf="countFile>0">Tài liệu đã tải lên <span>({{countFile}})</span></h4>
-
             <file-item *ngFor="let item of uploads" [item]="item" (deleteItem)="onDelete($event)"></file-item>
         </div> 
     </div>
@@ -37,7 +39,7 @@
 
 
 <div class="btn-box" [class.haveFile]="countFile>0">
-    <button class="btn-clear" (click)="clear()">Huỷ bỏ</button>
+    <button class="btn-clear" #btnClear>Huỷ bỏ</button>
 
     <button class="btn-acept"  *ngIf="countFile==0 else haveFile">Chấp nhận</button>
     <ng-template #haveFile>
