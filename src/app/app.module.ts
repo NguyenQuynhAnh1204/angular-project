@@ -13,6 +13,11 @@ const shellRoutes: Routes = [
     path: 'shopping',
     loadChildren: () =>
       import('./features/shopping').then((m) => m.ShoppingModule),
+  },
+  {
+    path: 'uploadfile',
+    loadChildren: () =>
+      import('./features/uploadFile').then((m) => m.UploadfileModule),
   }
 ];
 
