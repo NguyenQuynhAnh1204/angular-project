@@ -14,6 +14,8 @@ interface UploadItem {
 export class DocumentFileComponent 
 implements OnInit, AfterViewInit,OnDestroy {
     private destroy$ = new Subject<void>();
+
+    public counterValue = 0;
     
     public acceptFile = ".pdf,.docx";
     
@@ -36,28 +38,30 @@ implements OnInit, AfterViewInit,OnDestroy {
 
     constructor() { }
     
-    ngOnInit() { }
-
+    ngOnInit() {
+    }
+    
     ngAfterViewInit() {
         const dragOver$ = fromEvent<DragEvent>(this.dragBox.nativeElement, 'dragover').pipe(takeUntil(this.destroy$)); 
         const drop$ = fromEvent<DragEvent>(this.dragBox.nativeElement, 'drop').pipe(takeUntil(this.destroy$));
         const upload$ = fromEvent<InputEvent>(this.fileInput.nativeElement, 'change').pipe(takeUntil(this.destroy$));
-
+        
         const link$ = fromEvent<InputEvent>(this.inputLink.nativeElement, 'input').pipe(takeUntil(this.destroy$));
         const addLink$ = fromEvent<MouseEvent>(this.btnAdd.nativeElement, 'click').pipe(takeUntil(this.destroy$));
         const btnClear$ = fromEvent<MouseEvent>(this.btnClear.nativeElement, 'click').pipe(takeUntil(this.destroy$));
-
+        
         dragOver$.subscribe((event) => {event.preventDefault();})
 
         drop$.subscribe((event) => {this.onDrop(event)})
-
+        
         upload$.subscribe((event) => {this.onUpload(event)})
-
+        
         link$.subscribe((event) => {this.onInputLink(event);})
-
+        
         addLink$.subscribe(() => this.onAddLink());
-
+        
         btnClear$.subscribe(() => this.onClear());
+
     }
 
     private isLink(link: string): boolean {
@@ -140,6 +144,5 @@ implements OnInit, AfterViewInit,OnDestroy {
         this.destroy$.next();
         this.destroy$.complete();
     }
-
     
 }

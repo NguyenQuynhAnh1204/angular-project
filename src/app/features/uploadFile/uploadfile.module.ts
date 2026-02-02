@@ -3,7 +3,7 @@ import { UploadFileComponent } from './uploadfile.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ɵInternalFormsSharedModule } from "@angular/forms";
-import { DocumentFileComponent, FileItemComponent } from './component';
+import { BravoButtonComponent, BravoItemComponent, DocumentFileComponent, ExampleComponent, FileItemComponent, HighlightDirective, SizerComponent, StarPipe } from './component';
 import { MaterialModule } from 'src/app/material/material.module';
 
 const UPLOADFILE_ROUTERS: Routes = [
@@ -19,7 +19,9 @@ const UPLOADFILE_ROUTERS: Routes = [
         ɵInternalFormsSharedModule, FormsModule, MaterialModule
     ],
     exports: [UploadFileComponent],
-    declarations: [UploadFileComponent, DocumentFileComponent, FileItemComponent],
+    declarations: [UploadFileComponent, DocumentFileComponent, FileItemComponent, 
+      ExampleComponent, BravoButtonComponent, BravoItemComponent,
+      SizerComponent, HighlightDirective, StarPipe],
     providers: [],
 })
 export class UploadfileModule { }

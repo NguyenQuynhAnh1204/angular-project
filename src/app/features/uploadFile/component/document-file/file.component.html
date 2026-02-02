@@ -14,7 +14,7 @@
             </div>
     
             <div>
-                <p>Hỗ trợ các định dạng file: .pdf, .doc,</p>
+                <p>Hỗ trợ các định dạng file: .pdf, .docx</p>
                 <p>Dung lượng tài liệu không vượt qua 25MB</p>
             </div>
         </div>
@@ -32,7 +32,7 @@
         
         <div>
             <h4 *ngIf="countFile>0">Tài liệu đã tải lên <span>({{countFile}})</span></h4>
-            <file-item *ngFor="let item of uploads" [item]="item" (deleteItem)="onDelete($event)"></file-item>
+            <file-item *ngFor="let item of uploads" [item]="item" (deleteItem)="onDelete($event)"/>
         </div> 
     </div>
 </div>

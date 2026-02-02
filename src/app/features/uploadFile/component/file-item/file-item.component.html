@@ -1,7 +1,9 @@
 <div class="file-item" [class.haveLink]="item.link">
     <div class="file-inf">
-        <div>
-            <img src="" alt="ảnh">
+        <div cl>
+            <img src="assets/imageBravo/pdf.svg" alt="ảnh" *ngIf="typeFile=='pdf'">
+            <img src="assets/imageBravo/docx.svg" alt="ảnh" *ngIf="typeFile=='world'">
+            <img src="assets/imageBravo/link.svg" alt="ảnh" *ngIf="typeFile=='link'">
         </div>
         <div class="detail">
             <p class="file-name" [class.haveLink]="item.link">{{item.file?.name || item.link}}</p>
@@ -18,4 +20,3 @@
     </div>
 
 </div>
-

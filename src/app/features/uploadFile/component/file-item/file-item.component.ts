@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ContentChild, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core';
 import { interval, Subject, takeUntil, takeWhile } from 'rxjs';
 
 interface UploadItem {
@@ -16,7 +16,10 @@ interface UploadItem {
 export class FileItemComponent implements OnInit, AfterViewInit, OnDestroy {
     private destroy$ = new Subject<void>();
 
+    @ContentChild('content') content!: TemplateRef<any>;
+
     progress = 0;
+    typeFile = '';
 
     @Input() item!: UploadItem;
 
@@ -24,13 +27,18 @@ export class FileItemComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor() { }
 
-    ngOnInit() { }
+    ngOnInit() {
+    }
 
     ngAfterViewInit(): void {
         interval(1000)
             .pipe(takeWhile(() => this.progress < 100))
             .pipe(takeUntil(this.destroy$))
             .subscribe(() => this.handleProgress())
+
+        setTimeout(() => {
+            this.typeFile = this.getTypeFile(this.item);            
+        })
     }
 
     private handleProgress() {
@@ -44,5 +52,19 @@ export class FileItemComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
+    }
+
+    private getTypeFile(upload: UploadItem): string {
+        if (upload.file) {
+            const file = upload.file;
+            const type = file.type;
+            if(type.includes('pdf')) {
+                return 'pdf'
+            }
+            else if (type.includes('document')) {
+                return 'world'
+            }
+        }
+        return 'link';
     }
 }
