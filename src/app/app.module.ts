@@ -18,6 +18,11 @@ const shellRoutes: Routes = [
     path: 'uploadfile',
     loadChildren: () =>
       import('./features/uploadFile').then((m) => m.UploadfileModule),
+  },
+  {
+    path: 'student',
+    loadChildren: () =>
+      import('./features/student').then((m) => m.StudentModule),
   }
 ];
 
