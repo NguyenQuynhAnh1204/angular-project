@@ -23,6 +23,11 @@ const shellRoutes: Routes = [
     path: 'student',
     loadChildren: () =>
       import('./features/student').then((m) => m.StudentModule),
+  },
+  {
+    path: 'student',
+    loadChildren: () =>
+      import('./features/student').then((m) => m.StudentModule),
   }
 ];
 
