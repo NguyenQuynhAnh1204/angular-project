@@ -1,0 +1,16 @@
+:host {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+    border-radius: 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+
+.banner {
+    color: red;
+    font-size: 14px;
+    font-weight: bold;
+}
