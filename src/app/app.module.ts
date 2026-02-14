@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { FooterComponent, HeaderComponent } from './components';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
+import { ShareModule } from './share';
 
 const shellRoutes: Routes = [
   {
@@ -39,6 +40,7 @@ const shellRoutes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(shellRoutes),
     BrowserAnimationsModule,
+    ShareModule
   ],
   declarations: [AppComponent, HeaderComponent, FooterComponent],
   bootstrap: [AppComponent],

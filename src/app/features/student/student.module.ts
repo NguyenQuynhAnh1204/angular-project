@@ -5,6 +5,7 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { CommonModule } from '@angular/common';
 import { StudentComponent } from './student.component';
 import { ButtonComponent, HighlightRow, HighlightText, RankPipe, StudentTableComponent } from './component/studentTable';
+import { ShareModule } from 'src/app/share';
 
 const STUDENT_ROUTERS: Routes = [
   {
@@ -16,7 +17,7 @@ const STUDENT_ROUTERS: Routes = [
 
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(STUDENT_ROUTERS),
-        ɵInternalFormsSharedModule, FormsModule, MaterialModule
+        ɵInternalFormsSharedModule, FormsModule, MaterialModule, ShareModule
     ],
     exports: [StudentComponent],
     declarations: [StudentComponent, StudentTableComponent, ButtonComponent,

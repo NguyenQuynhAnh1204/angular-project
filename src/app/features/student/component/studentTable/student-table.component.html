@@ -23,8 +23,8 @@
             <td>{{student.score}}</td>
             <td>{{student.score | rank}}</td>
             <td class="btn-column">
-                <button class="btn-update" (click)="handleUpdate(student.id)">Sửa</button>
-                <button class="btn-delete" (click)="handleDelete(student.id)">Xoá</button>
+                <br-custom-button variant="solid" color="blue" size="medium" (click)="handleUpdate(student.id)">Sửa</br-custom-button>
+                <br-custom-button variant="solid" color="red" size="medium" (click)="handleDelete(student.id)">Xoá</br-custom-button>
             </td>
         </tr>
     </ng-container>

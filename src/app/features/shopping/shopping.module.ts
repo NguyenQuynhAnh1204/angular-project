@@ -5,6 +5,7 @@ import { ShoppingComponent } from './shopping.component';
 import { ListProductComponent, ProductItemComponent } from './shared/components';
 import { FormsModule, ɵInternalFormsSharedModule } from "@angular/forms";
 import { MaterialModule } from 'src/app/material/material.module';
+import { ShareModule } from 'src/app/share';
 
 const SHOPPING_ROUTERS: Routes = [
   {
@@ -15,7 +16,7 @@ const SHOPPING_ROUTERS: Routes = [
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(SHOPPING_ROUTERS), 
-    ɵInternalFormsSharedModule, FormsModule, MaterialModule],
+    ɵInternalFormsSharedModule, FormsModule, MaterialModule, ShareModule],
   exports: [ShoppingComponent],
   declarations: [
     ShoppingComponent, ListProductComponent, ProductItemComponent
