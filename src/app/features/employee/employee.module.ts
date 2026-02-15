@@ -5,6 +5,7 @@ import { FormsModule, ɵInternalFormsSharedModule } from "@angular/forms";
 import { MaterialModule } from 'src/app/material/material.module';
 import { EmployeeComponent } from './employee.component';
 import { EmployeeAvatarComponent, EmployeeCardComponent, HideAfterDirective } from './component';
+import { ShareModule } from 'src/app/share';
 
 
 const EMPLOYEE_ROUTERS: Routes = [
@@ -16,7 +17,7 @@ const EMPLOYEE_ROUTERS: Routes = [
 
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(EMPLOYEE_ROUTERS),
-        ɵInternalFormsSharedModule, FormsModule, MaterialModule
+        ɵInternalFormsSharedModule, FormsModule, MaterialModule, ShareModule
     ],
     exports: [EmployeeComponent],
     declarations: [EmployeeComponent, EmployeeAvatarComponent, EmployeeCardComponent,

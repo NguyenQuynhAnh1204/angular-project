@@ -1,0 +1,13 @@
+<div class="tab-head">
+    <ng-container *ngFor="let i of items;">
+        <div class="label" [class.isActive]="i.key == item.key" 
+            #tab (click)="handleChangeTab(i.key)"
+        >
+            {{i.label}}
+        </div>
+    </ng-container>
+</div>
+
+<div #content>
+    
+</div>

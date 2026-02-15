@@ -1,3 +1,9 @@
 
 
+
+<br-custom-tabs
+    [items]="tabs"
+    [disabled]="true",
+    [defaultActiveKey]="1"
+/>
 <employee-card *ngFor="let employee of employees" [employee]="employee"/>
