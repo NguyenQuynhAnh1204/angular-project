@@ -1,70 +1,116 @@
-import { AfterViewInit, Component, ContentChild, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  HostBinding,
+  Input,
+  OnDestroy,
+  Output,
+} from '@angular/core';
 import { interval, Subject, takeUntil, takeWhile } from 'rxjs';
-
-interface UploadItem {
-    file?:File,
-    link?:string
-}
-
+import { IUploadItem } from '../../uploadfile.definition';
 
 @Component({
-    selector: 'file-item',
-    templateUrl: 'file-item.component.html',
-    styleUrls: ['./file-item.component.scss']
+  selector: 'file-item',
+  templateUrl: 'file-item.component.html',
+  styleUrls: ['./file-item.component.scss'],
 })
+export class FileItemComponent implements AfterViewInit, OnDestroy {
+  #destroy$ = new Subject<void>();
 
-export class FileItemComponent implements OnInit, AfterViewInit, OnDestroy {
-    private destroy$ = new Subject<void>();
+  //* progress
+  private _progress = 0;
+  public get progress() {
+    return this._progress;
+  }
+  public set progress(pProgress: number) {
+    this._progress = pProgress;
+  }
 
-    @ContentChild('content') content!: TemplateRef<any>;
+  //* typeFile
+  private _typeFile = '';
+  public get typeFile() {
+    return this._typeFile;
+  }
+  public set typeFile(pType) {
+    this._typeFile = pType;
+  }
 
-    progress = 0;
-    typeFile = '';
+  // * uploadItem
+  #uploadItem!: IUploadItem;
+  @Input('item')
+  public get uploadItem() {
+    return this.#uploadItem;
+  }
+  public set uploadItem(pUpload: IUploadItem) {
+    this.#uploadItem = pUpload;
+  }
 
-    @Input() item!: UploadItem;
+  @Output('onDeleteItem')
+  public deleteItem$ = new EventEmitter<IUploadItem>();
+  @Output('onUploadItem')
+  public uploadItem$ = new EventEmitter<IUploadItem>();
 
-    @Output() deleteItem = new EventEmitter<UploadItem>();
+  @HostBinding('class.haveLink')
+  public get hasLink() {
+    return this.uploadItem.link;
+  }
 
-    constructor() { }
+  public ngAfterViewInit() {
+    interval(1000)
+      .pipe(takeWhile(() => this.progress < 100))
+      .pipe(takeUntil(this.#destroy$))
+      .subscribe(() => this._handleProgress());
 
-    ngOnInit() {
+    const timer = setTimeout(() => {
+      this._typeFile = this._getTypeFile(this.uploadItem);
+      clearTimeout(timer);
+    });
+  }
+
+  public ngOnDestroy() {
+    this.#destroy$.next();
+    this.#destroy$.complete();
+  }
+
+  private _handleProgress() {
+    if (this.uploadItem.fileItem) {
+      this.progress += 25;
+    } else if (this.uploadItem.link) {
+      this.uploadItem$.emit(this.uploadItem);
     }
-
-    ngAfterViewInit(): void {
-        interval(1000)
-            .pipe(takeWhile(() => this.progress < 100))
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(() => this.handleProgress())
-
-        setTimeout(() => {
-            this.typeFile = this.getTypeFile(this.item);            
-        })
+    if (this.progress == 100) {
+      if (this.uploadItem.fileItem) {
+        this.uploadItem.fileItem.state = true;
+      }
+      this.uploadItem$.emit(this.uploadItem);
+      return;
     }
+    // if (this.progress < 100 && this.progress < 50) {
+    //   setTimeout(() => {
+    //     if (!this.uploadItem.fileItem) return;
+    //     this.uploadItem.fileItem.state = false;
+    //     this.uploadItem$.emit(this.uploadItem);
+    //     this.#destroy$.next();
+    //     this.#destroy$.complete();
+    //   });
+    // }
+  }
 
-    private handleProgress() {
-        this.progress += 25;
-    }
+  public onDelete() {
+    this.deleteItem$.emit(this.uploadItem);
+  }
 
-    onDelete(item: UploadItem) {
-        this.deleteItem.emit(item)
+  private _getTypeFile(upload: IUploadItem): string {
+    if (upload.fileItem) {
+      const file = upload.fileItem;
+      const type = file.file.type;
+      if (type.includes('pdf')) {
+        return 'pdf';
+      } else if (type.includes('document')) {
+        return 'world';
+      }
     }
-
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
-    private getTypeFile(upload: UploadItem): string {
-        if (upload.file) {
-            const file = upload.file;
-            const type = file.type;
-            if(type.includes('pdf')) {
-                return 'pdf'
-            }
-            else if (type.includes('document')) {
-                return 'world'
-            }
-        }
-        return 'link';
-    }
+    return 'link';
+  }
 }

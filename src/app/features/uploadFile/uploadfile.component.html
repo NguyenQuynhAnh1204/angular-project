@@ -1,3 +1,42 @@
-<!-- <document-file/> -->
+<div class="top">
+  <drag-drop-zone
+    (onUploadFiles)="onUpload($event)"
+    [limitedSize]="25000000"
+    [assetFile]="['pdf', 'docx', 'png', 'jpg', 'jpeg', 'png']"
+  />
 
-<example/>
+  <input-link (onAddLink)="onAddLink($event)" />
+
+  <div>
+    <h4 *ngIf="uploadsItem.length > 0">
+      Tài liệu đã tải lên <span *ngIf="countFile">({{ countFile }})</span>
+    </h4>
+    <div
+      class="file-upload-box"
+      [class.scroll]="fileNumberDisplay < uploadsItem.length"
+      [style.maxHeight.px]="60 * fileNumberDisplay"
+      #fileUploadBox
+    >
+      <file-item
+        *ngFor="let item of uploadsItem"
+        [item]="item"
+        (onDeleteItem)="handleOnDeleteFileItem($event)"
+        (onUploadItem)="handleOnUploadSuccess($event)"
+      />
+    </div>
+    <p *ngIf="error" class="error">
+      {{ this.error }}
+    </p>
+  </div>
+</div>
+
+<div class="btn-box" [class.haveFile]="countFile > 0">
+  <button class="btn-clear" #btnClear (click)="onCancel()">Huỷ bỏ</button>
+
+  <button class="btn-acept" *ngIf="countFile == 0; else haveFile">
+    Chấp nhận
+  </button>
+  <ng-template #haveFile>
+    <button class="btn-save">Lưu</button>
+  </ng-template>
+</div>

@@ -1,0 +1,24 @@
+<h4>Liên kết URL</h4>
+<div
+  class="input-url"
+  [ngClass]="{
+    'valid-link': link && isLink,
+    'invalid-link': link && !isLink,
+  }"
+>
+  <input
+    type="text"
+    placeholder="Gõ hoặc dán liên kết"
+    [value]="link"
+    (input)="onInputLink($event)"
+  />
+  <button
+    class="btn-add_link"
+    [class.has-link]="isLink"
+    [disabled]="!isLink"
+    (click)="onAddLink()"
+  >
+    Thêm
+  </button>
+</div>
+<p *ngIf="error" class="error">{{ error }}</p>
