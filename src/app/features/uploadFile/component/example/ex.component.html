@@ -1,0 +1,31 @@
+<button (click)="_onClickBtnToggle()">Toggle button delete</button>
+<ng-container *ngIf="isVisible">
+  <br-btn-delete
+    #btnDelete
+    (onInitialized)="_handleOnInitializedBtnDelete($event)"
+  ></br-btn-delete>
+</ng-container>
+
+<div style="display: flex; flex-direction: column">
+  <br-item
+    #brITem
+    *ngFor="let item of items"
+    [value]="item"
+    (onDelete)="onDeleteItem($event)"
+  ></br-item>
+</div>
+
+
+<p>{{myName | star}}</p>
+
+<!-- <p [appHighlight]="color">helo</p> -->
+<!-- <app-sizer [(size)]="fontSizePx"></app-sizer>
+<div [style.font-size.px]="fontSizePx">Resizable Text</div> -->
+<!-- 
+<h2>Pick a highlight color</h2>
+<div>
+  <input type="radio" name="colors" (click)="color='lightgreen'">Green
+  <input type="radio" name="colors" (click)="color='yellow'">Yellow
+  <input type="radio" name="colors" (click)="color='cyan'">Cyan
+</div>
+<p [appHighlight]="color" [defaultColor]="defaultColor">Highlight me!</p> -->

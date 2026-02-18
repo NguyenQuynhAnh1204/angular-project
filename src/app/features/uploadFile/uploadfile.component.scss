@@ -1,0 +1,60 @@
+@use "styles/mixin" as *;
+
+:host {
+  display: block;
+  margin: 20px;
+  display: inline-block;
+  width: 40vw;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.top {
+  padding: 10px 20px;
+}
+
+.scroll {
+  overflow-y: scroll;
+}
+
+.btn-box {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: end;
+  background-color: #ebebeb;
+  gap: 10px;
+  &.haveFile {
+    background-color: #fff;
+  }
+  button {
+    min-width: 70px;
+    padding: 6px 8px;
+    border: none;
+    background: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .btn-clear {
+    border: 1px solid #ccc;
+    background-color: #fff;
+  }
+
+  .btn-acept {
+    background-color: #999;
+    color: #fff;
+  }
+
+  .btn-save {
+    background-color: #0000ff;
+    color: #fff;
+  }
+}
+
+.error {
+  font-size: 12px;
+  font-weight: bold;
+  color: red;
+}

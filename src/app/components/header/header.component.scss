@@ -1,0 +1,34 @@
+@use 'styles/mixin' as *;
+@use 'styles/color' as *;
+
+.header {
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+    .navigate {
+        display: flex;
+        gap: 24px;
+        a {
+            padding: 4px 10px;
+            color: #000;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: background-color 0.5s ease-in-out;
+            &:hover {
+                background-color: #eeeeee;
+            }
+        }
+    }
+
+    .icons {
+        margin-right: 24px;
+        color: #fff;
+        display: flex;
+        gap: 24px;
+    }
+}

@@ -1,0 +1,32 @@
+@use "styles/mixin" as *;
+
+
+
+.container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 56px;
+        z-index: 1;
+        background-color: #fff;
+    }
+
+    .body {
+        margin-top: 56px;
+        
+    }
+    
+    .user-list{
+        width: 100%;
+        height: 100vh;
+        @include df-center;
+        gap: 24px;
+    }
+    
+}
