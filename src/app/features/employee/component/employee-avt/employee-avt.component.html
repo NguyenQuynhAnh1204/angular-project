@@ -1,0 +1,6 @@
+<img [src]="avatar" alt="" *ngIf="isImg; else avt">
+
+<ng-template #avt>
+    <span>{{avatar}}</span>
+</ng-template>
+

@@ -1,0 +1,8 @@
+
+<span class="material-symbols-outlined loader" *ngIf="loading">progress_activity</span>
+
+<span class="material-symbols-outlined" *ngIf="!loading && icon">{{icon}}</span>
+
+<span #content>
+    <ng-content></ng-content>
+</span>

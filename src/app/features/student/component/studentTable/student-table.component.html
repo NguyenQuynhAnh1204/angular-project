@@ -1,0 +1,31 @@
+<h1>Table Student</h1>
+
+<input type="text" placeholder="Tìm kiếm theo tên" class="search"  
+    (input)="onChange($event)"
+    #inputSearch
+>
+
+<table>
+    <tr>
+        <th>Student Id</th>
+        <th>Student Name</th>
+        <th>Birthday</th>
+        <th>Score</th>
+        <th>Ranking</th>
+        <th></th>
+    </tr>
+
+    <ng-container *ngFor="let student of studentList">
+        <tr [highlight-row]="student.score">
+            <td>{{student.id}}</td>
+            <td highlight-text [text-search] = 'inputSearch.value'>{{student.name}}</td>
+            <td>{{student.birthday | date}}</td>
+            <td>{{student.score}}</td>
+            <td>{{student.score | rank}}</td>
+            <td class="btn-column">
+                <br-custom-button variant="solid" color="blue" size="medium" (click)="handleUpdate(student.id)">Sửa</br-custom-button>
+                <br-custom-button variant="solid" color="red" size="medium" (click)="handleDelete(student.id)">Xoá</br-custom-button>
+            </td>
+        </tr>
+    </ng-container>
+</table>
