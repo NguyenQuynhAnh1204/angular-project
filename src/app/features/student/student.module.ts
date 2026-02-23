@@ -1,11 +1,10 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { FormsModule, ɵInternalFormsSharedModule } from "@angular/forms";
-import { MaterialModule } from 'src/app/material/material.module';
 import { CommonModule } from '@angular/common';
-import { StudentComponent } from './student.component';
-import { ButtonComponent, HighlightRow, HighlightText, RankPipe, StudentTableComponent } from './component/studentTable';
+import { NgModule } from '@angular/core';
+import { FormsModule, ɵInternalFormsSharedModule } from "@angular/forms";
+import { RouterModule, Routes } from '@angular/router';
 import { ShareModule } from 'src/app/share';
+import { ButtonComponent, HighlightRow, HighlightText, RankPipe, StudentTableComponent } from './component/studentTable';
+import { StudentComponent } from './student.component';
 
 const STUDENT_ROUTERS: Routes = [
   {
@@ -17,7 +16,7 @@ const STUDENT_ROUTERS: Routes = [
 
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(STUDENT_ROUTERS),
-        ɵInternalFormsSharedModule, FormsModule, MaterialModule, ShareModule
+        ɵInternalFormsSharedModule, FormsModule, ShareModule
     ],
     exports: [StudentComponent],
     declarations: [StudentComponent, StudentTableComponent, ButtonComponent,

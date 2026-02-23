@@ -63,7 +63,7 @@ export class FileItemComponent implements AfterViewInit, OnDestroy {
       .subscribe(() => this._handleProgress());
 
     const timer = setTimeout(() => {
-      this._typeFile = this._getTypeFile(this.uploadItem);
+      this.typeFile = this._getTypeFile(this.uploadItem);
       clearTimeout(timer);
     });
   }
@@ -105,11 +105,8 @@ export class FileItemComponent implements AfterViewInit, OnDestroy {
     if (upload.fileItem) {
       const file = upload.fileItem;
       const type = file.file.type;
-      if (type.includes('pdf')) {
-        return 'pdf';
-      } else if (type.includes('document')) {
-        return 'world';
-      }
+      console.log(type.split("/")[1])
+      return type.split("/")[1];
     }
     return 'link';
   }

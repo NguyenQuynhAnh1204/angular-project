@@ -1,9 +1,12 @@
 <h4>Tài liệu</h4>
 <div class="input" (dragover)="dragFiles($event)" (drop)="dropFile($event)">
-  <div>
-    <mat-icon class="icon-attach-file" (click)="dragInput.click()"
-      >attach_file</mat-icon
+  <div >
+    <span 
+      class="material-symbols-outlined icon-attach-file"
+      (click)="dragInput.click()"
     >
+      attach_file
+    </span>
   </div>
   <div>
     Kéo thả tài liệu vào đây hoặc
@@ -29,10 +32,10 @@
       </span>
     </p>
 
-    <span class="mini-text">
+    <p class="mini-text">
       Dung lượng tài liệu không vượt qua
       {{ limitedSize | byteType }}
-    </span>
+    </p>
   </div>
 </div>
 <span *ngFor="let e of error" class="error">

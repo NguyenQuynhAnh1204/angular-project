@@ -2,11 +2,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { FooterComponent, HeaderComponent } from './components';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './material/material.module';
 import { ShareModule } from './share';
 
 const shellRoutes: Routes = [
@@ -35,7 +34,6 @@ const shellRoutes: Routes = [
 @NgModule({
   imports: [
     BrowserModule,
-    MaterialModule,
     HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot(shellRoutes),

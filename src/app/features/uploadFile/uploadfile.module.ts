@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ɵInternalFormsSharedModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { MaterialModule } from 'src/app/material/material.module';
 import {
   BravoButtonComponent,
   BravoItemComponent,
@@ -30,7 +29,6 @@ const UPLOADFILE_ROUTERS: Routes = [
     RouterModule.forChild(UPLOADFILE_ROUTERS),
     ɵInternalFormsSharedModule,
     FormsModule,
-    MaterialModule,
   ],
   exports: [UploadFileComponent],
   declarations: [
