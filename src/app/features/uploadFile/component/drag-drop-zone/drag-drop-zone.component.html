@@ -1,0 +1,43 @@
+<h4>Tài liệu</h4>
+<div class="input" (dragover)="dragFiles($event)" (drop)="dropFile($event)">
+  <div>
+    <mat-icon class="icon-attach-file" (click)="dragInput.click()"
+      >attach_file</mat-icon
+    >
+  </div>
+  <div>
+    Kéo thả tài liệu vào đây hoặc
+    <span type="button" class="btn-down" (click)="fileInput.click()"
+      >Tải lên</span
+    >
+    <input
+      #fileInput
+      type="file"
+      hidden
+      multiple
+      (change)="downloadFile($event)"
+    />
+  </div>
+
+  <div class="text-box">
+    <p class="mini-text tooltip">
+      <span class="text-content">
+        Hỗ trợ các định dạng file: {{ acceptFile }}
+      </span>
+      <span class="tooltip-text">
+        {{ acceptFile }}
+      </span>
+    </p>
+
+    <span class="mini-text">
+      Dung lượng tài liệu không vượt qua
+      {{ limitedSize | byteType }}
+    </span>
+  </div>
+</div>
+<span *ngFor="let e of error" class="error">
+  {{ e }}
+</span>
+
+<!-- hide input  -->
+<input type="file" hidden #dragInput multiple />
