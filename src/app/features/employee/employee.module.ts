@@ -1,11 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
 import { FormsModule, ɵInternalFormsSharedModule } from "@angular/forms";
-import { MaterialModule } from 'src/app/material/material.module';
-import { EmployeeComponent } from './employee.component';
-import { EmployeeAvatarComponent, EmployeeCardComponent, HideAfterDirective } from './component';
+import { RouterModule, Routes } from '@angular/router';
 import { ShareModule } from 'src/app/share';
+import { EmployeeAvatarComponent, EmployeeCardComponent, HideAfterDirective } from './component';
+import { EmployeeComponent } from './employee.component';
 
 
 const EMPLOYEE_ROUTERS: Routes = [
@@ -17,7 +16,7 @@ const EMPLOYEE_ROUTERS: Routes = [
 
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(EMPLOYEE_ROUTERS),
-        ɵInternalFormsSharedModule, FormsModule, MaterialModule, ShareModule
+        ɵInternalFormsSharedModule, FormsModule, ShareModule
     ],
     exports: [EmployeeComponent],
     declarations: [EmployeeComponent, EmployeeAvatarComponent, EmployeeCardComponent,

@@ -7,15 +7,23 @@
         </div>
         <div class="detail">
             <p class="file-name" [class.haveLink]="item.link">{{item.file?.name || item.link}}</p>
-            <mat-progress-bar class="progress-bar" mode="determinate" *ngIf="progress<100 && item.file" [value]="progress" />
+            <div *ngIf="progress < 100 && item.file" class="custom-progress">
+                <div class="bar" [style.width.%]="progress"></div>
+            </div>
             <p class="file-size" *ngIf="item.file">{{item.file.size / 1024 / 1024 | number:'1.1-2'}} MB</p>
         </div>
     </div>
    
     <div class="btn-box">
-        <mat-icon class="icon-success" *ngIf="progress==100 && item.file">check_circle</mat-icon>
+        <span 
+            class="material-icons icon-success"
+            *ngIf="progress == 100 && item.file">
+            check_circle
+        </span>
         <button (click)="onDelete(item)" class="btn-delete">
-            <mat-icon class="icon-close" >close</mat-icon>
+            <span class="material-icons icon-close">
+                close
+            </span>
         </button>
     </div>
 

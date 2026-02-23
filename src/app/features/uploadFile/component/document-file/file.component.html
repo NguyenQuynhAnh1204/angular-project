@@ -4,7 +4,11 @@
         <h4>Tài liệu</h4>
         <div class="input" #dragBox>
             <div>
-                <mat-icon class="icon-attch-file" (click)="dragInput.click()" >attach_file</mat-icon>
+                <span
+                    class="material-symbols-outlined icon-attach-file"
+                    (click)="dragInput.click()">
+                    attach_file
+                </span>
                 <input type="file" hidden #dragInput multiple [accept]="acceptFile">
             </div>
             <div>
