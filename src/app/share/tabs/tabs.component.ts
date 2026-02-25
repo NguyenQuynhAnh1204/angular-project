@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
 
 export interface ITabsProps {
     key: number;
@@ -13,55 +13,84 @@ export interface ITabsProps {
     styleUrls: ["./tabs.component.scss"]
 })
 
-export class TabsCustomComponent implements OnInit, AfterViewInit {
-    tabIndex = 0;
-
-    private _items: ITabsProps[] = [];
-    private _item: ITabsProps = {} as ITabsProps;
-    get item() {
-        return this._item;
+export class TabsCustomComponent implements AfterViewInit {
+    //* tabItem
+    private _tabItem: ITabsProps = {} as ITabsProps;
+    public get tabItem() {
+        return this._tabItem;
     }
-    set item(value: ITabsProps) {
-        this._item = value;
+    public set tabItem(value: ITabsProps) {
+        this._tabItem = value;
         this.handleView();
     }
-
+        
     @Input() defaultActiveKey = 1;
     @Input() disabled!: boolean;
     @Input() centered!: boolean;
     @Input() icon!: string;
     @Input() mode : 'top' | "bottom" | 'left' | 'right' = 'top';
-
-    @Input('items') 
-    get items(): ITabsProps[] {
-        return this._items;
+    
+    private _tabList: ITabsProps[] = [];
+    @Input('tabList') 
+    get tabList(): ITabsProps[] {
+        return this._tabList;
     }
-    set items(value: ITabsProps[]) {
-        this._items = value;
-    }
-
-    @ViewChild("content") contentRef!: ElementRef<any>;
-
-    constructor() { }
-
-    ngOnInit() { }
-
-    ngAfterViewInit(): void {
-       this.handleChangeTab(this.defaultActiveKey);
-      
+    set tabList(value: ITabsProps[]) {
+        this._tabList = value;
     }
 
-    handleChangeTab(pTab: number) {
-        if(!pTab) return;
-        this.tabIndex = pTab;
-        const item = this._items.find(i => i.key == pTab);
-        if(!item) return;
-        this.item = item;
+    private _tabRef!: QueryList<ElementRef>;
+    @ViewChildren("tab")
+    public get tabRef() {
+        return this._tabRef;
+    }
+    public set tabRef(pElementRef) {
+        this._tabRef = pElementRef;
     }
 
-    handleView() {
-        if(!this.item) return;
-        this.contentRef.nativeElement.innerHTML = this.item.children;
+    private _contentRef!: ElementRef<any>;
+    @ViewChild("content")
+    public get contentRef() {
+        return this._contentRef;
+    }
+    public set contentRef(pElementRef) {
+        this._contentRef = pElementRef;
+    }
+
+    private _barRef!: ElementRef<any>;
+    @ViewChild("bar")
+    public get barRef() {
+        return this._barRef;
+    }
+    public set barRef(pElementRef) {
+        this._barRef = pElementRef;
+    }
+
+    public ngAfterViewInit(): void {
+       this.handleOnChangeTab(this.defaultActiveKey);  
+    }
+    
+    public handleOnChangeTab(pTab: number) {
+        const index = this.tabList.findIndex(i => i.key === pTab);
+        if(index === -1) return;
+        this.tabItem = this.tabList[index];
+        this.updateIndicator(index);
+    }
+
+    public handleView() {
+        if(!this.tabItem) return;
+        this.contentRef.nativeElement.innerHTML = this.tabItem.children;
+    }
+
+    public updateIndicator(pIndexTab: number) {
+        const tabElement = this.tabRef.get(pIndexTab)?.nativeElement;
+        const barElement = this.barRef.nativeElement;
+        let width = tabElement.offsetWidth;
+        let left = tabElement.offsetLeft;
+
+        barElement.style.width = `${width}px`;
+        barElement.style.left = `${left}px`;
     }
 }
+
 

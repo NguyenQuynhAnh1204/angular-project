@@ -1,6 +1,11 @@
 <div class="container">
     <header></header>
     <div class="body">
+        <div *ngFor="let u of userList">
+            {{u.name}}
+        </div>
+        <btn-counter/>
+        <btn-display/>
         <router-outlet></router-outlet>
     </div>
     <footer></footer>

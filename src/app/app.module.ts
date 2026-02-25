@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
-import { AppComponent } from './app.component';
+import { AppComponent, CounterButtonsComponent, CounterDisplayComponent } from './app.component';
 import { FooterComponent, HeaderComponent } from './components';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShareModule } from './share';
@@ -40,7 +40,8 @@ const shellRoutes: Routes = [
     BrowserAnimationsModule,
     ShareModule
   ],
-  declarations: [AppComponent, HeaderComponent, FooterComponent],
+  declarations: [AppComponent, HeaderComponent, FooterComponent, 
+    CounterButtonsComponent, CounterDisplayComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
