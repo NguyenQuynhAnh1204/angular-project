@@ -4,19 +4,23 @@ import {
   Directive,
   ElementRef,
   EventEmitter,
+  Host,
   HostListener,
   inject,
   Input,
   OnDestroy,
   OnInit,
+  Optional,
   Output,
   Pipe, PipeTransform,
   QueryList,
   Renderer2,
+  Self,
   ViewChild,
   ViewChildren
 } from '@angular/core';
 import { Subject } from 'rxjs';
+import { UserRepositoryMock } from '../DI/Dependency-injection/user-repo';
 
 @Pipe({
   name: 'star',
@@ -34,6 +38,7 @@ export class HighlightDirective {
     @Input('appHighlight') highlightColor!: string;
     @Input() defaultColor = '';
     constructor(private el: ElementRef) {
+
     }
     @HostListener('mouseenter') onMouseEnter() {
       this.highlight(this.highlightColor || this.defaultColor || 'red');
@@ -59,8 +64,6 @@ export class BravoButtonComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input()
   public theme!: string;
 
-  constructor() {}
-
   ngOnInit() {}
 
   ngAfterViewInit(): void {
@@ -85,8 +88,6 @@ export class BravoItemComponent implements OnInit {
 
   @Output('onDelete')
   indexDelete$ = new EventEmitter<number>();
-
-  constructor() {}
 
   @Input()
   public background = '';
@@ -124,7 +125,8 @@ export class SizerComponent {
 @Component({
   selector: 'example',
   templateUrl: './ex.component.html',
-  styleUrls: ['./ex.component.scss']
+  styleUrls: ['./ex.component.scss'],
+  providers: [UserRepositoryMock]
 })
 export class ExampleComponent implements OnInit, AfterViewInit {
   myName = 'â';
@@ -207,7 +209,7 @@ export class ExampleComponent implements OnInit, AfterViewInit {
   }
 
   protected getHightLightBackground(pIndex: number) {
-    if (pIndex % 2 !== 0) return ' ';
+    if (pIndex % 2 !== 0) return '';
     return 'lightblue';
   }
 
