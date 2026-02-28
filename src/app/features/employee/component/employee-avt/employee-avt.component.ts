@@ -36,7 +36,9 @@ export class EmployeeAvatarComponent implements OnInit, AfterViewInit {
     }
     
     ngAfterViewInit() { 
-        this.getAvatar();
+        setTimeout(() => {
+            this.getAvatar();
+        });
     }
     
     private getAvatar() {

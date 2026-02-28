@@ -4,8 +4,8 @@
  */
 export interface IGeneralService {
     repository: IDataBaseService;
-    
-}
+    getAllUser: () => IUser[] | undefined;
+}   
 
 
 /**
@@ -13,6 +13,7 @@ export interface IGeneralService {
  */
 export interface IDataBaseService<T=any> {
     get: (pId: string) => T | undefined;
+    getAll: () => T[] | undefined;
 }
 
 /**
@@ -21,6 +22,7 @@ export interface IDataBaseService<T=any> {
 export interface IUser {
     id: string;
     name?: string;
+    age?: number;
 }
 
 /**
@@ -32,4 +34,4 @@ export interface IOrder {
 }
 
 
-
+export type TConstructor<T = any> = new (...args: any[]) => T;

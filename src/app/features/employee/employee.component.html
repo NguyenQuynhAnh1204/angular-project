@@ -3,9 +3,15 @@
 <!-- [tabDisabled]="[2,3]" -->
 
 <br-custom-tabs
+<<<<<<< HEAD
     [items]="tabs"
     [defaultActiveTab]="1"
     [display]="'right'"
     
+=======
+    [tabList]="tabs"
+    [disabled]="true",
+    [defaultActiveKey]="1"
+>>>>>>> ex
 />
 <employee-card *ngFor="let employee of employees" [employee]="employee"/>

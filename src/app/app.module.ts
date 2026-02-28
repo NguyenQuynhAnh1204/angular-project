@@ -2,11 +2,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { FooterComponent, HeaderComponent } from './components';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShareModule } from './share';
+import { ExerciseModule } from './Exercise';
 
 const shellRoutes: Routes = [
   {
@@ -38,7 +39,8 @@ const shellRoutes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(shellRoutes),
     BrowserAnimationsModule,
-    ShareModule
+    ShareModule,
+    ExerciseModule
   ],
   declarations: [AppComponent, HeaderComponent, FooterComponent],
   bootstrap: [AppComponent],

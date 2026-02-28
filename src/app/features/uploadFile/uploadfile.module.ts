@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ɵInternalFormsSharedModule } from "@angular/forms";
 import { RouterModule, Routes } from '@angular/router';
-import { BravoButtonComponent, BravoItemComponent, DocumentFileComponent, ExampleComponent, FileItemComponent, HighlightDirective, SizerComponent, StarPipe } from './component';
+import { DocumentFileComponent, FileItemComponent } from './component';
 import { UploadFileComponent } from './uploadfile.component';
+import { UserRepositoryMock } from 'src/app/Exercise/DI/Dependency-injection/user-repo';
 
 const UPLOADFILE_ROUTERS: Routes = [
   {
@@ -18,9 +19,6 @@ const UPLOADFILE_ROUTERS: Routes = [
         ɵInternalFormsSharedModule, FormsModule
     ],
     exports: [UploadFileComponent],
-    declarations: [UploadFileComponent, DocumentFileComponent, FileItemComponent, 
-      ExampleComponent, BravoButtonComponent, BravoItemComponent,
-      SizerComponent, HighlightDirective, StarPipe],
-    providers: [],
+    declarations: [UploadFileComponent, DocumentFileComponent, FileItemComponent],
 })
 export class UploadfileModule { }

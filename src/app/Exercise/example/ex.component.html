@@ -1,10 +1,10 @@
 <button (click)="_onClickBtnToggle()">Toggle button delete</button>
-<ng-container *ngIf="isVisible">
-  <br-btn-delete
-    #btnDelete
-    (onInitialized)="_handleOnInitializedBtnDelete($event)"
-  ></br-btn-delete>
-</ng-container>
+
+<br-btn-delete
+  *ngIf="isVisible"
+  #btnDelete
+  (onInitialized)="_handleOnInitializedBtnDelete($event)"
+></br-btn-delete>
 
 <div style="display: flex; flex-direction: column">
   <br-item

@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
+
 import { IIndicator, ITabsProps, TDisplay, TSize } from './tabs.interface';
 
 
@@ -10,6 +11,8 @@ import { IIndicator, ITabsProps, TDisplay, TSize } from './tabs.interface';
 })
 
 export class TabsCustomComponent implements AfterViewInit {
+
+    //* tabItem
     private _tabItem: ITabsProps = {} as ITabsProps;
     public get tabItem() {
         return this._tabItem;
@@ -187,4 +190,5 @@ export class TabsCustomComponent implements AfterViewInit {
     }
    
 }
+
 
