@@ -8,7 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { interval, Subject, takeUntil, takeWhile } from 'rxjs';
-import { IUploadItem } from '../../../../lib/drop-file/bravo-file.definition';
+import { IUploadItem } from '../../../../lib/drop-file';
 
 @Component({
   selector: 'file-item',

@@ -7,7 +7,7 @@ import {
   InputLinkComponent
 } from './component';
 import { UploadFileComponent } from './uploadfile.component';
-import { BravoDropFileModule } from 'src/app/lib';
+import { BravoDropFileModule } from 'src/app/lib/drop-file';
 
 const UPLOADFILE_ROUTERS: Routes = [
   {

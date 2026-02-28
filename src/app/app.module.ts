@@ -7,7 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { FooterComponent, HeaderComponent } from './components';
 import { ExerciseModule } from './Exercise';
-import { BravoButtonModule } from './lib';
+import { BravoButtonModule } from './lib/button';
 
 const shellRoutes: Routes = [
   {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { employees, IEmployee } from './employee';
-import { ITabsProps } from 'src/app/lib';
+import { ITabsProps } from 'src/app/lib/tabs';
 
 
 

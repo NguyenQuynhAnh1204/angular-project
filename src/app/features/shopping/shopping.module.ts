@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ɵInternalFormsSharedModule } from "@angular/forms";
 import { RouterModule, Routes } from '@angular/router';
-import { BravoButtonModule } from 'src/app/lib';
 import { ListProductComponent, ProductItemComponent } from './shared/components';
 import { ShoppingComponent } from './shopping.component';
+import { BravoButtonModule } from 'src/app/lib/button';
 
 const SHOPPING_ROUTERS: Routes = [
   {
