@@ -3,16 +3,19 @@ import { employees, IEmployee } from './employee';
 import { ITabsProps } from 'src/app/share';
 
 
+
 const tabsProps : ITabsProps[] = [
     {
         key: 1,
         label: "Tab 1",
-        children: 'Content of tab 1'
+        children: 'Content of tab 1',
+        icon: 'home'
     },
     {
         key: 2,
         label: "Tab 2",
-        children: 'Content of tab 2'
+        children: 'Content of tab 2',
+        icon: 'search'
     },
     {
         key: 3,

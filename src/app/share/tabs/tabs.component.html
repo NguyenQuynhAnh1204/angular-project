@@ -1,13 +1,20 @@
-<div class="tab-head">
-    <ng-container *ngFor="let i of items;">
-        <div class="label" [class.isActive]="i.key == item.key" 
-            #tab (click)="handleChangeTab(i.key)"
+<div class="tab-title" #tabTitle>
+    <ng-container *ngFor="let item of tabList">
+        <div class="label" #tab 
+            [class.active]="item.key == tabItem.key" 
+            [class.disable]="isTabDisable(item.key)" 
+            (click)="handleChangeTab(item.key) "
         >
-            {{i.label}}
+            <span class="material-symbols-outlined tab-icon" *ngIf="item.icon">{{item.icon}}</span>
+            {{item.label}}
         </div>
     </ng-container>
+    <div class="indicator" #indicator>
+
+    </div>
 </div>
 
 <div #content>
     
 </div>
+
