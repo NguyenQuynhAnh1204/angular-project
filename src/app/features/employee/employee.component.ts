@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { employees, IEmployee } from './employee';
-import { ITabsProps } from 'src/app/share';
+import { ITabsProps } from 'src/app/lib';
 
 
 
@@ -27,7 +27,8 @@ const tabsProps : ITabsProps[] = [
 @Component({
     selector: 'employee',
     templateUrl: './employee.component.html',
-    styleUrls: ["./employee.component.scss"]
+    styleUrls: ["./employee.component.scss"],
+
 })
 
 export class EmployeeComponent implements OnInit {

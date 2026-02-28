@@ -1,16 +1,16 @@
 import { AfterViewInit, Component, ElementRef, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
 
-import { IIndicator, ITabsProps, TDisplay, TSize } from './tabs.interface';
+import { IIndicator, ITabsProps, TDisplay, TSize } from './bravo-tabs.interface';
 
 
 
 @Component({
-    selector: 'br-custom-tabs',
-    templateUrl: './tabs.component.html',
-    styleUrls: ["./tabs.component.scss"]
+    selector: 'bravo-tabs',
+    templateUrl: './bravo-tabs.component.html',
+    styleUrls: ["./bravo-tabs.component.scss"]
 })
 
-export class TabsCustomComponent implements AfterViewInit {
+export class BravoTabsComponent implements AfterViewInit {
 
     //* tabItem
     private _tabItem: ITabsProps = {} as ITabsProps;

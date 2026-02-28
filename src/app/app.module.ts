@@ -6,8 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { FooterComponent, HeaderComponent } from './components';
-import { ShareModule } from './share';
 import { ExerciseModule } from './Exercise';
+import { BravoButtonModule } from './lib';
 
 const shellRoutes: Routes = [
   {
@@ -39,8 +39,8 @@ const shellRoutes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(shellRoutes),
     BrowserAnimationsModule,
-    ShareModule,
-    ExerciseModule
+    ExerciseModule,
+    BravoButtonModule
   ],
   declarations: [AppComponent, HeaderComponent, FooterComponent],
   bootstrap: [AppComponent],

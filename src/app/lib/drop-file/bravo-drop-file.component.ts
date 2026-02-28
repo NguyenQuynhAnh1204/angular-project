@@ -1,4 +1,3 @@
-import { IFileItem, IUploadItem } from './../../uploadfile.definition';
 import {
   Component,
   EventEmitter,
@@ -6,14 +5,15 @@ import {
   OnDestroy,
   Output,
 } from '@angular/core';
-import { UploadFileExtension } from '../../uploadfile.extension';
+import { IFileItem } from './bravo-file.definition';
+import { UploadFileExtension } from './bravo-file.extension';
 
 @Component({
-  selector: 'drag-drop-zone',
-  templateUrl: './drag-drop-zone.component.html',
-  styleUrls: ['./drag-drop-zone.component.scss'],
+  selector: 'bravo-drop-file',
+  templateUrl: './bravo-drop-file.component.html',
+  styleUrls: ['./bravo-drop-file.component.scss'],
 })
-export class DragDropZoneComponent implements OnDestroy {
+export class BravoDropFileComponent implements OnDestroy {
   //* errorTimer
   private _errorTimer?: ReturnType<typeof setTimeout>;
   public get errorTimer() {

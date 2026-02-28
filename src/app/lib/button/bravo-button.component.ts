@@ -2,12 +2,12 @@ import { style } from '@angular/animations';
 import { AfterViewInit, Component, ContentChild, ElementRef, HostBinding, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
 @Component({
-    selector: 'br-custom-button',
-    templateUrl: './button-component.html',
-    styleUrls: ["./button-component.scss"],
+    selector: 'bravo-button',
+    templateUrl: './bravo-button.component.html',
+    styleUrls: ["./bravo-button.component.scss"],
 })
 
-export class ButtonCustomComponent implements OnInit, AfterViewInit {
+export class BravoButtonComponent implements OnInit, AfterViewInit {
     private _loading = false;
     
     @Input() type: 'default' | 'primary' | 'dashed' | 'link' | 'text' = 'default';

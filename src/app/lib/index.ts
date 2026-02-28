@@ -1,3 +1,3 @@
 export * from "./button";
 export * from "./tabs";
-export * from "./share.module";
+export * from './drop-file'

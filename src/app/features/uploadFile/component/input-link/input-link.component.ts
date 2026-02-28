@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { UploadFileExtension } from '../../uploadfile.extension';
+import { UploadFileExtension } from '../../../../lib/drop-file';
 
 @Component({
   selector: 'input-link',

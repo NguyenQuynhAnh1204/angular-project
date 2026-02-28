@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
-import { IFileItem, IUploadItem } from './uploadfile.definition';
+import { IFileItem, IUploadItem } from '../../lib/drop-file/bravo-file.definition';
 
 @Component({
   selector: 'lib-uploadfile',

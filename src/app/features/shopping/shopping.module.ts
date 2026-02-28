@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ɵInternalFormsSharedModule } from "@angular/forms";
 import { RouterModule, Routes } from '@angular/router';
-import { ShareModule } from 'src/app/share';
+import { BravoButtonModule } from 'src/app/lib';
 import { ListProductComponent, ProductItemComponent } from './shared/components';
 import { ShoppingComponent } from './shopping.component';
 
@@ -15,7 +15,7 @@ const SHOPPING_ROUTERS: Routes = [
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(SHOPPING_ROUTERS), 
-    ɵInternalFormsSharedModule, FormsModule, ShareModule],
+    ɵInternalFormsSharedModule, FormsModule, BravoButtonModule],
   exports: [ShoppingComponent],
   declarations: [
     ShoppingComponent, ListProductComponent, ProductItemComponent

@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ByteUnitType } from './uploadfile.definition';
+import { ByteUnitType } from './bravo-file.definition';
 
 @Pipe({
   name: 'byteType',
 })
-export class ByteTypePipe implements PipeTransform {
+export class BravoByteTypePipe implements PipeTransform {
   public static formats: Record<
     ByteUnitType,
     { max: number; prev?: ByteUnitType }
@@ -23,7 +23,7 @@ export class ByteTypePipe implements PipeTransform {
     pFrom: ByteUnitType = 'B',
     pTo?: ByteUnitType,
   ) {
-    return ByteTypePipe.transform(pInput, pDecimal, pFrom, pTo);
+    return BravoByteTypePipe.transform(pInput, pDecimal, pFrom, pTo);
   }
 
   public static transform(
@@ -41,25 +41,25 @@ export class ByteTypePipe implements PipeTransform {
 
     while (unit !== 'B') {
       bytes *= 1024;
-      unit = ByteTypePipe.formats[unit].prev!;
+      unit = BravoByteTypePipe.formats[unit].prev!;
     }
 
     if (pTo) {
-      const format = ByteTypePipe.formats[pTo];
-      const num = ByteTypePipe.calcResult(format, bytes);
-      const result = ByteTypePipe.toDecimal(num, pDecimal);
-      return ByteTypePipe.formatResult(result, pTo);
+      const format = BravoByteTypePipe.formats[pTo];
+      const num = BravoByteTypePipe.calcResult(format, bytes);
+      const result = BravoByteTypePipe.toDecimal(num, pDecimal);
+      return BravoByteTypePipe.formatResult(result, pTo);
     }
 
-    for (const key in ByteTypePipe.formats) {
-      if (ByteTypePipe.formats.hasOwnProperty(key)) {
-        const format = ByteTypePipe.formats[key as ByteUnitType];
+    for (const key in BravoByteTypePipe.formats) {
+      if (BravoByteTypePipe.formats.hasOwnProperty(key)) {
+        const format = BravoByteTypePipe.formats[key as ByteUnitType];
         if (bytes < format.max) {
-          const result = ByteTypePipe.toDecimal(
-            ByteTypePipe.calcResult(format, bytes),
+          const result = BravoByteTypePipe.toDecimal(
+            BravoByteTypePipe.calcResult(format, bytes),
             pDecimal,
           );
-          return ByteTypePipe.formatResult(result, key);
+          return BravoByteTypePipe.formatResult(result, key);
         }
       }
     }
@@ -74,7 +74,7 @@ export class ByteTypePipe implements PipeTransform {
     pFormat: { max: number; prev?: ByteUnitType },
     pBytes: number,
   ) {
-    const prev = pFormat.prev ? ByteTypePipe.formats[pFormat.prev] : undefined;
+    const prev = pFormat.prev ? BravoByteTypePipe.formats[pFormat.prev] : undefined;
     if (!prev) return pBytes;
     return pBytes / prev.max;
   }

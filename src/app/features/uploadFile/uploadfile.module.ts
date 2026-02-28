@@ -3,12 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ɵInternalFormsSharedModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import {
-  DragDropZoneComponent,
   FileItemComponent,
   InputLinkComponent
 } from './component';
 import { UploadFileComponent } from './uploadfile.component';
-import { ByteTypePipe } from './uploadfile.pipe';
+import { BravoDropFileModule } from 'src/app/lib';
 
 const UPLOADFILE_ROUTERS: Routes = [
   {
@@ -23,14 +22,13 @@ const UPLOADFILE_ROUTERS: Routes = [
     RouterModule.forChild(UPLOADFILE_ROUTERS),
     ɵInternalFormsSharedModule,
     FormsModule,
+    BravoDropFileModule
   ],
   exports: [UploadFileComponent],
   declarations: [
     UploadFileComponent,
     FileItemComponent,
-    DragDropZoneComponent,
     InputLinkComponent,
-    ByteTypePipe,
   ],
   providers: [],
 })
