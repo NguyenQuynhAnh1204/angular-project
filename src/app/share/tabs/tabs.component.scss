@@ -1,0 +1,44 @@
+@use 'styles/mixin' as *;
+@use 'styles/color' as *;
+
+:host {
+    display: inline-block;
+    width: 100%;
+}
+
+.tab-title {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 1px solid#ccc;
+    position: relative;
+    .label {
+        margin: 16px 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: color 0.2s ease-in;
+        &:not(.disable):hover {
+            color: $information;
+        }
+    }
+    .tab-icon {
+        font-size: 20px;
+    }
+    .active {
+        color: $information;
+    }
+    .disable {
+        cursor: not-allowed;
+        color: #ccc;
+    }
+    .indicator {
+        position: absolute;
+        bottom: 0;
+        height: 2px;
+        background-color: $information; 
+        transition: left 0.3s ease, width 0.3s ease;
+    }
+}

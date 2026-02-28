@@ -3,15 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ɵInternalFormsSharedModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import {
-  BravoButtonComponent,
-  BravoItemComponent,
   DragDropZoneComponent,
-  ExampleComponent,
   FileItemComponent,
-  HighlightDirective,
-  InputLinkComponent,
-  SizerComponent,
-  StarPipe,
+  InputLinkComponent
 } from './component';
 import { UploadFileComponent } from './uploadfile.component';
 import { ByteTypePipe } from './uploadfile.pipe';
@@ -36,12 +30,6 @@ const UPLOADFILE_ROUTERS: Routes = [
     FileItemComponent,
     DragDropZoneComponent,
     InputLinkComponent,
-    ExampleComponent,
-    BravoButtonComponent,
-    BravoItemComponent,
-    SizerComponent,
-    HighlightDirective,
-    StarPipe,
     ByteTypePipe,
   ],
   providers: [],
