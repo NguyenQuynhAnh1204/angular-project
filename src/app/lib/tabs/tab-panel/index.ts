@@ -1,0 +1,1 @@
+export * from "./bravo-tab-panel.component";

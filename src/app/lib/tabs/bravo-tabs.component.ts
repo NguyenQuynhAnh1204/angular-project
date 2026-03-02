@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
 
 import { IIndicator, ITabsProps, TDisplay, TSize } from './bravo-tabs.interface';
+import { BravoTabPanelComponent } from './tab-panel';
 
 
 
@@ -12,31 +13,21 @@ import { IIndicator, ITabsProps, TDisplay, TSize } from './bravo-tabs.interface'
 
 export class BravoTabsComponent implements AfterViewInit {
 
-    //* tabItem
-    private _tabItem: ITabsProps = {} as ITabsProps;
-    public get tabItem() {
-        return this._tabItem;
+    private _tabPanelList: BravoTabPanelComponent[] = [];
+    public get tabPanelList() {
+        return this._tabPanelList;
     }
-    public set tabItem(pItem) {
-        this._tabItem = pItem;
+    public set tabPanelList(pTab) {
+        this._tabPanelList = pTab;
     }
-    
-    private _defaultActiveTab = 1;
+
+    private _activeTab = 1;
     @Input("defaultActiveTab")
-    public get defaultActiveKey() {
-        return this._defaultActiveTab;
+    public get activeTab() {
+        return this._activeTab;
     } 
-    public set defaultActiveKey(pTab) {
-        this._defaultActiveTab = pTab
-    }
-    
-    private _tabDisabled = [] as number[];
-    @Input('tabDisabled')
-    public get tabDisabled() {
-        return this._tabDisabled;
-    } 
-    public set tabDisabled(pTab: number[]) {
-        this._tabDisabled = pTab;
+    public set activeTab(pTab) {
+        this._activeTab = pTab
     }
 
     private _display: TDisplay = 'left';
@@ -51,20 +42,11 @@ export class BravoTabsComponent implements AfterViewInit {
         this._display = pDisplay;
     }
 
-    private _icon!: string;
-    @Input('icon')
-    public get icon() {
-        return this._icon;
-    } 
-    public set icon(pIcon) {
-        this._icon = pIcon;
-    }
-
     // @Input() mode : 'top' | "bottom" | 'left' | 'right' = 'top';
 
-    private _indicator: IIndicator = {size: 'half', align: 'center'};
+    private _indicator: IIndicator = {size: 'half', align: 'left'};
     /**
-     * @description {size?: string, align: left, right, center}
+     * @description {size?: string, align?: left, right, center}
      */
     @Input('indicator')
     public get indicator() {
@@ -83,15 +65,6 @@ export class BravoTabsComponent implements AfterViewInit {
         this._size = pSize;
     }
     
-    private _tabList: ITabsProps[] = [];
-    @Input('items') 
-    public get tabList(): ITabsProps[] {
-        return this._tabList;
-    }
-    public set tabList(value: ITabsProps[]) {
-        this._tabList = value;
-    }
-
     private _tabTitleRef!: ElementRef<any>
     @ViewChild("tabTitle")
     public get tabTitleRef() {
@@ -99,15 +72,6 @@ export class BravoTabsComponent implements AfterViewInit {
     }
     public set tabTitleRef(pTitle: any) {
         this._tabTitleRef = pTitle;
-    }
-
-    private _contentRef!: ElementRef<any>
-    @ViewChild("content")
-    public get contentRef() {
-        return this._contentRef;
-    }
-    public set contentRef(pContent: any) {
-        this._contentRef = pContent;
     }
 
     private _indicatorRef!: ElementRef<any>;
@@ -129,28 +93,18 @@ export class BravoTabsComponent implements AfterViewInit {
     }
 
     public ngAfterViewInit(): void {
-        this._handleDisplayTitle();
-       this.handleChangeTab(this.defaultActiveKey);
+        this._handleTitleView();
+       this.handleChangeTab(this.activeTab);
     }
 
-    public isTabDisable(pTabKey: number) {
-        return this.tabDisabled.includes(pTabKey);
+    public addTabPanel(pTab: BravoTabPanelComponent) {
+        this.tabPanelList = [...this.tabPanelList, pTab];
     }
 
-    public handleChangeTab(pTabKey: number) {
-        if(this.isTabDisable(pTabKey)) return;
-        let index = this.tabList.findIndex(tab => tab.key === pTabKey);
-        if (index == -1) return;
-        if (index >= this.tabList.length) return;
-        this.tabItem = this.tabList[index];
-        this._handleView();
-        this._handleSetIndicator(index);
-    }
-    
-    
-    private _handleView() {
-        if(!this.tabItem) return;
-        this.contentRef.nativeElement.innerHTML = this.tabItem.children;
+    public handleChangeTab(pTabIndex: number) {
+        if(this.tabPanelList[pTabIndex].disabled) return;
+        this.activeTab = pTabIndex;
+        this._handleSetIndicator(pTabIndex);
     }
     
     private _handleSetIndicator(pTabIndex: number) {
@@ -174,7 +128,11 @@ export class BravoTabsComponent implements AfterViewInit {
         indicatorEl.style.left = `${indicatorLeft}px`;
     }
 
-    private _handleDisplayTitle() {
+    private _handleTitleView() {
+        this._handelDisplay();
+        this._handleSize()
+    }
+    private _handelDisplay() {
         const titleEl = this.tabTitleRef.nativeElement;
         if(this.display == 'left') {
             titleEl.style.justifyContent = 'flex-start'
@@ -184,9 +142,20 @@ export class BravoTabsComponent implements AfterViewInit {
             titleEl.style.justifyContent = 'center'
         }
 
-        if(this.size == 'small') {
-            titleEl.style.frontSize = '14px';
-        }
+    }
+    private _handleSize() {
+        const tabEl = this.tabRef;
+        tabEl.forEach((tab) => {
+            if(this.size == 'small') {
+                tab.nativeElement.style.fontSize = '1.4rem';
+            }
+            if(this.size == 'large') {
+                tab.nativeElement.style.fontSize = '1.8rem';
+            }
+            if(this.size == 'medium') {
+                tab.nativeElement.style.fontSize = '1.6rem';
+            }
+        })
     }
    
 }

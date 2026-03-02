@@ -3,9 +3,13 @@
 <!-- [tabDisabled]="[2,3]" -->
 
 <bravo-tabs
-    [items]="tabs"
-    [defaultActiveTab]="1"
-    [display]="'right'"
-
-/>
+    [defaultActiveTab]="0"
+    [display]="'center'"
+    [size]="'small'"
+   [indicator]="{size: 'half',align:'left'}"
+>
+    <bravo-tab-panel title="Tab 1" icon="home">Content tab 1</bravo-tab-panel>
+    <bravo-tab-panel title="Tab 2" [disabled]="true">Content tab 2</bravo-tab-panel>
+    <bravo-tab-panel title="Tab 3">Content tab 3</bravo-tab-panel>
+</bravo-tabs>
 <employee-card *ngFor="let employee of employees" [employee]="employee"/>

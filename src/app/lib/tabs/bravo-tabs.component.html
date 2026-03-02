@@ -1,21 +1,22 @@
 <div class="tab-title" #tabTitle>
-    <ng-container *ngFor="let item of tabList">
+    <ng-container *ngFor="let item of tabPanelList; let indx = index">
         <div class="label" #tab 
-            [class.active]="item.key == tabItem.key" 
-            [class.disable]="isTabDisable(item.key)" 
-            (click)="handleChangeTab(item.key) "
+            [class.active]="indx == activeTab" 
+            [class.disable]="item.disabled"
+            (click)="handleChangeTab(indx)"
         >
             <span class="material-symbols-outlined tab-icon" *ngIf="item.icon">{{item.icon}}</span>
-            {{item.label}}
+            {{item.title}}
         </div>
     </ng-container>
     <div class="indicator" #indicator>
-
     </div>
-
 </div>
 
-<div #content>
-    
+<div class="tab-body">
+  <ng-container *ngFor="let tab of tabPanelList; let indx = index">
+    <div *ngIf="indx === activeTab">
+      <ng-container *ngTemplateOutlet="tab.panelContent"></ng-container>
+    </div>
+  </ng-container>
 </div>
-

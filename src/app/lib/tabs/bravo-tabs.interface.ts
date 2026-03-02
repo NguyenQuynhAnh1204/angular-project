@@ -11,6 +11,6 @@ export interface ITabsProps {
 
 
 export interface IIndicator {
-    size?: 'half' | 'full';
-    align?: TDisplay;
+    size: 'half' | 'full';
+    align: TDisplay;
 }
