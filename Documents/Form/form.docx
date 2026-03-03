@@ -1,0 +1,9 @@
+#From
+- Có hai cách tiếp cận khác nhau: reactive và template-driven
+- Reactive form:
+    + Ưu điểm: Dễ mở rộng, dễ tái sử dụng và test
+
+
+
+-Template-drivne:
+    + 

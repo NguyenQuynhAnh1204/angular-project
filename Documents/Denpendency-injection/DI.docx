@@ -1,0 +1,110 @@
+#Dependency injection 
+- là một mẫu thiết kế
+- mục đích:
+    + Giảm sự phụ thuộc của các class
+=> thay vì để class tự new một cái instance của một service mà nó thuộc thì sẽ truyền sự phụ thuộc đó từ bên ngoài vào.
+- Có bốn roles:
+    + Client: là một class hoặc là một component phụ thuộc vào (depends on) một service 
+    + Service:  Là một class hoặc một component cung cấp chức năng cho client. 
+                Thường chứa các logic nghiệp vụ.
+                Không phụ thuộc/ độc lập với client.
+    + Injector: Là nơi cung cấp, quản lý và tạo ra các service instance và cung cấp chúng cho client.
+    + Interface(abstraction): Định nghĩa contract(hợp đồng/giao kèo) chỉ định các phương thức (methods) mà service phải implement.
+
+
+#Dependency injection trong Angular
+- Lad một cơ chế (mechanisms) quan trọng trong angular
+- Giảm sự phuộc và dễ dàng test hơn.
+- Angular sẽ inject các dependency và các decorator: @Component, @Directive, @Pipe, @Injectable, @NgModule
+- Có hai cách để truyền một instance vào trong:
+    + Thông qua Constructor(private service: MyService)
+    + Thông qua hàm inject(MyService).  => thông dụng hơn
+
+- Injector là một abstraction trong Angular => có trách nhiệm resolve dependencies. 
+    + Injector lưu trữ các instance của các dependency được yêu cầu.
+    + Nếu đã tồn tại instance đó thì sẽ truyền qua cho người sử dụng
+    + Nếu chưa thì sẽ tạo mới, truyền qua cho người sử dụng và lưu trữ instance đó.
+    => luôn chỉ có duy nhất một instance.
+
+- Hierarchial Injectors (cây gia phả) => có nhiều loại Injectors
+- Các dependency được xác định bên trong provider
+- Element injector: 
+    + provider sẽ được dùng ở trong @Component/@Directive thì sẽ được coi là cấp element
+    + Các dependency sẽ có sẵn luôn trong component và các con của nó
+- Environment injector:
+    + Thường sẽ được provider ở router
+    + Injector sẽ được tạo bất cứ khi nào mà component được tạo trong quá trình load động.
+    + Các dependence sẽ có sẵn luôn trong component và các con của nó.
+- Environment Root Injector:
+    + Chứa các dependency  toàn cục
+    + @Injectable() có provideIn : root/platform. => recommend
+    + Hoặc provider ở bootstrapApplication
+
+==> Thứ tự lấy dependency: element (từ con lên cha) -> environment -> module -> root -> platform -> null (lỗi)
+
+
+- Modifier: 
+    + @Optional: angular sẽ coi dependency là một optional, nếu mà resolve được thì sẽ trả về null thay vì là lỗi.
+    + @Self: angular sẽ chỉ tìm dependency ở trong chính cấp component/Directive của nó (cấp element injector). nếu mà không tìm thấy sẽ throw ra lỗi
+    + @SkipSelf: angular sẽ tìm bắt đầu từ cấp cha (parent component). Ngược lại với self, tức là ỏ qua chính nó.
+    + @Host: angular sẽ tìm bên trong các host element
+    Thế nào là host element ??
+        <parent-component>
+            <child-component/>
+        </parent-component>
+    nếu mà child-component cần inject thì sẽ truy tìm ở parent-component
+    parent-component chính là host element của child-component
+    Thường áp dụng cho component/Directive
+
+- Có hai cách sử dụng tương ứng với hai cách inject
+    + Dùng trong Constructor(@ModifierName private service: MyService)
+    + Dùng hàm inject(MyService, {optional: true, self true}) => mặc định tất cả modifier đều là false
+
+
+- Provider: cung cấp thông tin để angular biết được cách tạo mới một instance.
+- Class Provider: 
+    {
+        provide: Token,
+        useClass: MyService
+    }
+    hoặc provider: [MyService]
+    + Khi nào cần token này thì sẽ tạo mới một instance của useClass
+    + Mỗi khi provide ở nhiều cho khác nhau cùng một class như vậy thì Angular sẽ tạo mới một instance, 
+        dù trước đó có thể đã tạo ở đâu đó rồi. Và các instance sẽ chỉ có thể được sử dụng trong phạm vụ cha-con của nó.
+- Alias Provider: 
+    {
+        provide: Token,
+        useExisTing: MyService
+    }
+    Khi sử dụng useExisTing thì thay vì tạo mới một instance như useClass thì useExisTing sẽ sử dụng instance đã có để resolve.
+- Factory Provider:
+    {
+        provide: Token,
+        useFactory: () => return any value
+    }
+    Khi inject token thì sẽ gọi đến callback function bên trong useFactory. callback sẽ phải trả ra một gia trị. Không được là void.
+- Value Provider:
+    {
+        privide: Token,
+        useValue: value{string, bool, ...}
+    }
+    Trả ra một giá trị mặc định khi inject.
+- InjectionToken<T>
+    TOKEN = new InjectionToken<T>('describe)
+- Nếu sử dụng provider với hai token giống nhau => overide
+=> sử dụng {
+    privide: TOKEN,
+    useClass: MyService1,
+    multi: true
+} , {
+    privide: TOKEN,
+    useClass: MyService2,
+    multi: true
+}
+    angular sẽ trả ra cho chúng ta một mảng dependency [MyService1, MyService2]
+
+
+
+- Sự khác nhau giữa provider vs viewProvider
+    + provider sẽ cung cấp dependency cho các: component, view component, content projection (ng-content)
+    + viewProvider sẽ chỉ cung cấp dependency cho: component, view component.

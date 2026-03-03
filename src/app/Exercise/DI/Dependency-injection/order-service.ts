@@ -7,4 +7,7 @@ export class OrderService implements IGeneralService {
     constructor(pRepo: IDataBaseService<IOrder>) {
         this.repository = pRepo;
     }
+    public getAllUser() {
+        return this.repository.getAll();
+    }
 }   

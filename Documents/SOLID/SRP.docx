@@ -1,0 +1,13 @@
+#SOLID
+- là các nguyên tắc thiết kế (design principles) hướng đối tượng (obj-oriented) trong phát triển phần mềm.
+
+
+#SRP - Single Responsibility Principle 
+- Nguyên tắc đầu tiên: 1 class nên và chỉ nên (one and only one) làm một trách nhiệm duy nhất. hay class đó chỉ có một lý do duy nhất thay đổi (tức là 1 class chỉ làm một nghiệp vụ duy nhất).
+
+#DIP - Dependency Inversion Principle
+- Nguyên tắc thứ hai: Đảo ngược sự phụ thuộc 
+- Bao gồm 2 phần: 
+    + High-level Module không phụ thuộc vào low-level Module. Cả hai sẽ phụ thuộc vào abstraction.
+    + Abstraction không phụ thuộc vào Details. Details nên phụ thuộc vào Abstraction.
+- Ví dụ chứng minh: DIP-example.ts
