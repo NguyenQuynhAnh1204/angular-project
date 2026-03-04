@@ -1,0 +1,45 @@
+
+
+<div class="container">
+    <form class="log-in-form" (ngSubmit)="onSubmit()">
+        <h2>Log in</h2>
+        <div class="row-control" [formGroup]="logInForm">
+            <div class="form-filed">
+                <label for="email">Email:</label>
+                <input type="email" id="email" placeholder="email" 
+                    formControlName="email"
+                >
+            </div>
+            <p class="error"
+                *ngIf="email?.errors?.['required'] && email?.touched"
+            >
+                Email is required
+            </p>
+            
+            <p class="error"
+                *ngIf="email?.errors?.['email']"
+                >
+                Email is invalid
+            </p>
+            <div class="form-filed">
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="password" 
+                    formControlName="password"
+                >
+            </div>
+            <p class="error"
+                *ngIf="password?.errors?.['required'] && password?.touched"
+            >
+                Password is required
+            </p>
+            <p class="error"*ngIf="password?.errors?.['minlength']">
+                Password must be logger than {{password?.errors?.['minlength']?.requiredLength}}
+            </p>
+        </div>
+        <div class="row-control">
+            <button type="submit"
+                [class.disable]="logInForm.invalid"
+            >Log in</button>
+        </div>
+    </form>
+</div>

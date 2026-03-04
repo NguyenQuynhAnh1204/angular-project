@@ -1,0 +1,75 @@
+# Form:
+- Có hai cách tiếp cận chính
+    + Template-driveen forms 
+    + reactive forms
+- Base classes:
+    + Form control
+    + Form group
+    + Form Array
+    + Control value accessor
+=> tất cả đều được kế thừa từ Abstract control.
+
+# Form control:
+- Theo dõi, xác thực trạng thái của từng form control riêng biệt.
+- Sử dụng form control để set giá trị khởi tạo.
+- Nếu mà khi reset lại mà muốn trả về giá trị mặc định thay vì là null thì sẽ thêm một opt là {nonNullable: true}
+- Có thể sử dụng để chỉ định type thay vì cho nó tự ngầm mặc định type : FormControl<string|number|null>(null) => khi set hoặc update giá trị thì cũng chỉ được dùng trong các type đã được chỉ định sẵn
+- 
+
+
+- Property core:
+    + Value: giá trị mới nhất
+    + Status: VALID / INVALID / PENDING / DISABLED
+    + Valid(hợp lệ): True / False 
+    + Invalid(không hợp lệ): True / False
+    + Errors: { các lỗi như là required: true, ...} / sẽ hiển thị theo từng lỗi chứ không gộp chung thành một obj.
+    + Disabled: True / False
+    + Enabled: True / False
+- Property User Interaction:  tương tác của người dùng
+    + Touched: True / False
+    + Untouched: True / False
+    + Dirty(thay đổi giá trị chưa?): True / False
+    + Pristine: True / False
+    + Pending: True / False
+- Method:
+    + setValue(value, opts) => set giá trị ban đầu 
+    + patchValue(value, opts) => update giá trị / thực chất cũng gọi đến setValue()
+    + reset(value, opts) => set các giá trị về null
+    + disable(opts) 
+    + enable(opts)
+    + setErrors(errors, opts)
+- ngSubmit() => là event binding của angular dành cho form.
+    + Khác với submit sẽ reload lại trang thì ngSubmit sẽ ngăn chặn điều đó.
+    + chỉ thực thi khi mà btn có type là submit.
+
+# Data flow của Reactive forms.
+*Thay đổi từ view
+- User nhập vào input
+- Form (input) sẽ phát even kèm theo giá trị cuối cùng. 
+- Control value accessor lắng nghe các giá trị trong form và ngay lập tức sẽ truyền cho instance của formControl.
+- Instance FormControl sẽ emit giá trị mới thông qua valueChanges observable
+- Bất kỳ ai đang lắng nghe (subcribe) thì đều sẽ nhận được giá trị mới.
+
+*Thay đổi từ form control
+- Gọi FormControl.setValue() cập nhật giá trị của FormControl.
+- FormControl sẽ emit một giá trị mới thông qua valueChanges observable.
+- Bất kỳ ai đang subcribe valueChanges thì nhận được giá trị mới
+- Control value accessor sẽ cập nhật input bên ngoài view với giá trị mới.
+
+# Date flow của template-driven.
+- User nhập vào input
+- inputEl sẽ phát ra even với giá trị .
+- 
+
+
+
+#Reactive Form:
+
+
+# Form Builder: là một service
+- Truyền (inject) vào bên trong component
+- Thay vì phải tự tạo các control (new form control) như là ở trong reactive form thì sẽ dùng các phương thức như là group/control/array.
+
+
+#Control value accessor
+- Cầu nối giữa angular với element DOM.

@@ -1,0 +1,48 @@
+@use "styles/mixin" as *;
+@use "styles/color" as *;
+
+.container {
+    margin: 20px;
+    padding: 10px;
+    display: block;
+    max-width: 30%;
+    font-size: 1.6rem;
+    h2 {
+        margin: 10px 0;
+    }
+}
+
+.row-control {
+    margin: 10px 0;
+    line-height: 2;
+    .form-filed {
+        display: grid;
+        grid-template-columns: repeat();
+    }
+    input {
+        padding: 4px;
+        font-size: 1.2rem;
+    }
+    button {
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background: none;
+        padding: 4px 10px;
+        background-color: #060c5f;
+        color: #fff;
+        &:not(.disable):hover {
+            background-color: #0913a0;
+        }
+    }
+    .disable {
+        cursor: not-allowed;
+        background-color: #ccc;
+
+    }
+}
+
+.error {
+    font-size: 1.2rem;
+    color: $error;
+}

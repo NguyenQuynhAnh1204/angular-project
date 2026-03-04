@@ -29,6 +29,11 @@ const shellRoutes: Routes = [
     path: 'employee',
     loadChildren: () =>
       import('./features/employee').then((m) => m.EmployeeModule),
+  },
+  {
+    path: 'reactive-form',
+    loadChildren: () => 
+      import('./features/form').then((m) => m.ReactiveFormModule),
   }
 ];
 

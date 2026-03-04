@@ -1,0 +1,44 @@
+<div class="container">
+    <form class="sign-in-form" (ngSubmit)="onSubmit()">
+        <h2>Sign in</h2>
+        <div class="row-control" [formGroup]="profileForm">
+            <div class="form-filed">
+                <label for="username">User name: </label>
+                <input id="username" type="text" placeholder="Username" 
+                    formControlName="userName"
+                >
+            </div>
+            <p  *ngIf="userName?.errors?.['required'] && userName?.touched" class="error">Please insert your username</p>
+            <p  *ngIf="userName?.errors?.['minlength']" class="error">
+                User name must be logger than {{userName?.errors?.['minlength']?.requiredLength}} characters
+            </p>
+            <div class="form-filed">
+                <label for="email">Email: </label>
+                <input id="email" type="email" placeholder="Email" formControlName="userEmail">
+            </div>
+            <p  *ngIf="userEmail?.errors?.['required'] && userEmail?.touched" class="error">Please insert your email</p>
+            <p  *ngIf="userEmail?.errors?.['email']" class="error">This is not email</p>
+            <div class="form-filed">
+                <label for="password">Password: </label>
+                <input id="password" type="password" placeholder="password" formControlName="password">
+            </div>
+            <p  *ngIf="password?.errors?.['required'] && password?.touched" class="error">Please insert your password</p>
+            <p  *ngIf="password?.errors?.['minlength']" class="error">
+                Password must be logger than {{password?.errors?.['minlength']?.requiredLength}} characters
+            </p>
+            <div class="form-filed">
+                <label for="confirmPassword">Confirm password:</label>
+                <input id="confirmPassword" type="password" placeholder="Confirm password" formControlName="confirmPassword">
+            </div>
+            <p  *ngIf="confirmPassword?.errors?.['required'] && confirmPassword?.touched" class="error">Please confirm your password</p>
+            <p  *ngIf="confirmPassword?.value!=password?.value && !confirmPassword?.errors?.['required'] " class="error">Your password is not same</p>
+        </div>
+        <div class="row-control row-actions">
+            <button type="submit" 
+                [class.disable]="profileForm.invalid || confirmPassword?.value != password?.value"
+            >
+                Sign in
+            </button>
+        </div>
+    </form>
+</div>
