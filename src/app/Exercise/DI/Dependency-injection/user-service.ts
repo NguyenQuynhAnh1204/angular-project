@@ -3,9 +3,7 @@ import { IDataBaseService, IGeneralService, IUser } from "./interface-service";
 
 const USER_REPO = new InjectionToken<IDataBaseService<IUser>>('USER_REPO');
 
-@Injectable({
-    providedIn: "root"
-})
+@Injectable()
 export class UserService implements IGeneralService {
     public repository!: IDataBaseService<IUser>;
     constructor(@Inject(USER_REPO) pRepo: IDataBaseService<IUser>) {

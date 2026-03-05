@@ -1,0 +1,19 @@
+#SP - Singleton Pattern
+- Là một mẫu thiết kế (design pattern)
+- Đảm bảo chỉ một class chỉ có một instance suy nhất.
+
+#Service locator pattern
+- Là một mẫu thiết kế (design pattern)
+- Dùng DIP (Dependency Inversion Principle) và SP(Singleton Pattern) để thực hiện
+
+#Ý tưởng thực hiện: 
+- Làm giảm sự phụ thuộc của các class
+- Đảm bảo chỉ tạo ra một instance thuộc một class duy nhất
+
+#Cách thực hiện: 
+- Tạo ra một nơi lưu trữ tất cả các service. nơi lưu trữ đó được gọi là cache(bộ nhớ đệm) / factory(nhà máy).
+- Thường sẽ gộp chung cache và factory thành một (vừa lưu trữ và tạo ra instance mới).
+- Locator giống như là một nơi định vị, khi nào cần service nào sẽ lấy (get) service đó xuống từ cache.
+- Cache là nơi lưu trữ sẽ kiểm tra xem đã tồn tại instance của service đó hay chưa:
+    + nếu chưa thì tạo mới và lưu trữ.
+    + nếu có rồi thì sẽ trả về instance đã tạo trước đó.

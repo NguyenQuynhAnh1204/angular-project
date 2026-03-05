@@ -1,0 +1,20 @@
+# Cơ chế event loop gồm:
+
++ Call stack
++ Web API
++ Task Queue: MacroTask queue và Microtask queue
++ Event loop
+
+- JS là single thread. Không có cơ chế chạy bất đồng bộ => do WebAPI(browser) xử lý
+- Khi gọi đến hàm nào thì JS sẽ đưa hàm đó vào call stack với quy tắc: FILO (fist in last out).
+- Khi gọi đến các hàm chạy bất đồng bộ. JS vẫn tiếp tục đưa các hàm đó vào trong call stack.
+- Sau khi gọi đến các hàm bất đồng bộ, JS sẽ chuyền các hàm đó sang cho WebAPI xử lý. Và tiếp tục call các hàm khác.
+- Sau khi WebAPI tiếp nhận và trả về callback function. . Các hàm này sẽ được đưa vào Queue theo quy tắc LILO (last in last out)
+- Queue tiếp nhận và phân bổ các task này vào hai chỗ khác nhau: 
+    + Microtask: Được ưu tiên hơn. Thường là các Microtask, promise
+    + MacroTask: Sẽ được xử lý sau khi các task ở Microtask xử lý xong.
+- Event Loop lúc này sẽ có nhiệm vụ kiểm tra trong call stack trống hay không. Nếu trống sẽ đưa các hàm từ queue theo thứ tự vào stack.
+- Lần lượt cho đến hết các task trong queue
+
+
+=> JS không có cơ chế xử lý bất đồng bộ. Bất đồng bộ được xử lý nhơ webAPI do browser cung cấp hỗ trợ.
