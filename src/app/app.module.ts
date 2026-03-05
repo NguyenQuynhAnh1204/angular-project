@@ -40,8 +40,8 @@ const shellRoutes: Routes = [
     RouterModule.forRoot(shellRoutes),
     BrowserAnimationsModule,
     ExerciseModule,
-    BravoButtonModule
-  ],
+    BravoButtonModule,
+],
   declarations: [AppComponent, HeaderComponent, FooterComponent],
   bootstrap: [AppComponent],
 })
