@@ -20,11 +20,17 @@
 - Quản lý, theo dõi(track) giá trị, xác thực trạng thái của các control
 - Chứa một obj các form control
 
+# Form record:
+- Cũng là một container giống với form group
+- Thêm được các form control động bằng cách addControl
+- Cũng có thể định nghĩa thêm các type cho các form control: new FormRecord<FormControl<string|null>>({formcontrol sẽ được tạo ở đây})
+
 # Form Array:
 - Thường dùng cho các control động
 - Có thể thêm/xoá control
 - Lưu các control thành một mảng
 
+==> Tất cả đều có thể tạo nhanh bằng form builder.
 
 - Property core:
     + Value: giá trị mới nhất
@@ -86,6 +92,21 @@
 - Cầu nối giữa angular với element DOM
 
 
+# Reactive form:
+- Cập nhật một phần trong model:
+    + setValue() : Phải tuân theo cấu trúc của form. Đầy đủ các thông tin => lỗi
+        => update toàn bộ form. reset
+    + patchValue(): Có thể cập nhật theo từng phần
+        => update một phần của form. có thể đào sâu vào bên trong của cấu trúc form.
 
-Anh ơi,thứ 4 tuần sau em cần nộp giấy thực tập cho nhà trường. 
-Anh hỗ trợ em xác nhận và đóng dấu vào giấy thực tập của em được không ạ?
+-Custom validator form: 
+    + Thực chất là một function, nhận đầu vào là một đối tượng của abstract class 'AbstractControl', 
+    + Xem xét control đó có thoả mãn điều kiện đưa ra hay không và trả về:
+        + sync validator: một obj thuộc type ValidationErrors|null
+        + async validator: một obj thuộc type Promise<ValidationErrors|null> hoặc Observable<ValidationErrors|null>
+- Ví dụ ở reactive-form.component.ts
+
+
+
+# dinamic form
+- Dựa trên reactive form.

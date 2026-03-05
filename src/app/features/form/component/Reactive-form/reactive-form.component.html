@@ -12,6 +12,9 @@
             <p  *ngIf="userName?.errors?.['minlength']" class="error">
                 User name must be logger than {{userName?.errors?.['minlength']?.requiredLength}} characters
             </p>
+            <p  *ngIf="profileForm.hasError('invalidUsername', ['userName']) && userName?.touched" class="error">
+                Username invalid
+            </p>
             <div class="form-filed">
                 <label for="email">Email: </label>
                 <input id="email" type="email" placeholder="Email" formControlName="userEmail">
@@ -31,11 +34,11 @@
                 <input id="confirmPassword" type="password" placeholder="Confirm password" formControlName="confirmPassword">
             </div>
             <p  *ngIf="confirmPassword?.errors?.['required'] && confirmPassword?.touched" class="error">Please confirm your password</p>
-            <p  *ngIf="confirmPassword?.value!=password?.value && !confirmPassword?.errors?.['required'] " class="error">Your password is not same</p>
+            <p  *ngIf="profileForm.hasError('passwordNoMatch')" class="error">Your password is not same</p>
         </div>
         <div class="row-control row-actions">
             <button type="submit" 
-                [class.disable]="profileForm.invalid || confirmPassword?.value != password?.value"
+                [class.disable]="profileForm.invalid || profileForm.hasError('passwordNoMatch')"
             >
                 Sign in
             </button>
