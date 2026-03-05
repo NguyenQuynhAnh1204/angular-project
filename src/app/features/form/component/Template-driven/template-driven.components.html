@@ -1,0 +1,59 @@
+<div class="container">
+    <form class="sign-in-form" #loginForm="ngForm" (submit)="handleOnSubmit(loginForm)">
+        <h2>Sign in</h2>
+        <div class="row-control">
+            <div class="form-filed">
+                <label for="name">Name:</label>
+                <input type="text" id="name" placeholder="UserName"
+                    name="name"
+                    required
+                    minlength="3"
+                    maxlength="20"
+                    [(ngModel)]="user.name"
+                    #name="ngModel"
+                >
+            </div>
+            <p class="error" *ngIf="name?.errors?.['required'] && name.touched">Username is required</p>
+            <p class="error" *ngIf="name?.errors?.['minlength']">Username must have more than {{name?.errors?.['minlength'].requiredLength}} character</p>
+            <p class="error" *ngIf="name?.errors?.['maxlength']">Username must have less than {{name?.errors?.['maxlength'].requiredLength}} character</p>
+            
+            <div class="form-filed">
+                <label for="email">Email:</label>
+                <input type="text" id="email" placeholder="Email"
+                name="email"
+                required
+                [pattern]="emailPattern"
+                [(ngModel)]="user.email"
+                #email="ngModel"
+                >
+            </div>
+            <p class="error" *ngIf="email?.errors?.['required'] && email.touched">Email is required</p>
+            <p class="error" *ngIf="email?.errors?.['pattern']">Email is invalid</p>
+            
+            <div class="form-filed">
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="Password"
+                name="password"
+                required
+                minlength="3"
+                maxlength="6"
+                [(ngModel)]="user.password"
+                #password="ngModel"
+                >
+            </div>
+            <p class="error" *ngIf="password?.errors?.['required'] && password.touched">Password is required</p>
+            <p class="error" *ngIf="password?.errors?.['minlength']">Password must have more than {{password?.errors?.['minlength'].requiredLength}} character</p>
+            <p class="error" *ngIf="password?.errors?.['maxlength']">Password must have less than {{password?.errors?.['maxlength'].requiredLength}} character</p>
+
+        </div>
+        <div class="row-control">
+            <button type="submit"
+                [class.disable]="!loginForm.touched || loginForm.invalid"
+            >
+                Sign in
+            </button>
+        </div>
+    </form>
+</div>
+
+
