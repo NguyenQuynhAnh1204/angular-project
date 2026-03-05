@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { FooterComponent, HeaderComponent } from './components';
 import { ExerciseModule } from './Exercise';
 import { BravoButtonModule } from './lib/button';
+import { ReactiveFormModule } from './features/form';
 
 const shellRoutes: Routes = [
   {
@@ -45,7 +46,8 @@ const shellRoutes: Routes = [
     RouterModule.forRoot(shellRoutes),
     BrowserAnimationsModule,
     ExerciseModule,
-    BravoButtonModule
+    BravoButtonModule,
+    ReactiveFormModule
   ],
   declarations: [AppComponent, HeaderComponent, FooterComponent],
   bootstrap: [AppComponent],
