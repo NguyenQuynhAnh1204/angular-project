@@ -9,6 +9,7 @@ import { FooterComponent, HeaderComponent } from './components';
 import { ExerciseModule } from './Exercise';
 import { BravoButtonModule } from './lib/button';
 import { ReactiveFormModule } from './features/form';
+import { PageNotFoundComponent } from './components/pageNotFound';
 
 const shellRoutes: Routes = [
   {
@@ -35,6 +36,10 @@ const shellRoutes: Routes = [
     path: 'reactive-form',
     loadChildren: () => 
       import('./features/form').then((m) => m.ReactiveFormModule),
+  }, 
+  {
+    path: '**',
+    component:  PageNotFoundComponent   // vì standalone component
   }
 ];
 
