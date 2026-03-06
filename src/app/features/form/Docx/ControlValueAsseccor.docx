@@ -1,0 +1,15 @@
+Control value accessor():  Là cầu nối giữa Angular với element DOM.
+
+Các phương thức:
+    + writeValue(value: any) => lấy giá trị từ model xuống view
+    + registerOnChange(fn: any) => đăng ký một call back function cho Angular => khi nào thay đổi giá trị thì sẽ gọi hàm.
+    + registerOnTouched(fn: any) => Đăng ký một call back function cho Angular => khi nào input bị tương tác => gọi hàm.
+
+
+
+
+
+
+
+#forwardRef: cho phép tham chiếu đến các thứ chưa được định nghĩa (class/component/DI)
+ 

@@ -1,0 +1,111 @@
+# Form:
+- Có hai cách tiếp cận chính
+    + Template-driveen forms 
+    + reactive forms
+- Base classes:
+    + Form control
+    + Form group
+    + Form Array
+    + Control value accessor
+=> tất cả đều được kế thừa từ Abstract control.
+
+# Form control:
+- Theo dõi, xác thực trạng thái của từng form control riêng biệt.
+- Sử dụng form control để set giá trị khởi tạo.
+- Nếu mà khi reset lại mà muốn trả về giá trị mặc định thay vì là null thì sẽ thêm một opt là {nonNullable: true}
+- Có thể sử dụng để chỉ định type thay vì cho nó tự ngầm mặc định type : FormControl<string|number|null>(null) => khi set hoặc update giá trị thì cũng chỉ được dùng trong các type đã được chỉ định sẵn
+
+# Form group:
+- Quản lý một 1 nhóm filed cố định
+- Quản lý, theo dõi(track) giá trị, xác thực trạng thái của các control
+- Chứa một obj các form control
+
+# Form record:
+- Cũng là một container giống với form group
+- Thêm được các form control động bằng cách addControl
+- Cũng có thể định nghĩa thêm các type cho các form control: new FormRecord<FormControl<string|null>>({formcontrol sẽ được tạo ở đây})
+
+# Form Array:
+- Thường dùng cho các control động
+- Có thể thêm/xoá control
+- Lưu các control thành một mảng
+
+==> Tất cả đều có thể tạo nhanh bằng form builder.
+
+- Property core:
+    + Value: giá trị mới nhất
+    + Status: VALID / INVALID / PENDING / DISABLED
+    + Valid(hợp lệ): True / False 
+    + Invalid(không hợp lệ): True / False
+    + Errors: { các lỗi như là required: true, ...} / sẽ hiển thị theo từng lỗi chứ không gộp chung thành một obj.
+    + Disabled: True / False
+    + Enabled: True / False
+- Property User Interaction:  tương tác của người dùng
+    + Touched: True / False
+    + Untouched: True / False
+    + Dirty(thay đổi giá trị chưa? kể cả nhập hay là xoá đi thì vẫn là true): True / False
+    + Pristine (giá trị chưa thay đổi giá trị): True / False
+    + Pending: True / False
+- Method:
+    + setValue(value, opts) => set giá trị ban đầu 
+    + patchValue(value, opts) => update giá trị / thực chất cũng gọi đến setValue()
+    + reset(value, opts) => set các giá trị về null
+    + disable(opts) 
+    + enable(opts)
+    + setErrors(errors, opts)
+- ngSubmit() => là event binding của angular dành cho form.
+    + Khác với submit sẽ reload lại trang thì ngSubmit sẽ ngăn chặn điều đó.
+    + chỉ thực thi khi mà btn có type là submit.
+
+# Data flow của Reactive forms.
+*Thay đổi từ view
+- User nhập vào input
+- Form (input) sẽ phát even kèm theo giá trị cuối cùng. 
+- Control value accessor lắng nghe các giá trị trong form và ngay lập tức sẽ truyền cho instance của formControl.
+- Instance FormControl sẽ emit giá trị mới thông qua valueChanges observable
+- Bất kỳ ai đang lắng nghe (subcribe) thì đều sẽ nhận được giá trị mới.
+
+*Thay đổi từ form control
+- Gọi FormControl.setValue() cập nhật giá trị của FormControl.
+- FormControl sẽ emit một giá trị mới thông qua valueChanges observable.
+- Bất kỳ ai đang subcribe valueChanges thì nhận được giá trị mới
+- Control value accessor sẽ cập nhật input bên ngoài view với giá trị mới.
+
+# Date flow của template-driven.
+- User nhập vào input
+- inputEl sẽ phát ra even với giá trị người dùng nhập vào.
+- Control value accessor được gắn với input sẽ gọi đến setValue của form control mỗi khi mà value thay đổi.
+- Form control sau khi nhận được giá trị sẽ emit giá trị thông qua valueChanges observable.
+- Bất kỳ ai đang subcribe valueChanges thì nhận được giá trị mới.
+- Control value accessor cũng sẽ gọi đến method: NgModel.viewToModelUpdate() để phát ra sự kiện là ngModelChange.
+- Thuộc tính tương ứng trong component sẽ được cập nhật sau khi mà nhận được giá trị được phát ra bởi ngModelChange.
+- Để form biết được form control nào đang có sự thay đổi (dùng ở bên ngoài template) thì cần phải định danh cho form control đó.
+- Sử dụng #name='ngModel' để định danh cho form control đó.
+=> dùng two-way-binding để thực hiện.
+
+# Form Builder: là một service
+- Truyền (inject) vào bên trong component
+- Thay vì phải tự tạo các control (new form control) như là ở trong reactive form thì sẽ dùng các phương thức như là group/control/array.
+
+
+# Reactive form:
+- Cập nhật một phần trong model:
+    + setValue() : Phải tuân theo cấu trúc của form. Đầy đủ các thông tin => lỗi
+        => update toàn bộ form. reset
+    + patchValue(): Có thể cập nhật theo từng phần
+        => update một phần của form. có thể đào sâu vào bên trong của cấu trúc form.
+
+-Custom validator form: 
+    + Thực chất là một function, nhận đầu vào là một đối tượng của abstract class 'AbstractControl', 
+    + Xem xét control đó có thoả mãn điều kiện đưa ra hay không và trả về:
+        + sync validator: một obj thuộc type ValidationErrors|null
+        + async validator: một obj thuộc type Promise<ValidationErrors|null> hoặc Observable<ValidationErrors|null>
+- Ví dụ ở reactive-form.component.ts
+
+
+
+# dinamic form
+- Dựa trên reactive form.
+- Thêm/ sửa / xoá các form control.
+
+
