@@ -108,3 +108,11 @@
 - Sự khác nhau giữa provider vs viewProvider
     + provider sẽ cung cấp dependency cho các: component, view component, content projection (ng-content)
     + viewProvider sẽ chỉ cung cấp dependency cho: component, view component.
+
+
+# ForwardRef:
+- Là một hàm, tham chiếu tới những class chưa được định nghĩa
+- Giúp trì hoãn việc tham chiếu tới các class chưa được định nghĩa
+- Nếu mà nó dùng trong decorator của chính nó vẫn chạy được không lỗi vì:
+    Angular sẽ chạy class trước rồi mới đọc lên trên phần decorator.
+    Hoạt động được là nhờ function closures
