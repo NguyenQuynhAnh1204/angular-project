@@ -1,0 +1,25 @@
+Có hai loại: Trình thông dịch và trình biên dịch
+
+- Trình biên dịch (compiler):  C, C++, C#
+    + Nhận đầu vào (input) là các ngôn ngữ cấp cao => trả ra (output) là ngôn ngữ cấp thấp cụ thể là ngôn ngữ máy (dạng bit 0/1).
+    + Thời gian chạy chương trình dài và chiếm nhiều bộ nhớ hơn: vì phải đi  hết chương trình sau đó biên dịch thành ngôn ngữ máy (machine language 0/1).
+    + Chỉ bắt được lỗi cú pháp, ngữ nghĩa.  => khó gỡ lỗi hơn vì phải chạy lại toàn bộ chương trình.
+    + Có thể mất thời gian nếu code cồng kềnh.
+    + 
+
+
+- Trình thông dịch(Interpreter): Python
+    + Dịch và chạy từng dòng lệnh ngay lúc thực thi.
+    + Dịch sang một ngôn ngữ trung gian , rồi sau đó mới chuyển sang ngôn ngữ máy.
+    + Dễ dàng nhận biết và fix lỗi. => có thể sửa từng dòng lỗi mà không phải chạy lại cả chương trình giống như là compiler.
+
+
+JavaScript là một ngôn ngữ lập trình thông dịch (có một chút biên dịch)
+
+- JS là trình thông dịch.
+- Trước đây, runtime environment của JS chỉ là trên browser. Được hỗ trợ bởi GG. Viết bằng ngôn ngữ C++.
+    Đối với GG: thì  runtime environment được gọi là V8 engine.
+        ví dụ như firefox tên là SpiderMonkey.
+
+- Để chạy được JS ở bên ngoài browser, GG đã phát triển thêm NodeJS để có thể chạy được JS ở bên ngoài trình duyệt.
+- NodeJS có core là V8 engine. là  runtime environment của JS bên ngoài browser.
