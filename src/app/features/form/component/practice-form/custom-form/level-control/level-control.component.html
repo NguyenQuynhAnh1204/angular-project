@@ -1,0 +1,14 @@
+<ng-container *ngFor="let item of level; let indx=index">
+    <div 
+        class="level"
+        [class.active]="item==levelValue"
+        (click)="handleOnChange(indx)"
+    >   
+        {{item}}
+        <span class="material-symbols-outlined"
+        *ngIf="item==levelValue"
+        >
+            arrow_upward
+        </span>
+    </div>
+</ng-container>

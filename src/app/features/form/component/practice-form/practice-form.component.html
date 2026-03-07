@@ -1,0 +1,123 @@
+<div class="container">
+    <form (ngSubmit)="onSubmit()">
+        <div class="form-control" [formGroup]="formInfo">
+            <div class="form-group" formGroupName="customerInf">
+                <h5>Customer Information</h5>
+                <div class="form-filed">
+                    <label for="customer">Customer: </label>
+                    <input type="text" id="customer" formControlName="customer">
+                </div>
+                <p class="error" 
+                    *ngIf="customer?.errors?.['required'] && customer?.touched"
+                >
+                    Customer is required
+                </p>
+                <p class="error" 
+                    *ngIf="customer?.errors?.['minlength']"
+                >
+                    Customer name is more than {{customer?.errors?.['minlength']?.requiredLength}}
+                </p>
+                <div class="form-filed">
+                    <label for="email">Email:</label>
+                    <input type="text" id="email" formControlName="email">
+                </div>
+                <p class="error" 
+                    *ngIf="email?.errors?.['required'] && email?.touched"
+                >
+                    Email is required
+                </p>
+                <p class="error" 
+                    *ngIf="email?.errors?.['email']"
+                >
+                    Invalid email
+                </p>
+                <div class="form-filed">
+                    <label for="phone">Phone:</label>
+                    <input id="phone" formControlName="phone" pattern="^0\d{9}$">
+                </div>
+                <p class="error" 
+                    *ngIf="phone?.errors?.['required'] && phone?.touched"
+                >
+                    Phone is required
+                </p>
+                <p class="error" 
+                    *ngIf="phone?.errors?.['pattern']"
+                >
+                    Invalid phone
+                </p>
+            </div>
+
+            <div class="form-group" formGroupName="addressInf">
+                <h5>Delivery address</h5>
+                <div class="form-filed">
+                    <label for="city">City</label>
+                    <input type="text" id="city" formControlName="city">
+                </div>
+                <p class="error" 
+                    *ngIf="email?.errors?.['required'] && email?.touched"
+                >
+                    City is required
+                </p>
+                <div class="form-filed">
+                    <label for="street">Street:</label>
+                    <input type="text" id="street" formControlName="street">
+                </div>
+                <div class="form-filed">
+                    <label for="note">Note:</label>
+                    <input type="text" id="note" formControlName="note">
+                </div>
+            </div>
+       
+            <div class="form-group" formGroupName="orderInf">
+                <h5>Order Information</h5>
+                <div class="form-filed">
+                    <label for="cate">Food Category:</label>
+                    <input type="text" id="cate" formControlName="category">
+                </div>
+                <p class="error" 
+                    *ngIf="category?.errors?.['required'] && category?.touched"
+                >
+                    Category is required
+                </p>
+                <div class="form-filed">
+                    <label for="f-item">Food Item:</label>
+                    <input type="text" id="f-item" formControlName="foodItem">
+                </div>
+                <p class="error" 
+                    *ngIf="foodItem?.errors?.['required'] && foodItem?.touched"
+                >
+                    FoodItem is required
+                </p>
+                <div class="form-filed">
+                    <label for="">Quantity:</label>
+                    <quantity-control [increment]="1" formControlName="quantity"/>
+                </div>
+                <p class="error" 
+                    *ngIf="quantity?.errors?.['min'] && quantity?.touched"
+                >
+                    Quantity is more than 0
+                </p>
+                <div class="form-filed">
+                    <label for="level">Spicy level:</label>
+                    <level-control id="level" formControlName="level" [level]="[0,1,2,3]"/>
+                </div>
+            </div>
+            
+            <div class="form-filed">
+                <h5>Payment method</h5>
+                <payment-control formControlName="payment" [method]="['COD', 'Ngân Hàng', 'Thẻ ghi nợ', 'Ví điện tử']"/>
+            </div>
+            <p class="error" *ngIf="payment?.errors?.['required']">
+                Payment method is required
+            </p>
+        </div>
+        
+
+        <div class="form-control">
+            <button type="submit" 
+                [class.disable]="formInfo.invalid"
+                [disabled]="formInfo.invalid"
+            >Submit</button>
+        </div>
+    </form>
+</div>

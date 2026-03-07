@@ -4,12 +4,31 @@ Các phương thức:
     + writeValue(value: any) => lấy giá trị từ model xuống view
     + registerOnChange(fn: any) => đăng ký một call back function cho Angular => khi nào thay đổi giá trị thì sẽ gọi hàm.
     + registerOnTouched(fn: any) => Đăng ký một call back function cho Angular => khi nào input bị tương tác => gọi hàm.
+    + setDisabledState(value: any) => khi bật(enabled) hoặc tắt(disabled) thông qua API của form => gọi hàm này 
+        ví dụ: nếu mà form control gọi đến disabled => Angular sẽ gọi đến hàm này và trả về giá trị hiện tại.
+
+Đối với mỗi một loại input (form control) thì sẽ có một loại accessor riêng 
+    + input text/textarea   =>  DefaultValueAccessor
+    + checkbox              =>  CheckboxControlValueAccessor
+    + radio                 =>  RadioControlValueAccessor
+    + select                =>  SelectControlValueAccessor
+    + select multiple       =>  SelectMultipleControlValueAccessor
+    + input range           =>  RangeValueAccessor
+    + input number          =>  NumberValueAccessor
+
+=> Muốn xây dựng được custom form control => implement custom value accessor.
+
+
+
+Implement các phương thức:
+- writeValue: ghi giá trị từ model (form control/group) ra View (HTML)
+    + Tức là khi mà FormControl setValue thì gọi đến writeValue để lấy giá trị và gán vào property của component.
+    + Component sẽ binding ra ngoài template
+- registerOnChange: nhận đối số truyền vào là một hàm. Khi bên ngoài form bị thay đổi => gọi đến hàm 
 
 
 
 
 
-
-
-#forwardRef: cho phép tham chiếu đến các thứ chưa được định nghĩa (class/component/DI)
- 
+Provider: Để báo với Angular là component như là một form control
+- Cần phải 
