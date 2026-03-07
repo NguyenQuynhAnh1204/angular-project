@@ -1,0 +1,16 @@
+@use "styles/color" as *;
+@use "styles/mixin" as *;
+
+.choose-quantity {
+    display: flex;
+    align-items: center;
+}
+
+.quantity {
+    font-size: 1.4rem;
+}
+
+.material-symbols-outlined {
+    cursor: pointer;
+    font-size: 1.6rem;
+}

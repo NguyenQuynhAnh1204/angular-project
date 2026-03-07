@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'reactive-form',
@@ -16,6 +16,7 @@ export class ReactiveFormComponent {
                 Validators.required, 
                 Validators.minLength(3),
                 Validators.maxLength(20),
+                forbiddenUsername()
             ]),
         userEmail: new FormControl(
             "", 
@@ -35,6 +36,8 @@ export class ReactiveFormComponent {
             "", 
             [Validators.required]
         )
+    },{
+        validators: comparePassword
     })
 
     public get userName() {
@@ -57,9 +60,30 @@ export class ReactiveFormComponent {
         const status = this.profileForm.status; 
         console.log(this.profileForm.get('userName')?.errors?.['minlength']);
         if(status == 'INVALID') return;
-        if(this.confirmPassword?.value != this.password?.value) return;
+        // if(this.confirmPassword?.value != this.password?.value) return;
         console.log("Submit: ", this.profileForm.value);
         this.profileForm.reset();
     }
 
+}
+
+// function forbiddenUsername(pControl: AbstractControl) {
+//     const userName = ['admin', 'manager']
+//     return userName.includes(pControl.value) ? {
+//         invalidUsername: true,
+//     } : null
+// }
+
+function forbiddenUsername(pUser: string[] = ['admin', 'manager']) {
+    return (control: AbstractControl) => {
+        return pUser.includes(control.value) ? {
+            invalidUsername: true
+        } : null
+    }
+}
+
+function comparePassword(pGroup: AbstractControl) {
+    return pGroup.get('password')?.value != pGroup.get('confirmPassword')?.value ? {
+        passwordNoMatch: true
+    } : null
 }

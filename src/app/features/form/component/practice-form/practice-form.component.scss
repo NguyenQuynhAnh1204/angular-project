@@ -1,0 +1,44 @@
+@use "styles/color" as *;
+
+.container {
+    font-size: 1.6rem;
+    margin: 20px;
+    width: 30vw;
+
+    button {
+        padding: 4px 10px;
+        background: none;
+        border: none;
+        background-color: $information;
+        color: #fff;
+        border-radius: 5px;
+    }
+    .disable {
+        cursor: not-allowed;
+        background-color: #ccc;
+    }
+}
+
+.form-group {
+    margin: 10px 0;
+    h5 {
+        font-size: 1.8rem;
+    }
+    .form-filed {
+        margin: 10px 0;
+        display: flex;
+        label {
+            flex: 2;
+        }
+        input {
+            flex: 5;
+            padding: 2px 4px;
+        }
+    }
+}
+
+
+.error {
+    color: $error;
+    font-size: 1.2rem;
+}

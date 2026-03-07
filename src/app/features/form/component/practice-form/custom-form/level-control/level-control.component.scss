@@ -1,0 +1,23 @@
+:host {
+    display: flex;
+    gap: 10px;
+}
+
+.level {
+    cursor: pointer;
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    .material-symbols-outlined {
+        font-size: 2rem;
+        color: #d41c1c;
+    }
+    &.active {
+        color: #d41c1c;
+    }
+    &:hover {
+        background-color: #ecd6d6;
+    }
+}

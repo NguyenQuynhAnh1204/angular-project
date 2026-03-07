@@ -15,6 +15,7 @@ export class FormBuilderComponent implements OnDestroy {
     public logInForm = this.formBuild.group({
         email: ['', [Validators.required, Validators.email]],
         password: ["", [Validators.required, Validators.minLength(4)]],
+        totalQuantity: [10, [Validators.required, Validators.max(100)]],
     })
 
     constructor() {

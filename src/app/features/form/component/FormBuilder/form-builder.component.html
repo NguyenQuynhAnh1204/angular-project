@@ -36,6 +36,7 @@
                 Password must be logger than {{password?.errors?.['minlength']?.requiredLength}}
             </p>
         </div>
+        <custom-form formControlName="totalQuantity"/>
         <div class="row-control">
             <button type="submit"
                 [class.disable]="logInForm.invalid"

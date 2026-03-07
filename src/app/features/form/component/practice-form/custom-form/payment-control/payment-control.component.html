@@ -1,0 +1,14 @@
+<ng-container *ngFor="let item of method; let indx = index">
+    <div
+        class="payment-method"
+        [class.active]="payment == item"
+        (click)="handleOnChange(indx)"
+    >
+        {{item}}
+        <span class="material-symbols-outlined"
+            *ngIf="payment==item"
+        >
+            check
+        </span>
+    </div>
+</ng-container>

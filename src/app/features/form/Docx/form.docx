@@ -88,12 +88,6 @@
 - Thay vì phải tự tạo các control (new form control) như là ở trong reactive form thì sẽ dùng các phương thức như là group/control/array.
 
 
-#Control value accessor
-- Cầu nối giữa angular với element DOM
-
-
-<<<<<<< HEAD
-=======
 # Reactive form:
 - Cập nhật một phần trong model:
     + setValue() : Phải tuân theo cấu trúc của form. Đầy đủ các thông tin => lỗi
@@ -112,4 +106,6 @@
 
 # dinamic form
 - Dựa trên reactive form.
->>>>>>> form
+- Thêm/ sửa / xoá các form control.
+
+
