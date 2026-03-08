@@ -24,11 +24,13 @@ Implement các phương thức:
 - writeValue: ghi giá trị từ model (form control/group) ra View (HTML)
     + Tức là khi mà FormControl setValue thì gọi đến writeValue để lấy giá trị và gán vào property của component.
     + Component sẽ binding ra ngoài template
-- registerOnChange: nhận đối số truyền vào là một hàm. Khi bên ngoài form bị thay đổi => gọi đến hàm 
-
-
-
+- registerOnChange: nhận đối số truyền vào là một hàm. Khi bên ngoài form bị thay đổi => gọi đến hàm. 
+    + hàm truyền vào có đối số là một number (pNumber) => {} và không return ra j.
+- registerOnTouched: nhận đối số truyền vào là một hàm. Khi bên ngoài form có tương tác => gọi đến hàm. 
+    + hàm truyền vào: () => {} (không nhận đối số, không trả ra giá trị)
+- setDisabledState: nhận đối số truyền vào làm
 
 
 Provider: Để báo với Angular là component như là một form control
-- Cần phải 
+- Khi custom-form được đặt trong một form và gắn form control name => angular sẽ inject NG_VALUE_ACCESSOR
+- lấy đúng Custom form component để sử dụng.

@@ -15,11 +15,11 @@ export class FormBuilderComponent implements OnDestroy {
     public logInForm = this.formBuild.group({
         email: ['', [Validators.required, Validators.email]],
         password: ["", [Validators.required, Validators.minLength(4)]],
-        totalQuantity: [10, [Validators.required, Validators.max(100)]],
+        totalQuantity: [1, [Validators.required]],
     })
 
     constructor() {
-        this._sub = this.logInForm.valueChanges.subscribe(
+        this._sub = this.logInForm.get('email')!.valueChanges.subscribe(
             (value) => console.log(value)
         )
     }
@@ -34,12 +34,15 @@ export class FormBuilderComponent implements OnDestroy {
         return this.logInForm.get('password');
     }
 
+    public get totalQuantity() {
+        return this.logInForm.get('totalQuantity');
+    }
 
     public onSubmit() {
+        console.log(this.logInForm.get("totalQuantity")?.touched);
         const status = this.logInForm.status;
         if(status === 'INVALID') return;
         console.log(this.logInForm.value);
-        this.logInForm.reset();
     }
 
 }
