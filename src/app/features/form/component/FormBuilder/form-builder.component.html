@@ -35,8 +35,13 @@
             <p class="error"*ngIf="password?.errors?.['minlength']">
                 Password must be logger than {{password?.errors?.['minlength']?.requiredLength}}
             </p>
+            <custom-form formControlName="totalQuantity"/>
+            <p class='error'
+                *ngIf="totalQuantity?.errors?.['quantity']"
+            >
+                Quantity is not less than {{totalQuantity?.errors?.['quantity'].min}}
+            </p>
         </div>
-        <custom-form formControlName="totalQuantity"/>
         <div class="row-control">
             <button type="submit"
                 [class.disable]="logInForm.invalid"

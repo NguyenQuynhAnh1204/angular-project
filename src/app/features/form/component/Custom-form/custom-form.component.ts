@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 
 @Component({
@@ -14,25 +14,24 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
         {
             provide: NG_VALIDATORS,
             useExisting: CustomFormComponent,
-            multi: true,
+            multi: true
         }
     ]
 })
 
 export class CustomFormComponent implements ControlValueAccessor, Validator  {
 
-    public quantity = 0;
-    public onChange = (pQuantity: number) => {}
+    private _quantity = 0;
+    get quantity() {
+        return this._quantity;
+    }  
+    set quantity(pNumber: number) {
+        this._quantity = pNumber;
+    } 
 
-    public onTouched = () => {}
+    public onChange = (pQuantity: number) => {};
 
-    private _touched = false;
-    public get touched() {
-        return this._touched;
-    }
-    public set touched(pTouch) {
-        this._touched = pTouch;
-    }
+    public onTouched = ()=>{};
 
     private _disabled = false;
     public get disabled() {
@@ -43,27 +42,21 @@ export class CustomFormComponent implements ControlValueAccessor, Validator  {
     }
 
     public handleIncrease() {
-        this._markAsTouche();
+        this.onTouched();
         if(!this.disabled) {
             this.quantity++;
             this.onChange(this.quantity);
         }
     }
-
+    
     public handleDecrease() {
-        this._markAsTouche();
+        this.onTouched();
         if(!this.disabled) {
             this.quantity--;
             this.onChange(this.quantity);
         }
     }
 
-    private _markAsTouche() {
-        if(!this.touched) {
-            this.onTouched();
-            this.touched = true;
-        }
-    }
     
     public writeValue(pQuantity: number) {
         this.quantity = pQuantity;
@@ -82,14 +75,14 @@ export class CustomFormComponent implements ControlValueAccessor, Validator  {
     }
 
     public validate(pControl: AbstractControl): ValidationErrors | null {
-        const quantity = pControl.value;
-        if(quantity < 0 ) {
-            return {
-                mustBePositive: {
-                    quantity
-                }
-            }
+        const value = pControl.value;
+
+        if(value > 0) return null;
+        return {
+            'quantity': {
+                min : 1
+            } 
         }
-        return null;
+
     }
 }   
