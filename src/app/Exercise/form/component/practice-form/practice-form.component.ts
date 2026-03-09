@@ -14,7 +14,7 @@ export class PracticeFormComponent {
         customerInf: this.formBuilder.group({
             customer: ['', [Validators.required, Validators.minLength(3)]],
             email: ["", [Validators.required, Validators.email]],
-            phone: ["", [Validators.required, Validators.pattern, ]]
+            phone: ["", [Validators.required, Validators.pattern ]]
         }),
         addressInf: this.formBuilder.group({
             city: ["", [Validators.required]],
@@ -65,6 +65,25 @@ export class PracticeFormComponent {
             console.log('invalid');
             return;
         };
-        console.log(this.formInfo.valid)
+        this.formInfo.setValue({
+            customerInf: {
+                customer: '',
+                email: '',
+                phone: ['']
+            }, 
+            addressInf: {
+                city: '',
+                street: "",
+                note: "",
+            },
+            orderInf: {
+                category: '',
+                foodItem: '',
+                quantity: 0,
+                level: 0
+            },
+            payment: 'COD'
+        });
+        console.log(typeof this.formInfo.get('phone')?.value)
    } 
 }

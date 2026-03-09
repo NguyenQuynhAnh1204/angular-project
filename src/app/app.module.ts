@@ -6,9 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { FooterComponent, HeaderComponent } from './components';
-import { ExerciseModule } from './Exercise';
 import { BravoButtonModule } from './lib/button';
-import { ReactiveFormModule } from './features/form';
+import { ReactiveFormModule } from './Exercise/form';
 import { PageNotFoundComponent } from './components/pageNotFound';
 
 const shellRoutes: Routes = [
@@ -35,11 +34,11 @@ const shellRoutes: Routes = [
   {
     path: 'reactive-form',
     loadChildren: () => 
-      import('./features/form').then((m) => m.ReactiveFormModule),
+      import('./Exercise/form').then((m) => m.ReactiveFormModule),
   }, 
   {
     path: '**',
-    component:  PageNotFoundComponent   // vì standalone component
+    component:  PageNotFoundComponent   //  => standalone component =>  dùng component thay vì module.
   }
 ];
 
@@ -50,9 +49,7 @@ const shellRoutes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(shellRoutes),
     BrowserAnimationsModule,
-    ExerciseModule,
-    BravoButtonModule,
-    ReactiveFormModule
+    BravoButtonModule
   ],
   declarations: [AppComponent, HeaderComponent, FooterComponent],
   bootstrap: [AppComponent],

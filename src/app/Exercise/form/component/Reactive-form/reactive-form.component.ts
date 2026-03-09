@@ -58,21 +58,10 @@ export class ReactiveFormComponent {
 
     public onSubmit() {
         const status = this.profileForm.status; 
-        console.log(this.profileForm.get('userName')?.errors?.['minlength']);
         if(status == 'INVALID') return;
-        // if(this.confirmPassword?.value != this.password?.value) return;
-        console.log("Submit: ", this.profileForm.value);
         this.profileForm.reset();
     }
-
 }
-
-// function forbiddenUsername(pControl: AbstractControl) {
-//     const userName = ['admin', 'manager']
-//     return userName.includes(pControl.value) ? {
-//         invalidUsername: true,
-//     } : null
-// }
 
 function forbiddenUsername(pUser: string[] = ['admin', 'manager']) {
     return (control: AbstractControl) => {

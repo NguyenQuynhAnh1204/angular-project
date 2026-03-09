@@ -81,7 +81,14 @@
 - Thuộc tính tương ứng trong component sẽ được cập nhật sau khi mà nhận được giá trị được phát ra bởi ngModelChange.
 - Để form biết được form control nào đang có sự thay đổi (dùng ở bên ngoài template) thì cần phải định danh cho form control đó.
 - Sử dụng #name='ngModel' để định danh cho form control đó.
+
+ngForm/ngModel là một đối tượng / class NgForm của angular.
+- khi sử dụng #form='ngForm' angular sẽ khởi tạo đối tượng lên và gán lại vào trong templateVariable
+- lúc này templateVariable sẽ là một NgForm. 
+- NgForm này chỉ có thể sử dụng như là một directive trong <form> hoặc là như là một component <ng-form>
+
 => dùng two-way-binding để thực hiện.
+
 
 # Form Builder: là một service
 - Truyền (inject) vào bên trong component
