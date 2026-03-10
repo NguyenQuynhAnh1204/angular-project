@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { Form, FormControl, NgForm } from '@angular/forms';
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 export interface IUser {
     name: string;
@@ -25,6 +25,7 @@ export class TemplateDrivenComponent {
     public handleOnSubmit(pForm: NgForm) {
         if(pForm.invalid) return;
         console.log('Submit');
+        console.log(pForm.value);
         pForm.reset();
     }
 

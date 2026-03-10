@@ -84,6 +84,5 @@ export class PracticeFormComponent {
             },
             payment: 'COD'
         });
-        console.log(typeof this.formInfo.get('phone')?.value)
    } 
 }

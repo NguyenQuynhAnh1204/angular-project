@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -35,7 +35,8 @@ export class ReactiveFormComponent {
         confirmPassword: new FormControl(
             "", 
             [Validators.required]
-        )
+        ),
+        address: new FormControl("")
     },{
         validators: comparePassword
     })
@@ -56,9 +57,13 @@ export class ReactiveFormComponent {
         return this.profileForm.get('confirmPassword')
     }
 
-    public onSubmit() {
-        const status = this.profileForm.status; 
-        if(status == 'INVALID') return;
+    public get address() {
+        return this.profileForm.get('address');
+    }
+
+    public onSubmit() { 
+        if(this.profileForm.invalid) return;
+        console.log(this.profileForm.status);
         this.profileForm.reset();
     }
 }
@@ -72,6 +77,7 @@ function forbiddenUsername(pUser: string[] = ['admin', 'manager']) {
 }
 
 function comparePassword(pGroup: AbstractControl) {
+    if(!pGroup.touched) return null;
     return pGroup.get('password')?.value != pGroup.get('confirmPassword')?.value ? {
         passwordNoMatch: true
     } : null

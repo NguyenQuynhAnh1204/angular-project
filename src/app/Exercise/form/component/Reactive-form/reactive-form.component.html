@@ -1,7 +1,7 @@
 <div class="container">
-    <form class="sign-in-form" (ngSubmit)="onSubmit()">
+    <form class="sign-in-form" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
         <h2>Sign in</h2>
-        <div class="row-control" [formGroup]="profileForm">
+        <div class="row-control" >
             <div class="form-filed">
                 <label for="username">User name: </label>
                 <input id="username" type="text" placeholder="Username" 
@@ -34,7 +34,19 @@
                 <input id="confirmPassword" type="password" placeholder="Confirm password" formControlName="confirmPassword">
             </div>
             <p  *ngIf="confirmPassword?.errors?.['required'] && confirmPassword?.touched" class="error">Please confirm your password</p>
-            <p  *ngIf="profileForm.hasError('passwordNoMatch')" class="error">Your password is not same</p>
+            <p  *ngIf="profileForm.hasError('passwordNoMatch') && confirmPassword?.value!=''" class="error">Your password is not same</p>
+            <bravo-text-box formControlName="address" [label]="'Tex Box'" [maxLength]="1"/>
+            <p class="error"
+                *ngIf="address?.errors?.['notValue'] && address?.touched"
+            >
+                Address is not value
+            </p>
+            <p class="error"
+                *ngIf="address?.errors?.['max']"
+            >
+                Value max is {{address?.errors?.['max'].max}}
+            </p>
+
         </div>
         <div class="row-control row-actions">
             <button type="submit" 
