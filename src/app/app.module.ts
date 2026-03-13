@@ -36,6 +36,11 @@ const shellRoutes: Routes = [
       import('./Exercise/form').then((m) => m.ReactiveFormModule),
   }, 
   {
+    path: 'dynamic-form',
+    loadChildren: () => 
+      import('./Exercise/Dynamic form').then((m) => m.DynamicFormModule)
+  },
+  {
     path: '**',
     component:  PageNotFoundComponent   //  => standalone component =>  dùng component thay vì module.
   }

@@ -35,7 +35,7 @@
             </div>
             <p  *ngIf="confirmPassword?.errors?.['required'] && confirmPassword?.touched" class="error">Please confirm your password</p>
             <p  *ngIf="profileForm.hasError('passwordNoMatch') && confirmPassword?.value!=''" class="error">Your password is not same</p>
-            <bravo-control-base formControlName="address"
+            <br-text-box formControlName="address"
                 [minHeight]="'3rem'"
             />
             <p class="error"
