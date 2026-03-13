@@ -6,9 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { FooterComponent, HeaderComponent } from './components';
-import { BravoButtonModule } from './lib/button';
-import { ReactiveFormModule } from './Exercise/form';
 import { PageNotFoundComponent } from './components/pageNotFound';
+import { BravoButtonModule } from './lib/button';
 
 const shellRoutes: Routes = [
   {

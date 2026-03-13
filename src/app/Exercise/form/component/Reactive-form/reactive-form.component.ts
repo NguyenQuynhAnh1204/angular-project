@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -77,7 +77,7 @@ function forbiddenUsername(pUser: string[] = ['admin', 'manager']) {
 }
 
 function comparePassword(pGroup: AbstractControl) {
-    if(!pGroup.touched) return null;
+    if(!pGroup.get('confirmPassword')?.touched) return null;
     return pGroup.get('password')?.value != pGroup.get('confirmPassword')?.value ? {
         passwordNoMatch: true
     } : null
