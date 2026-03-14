@@ -41,6 +41,11 @@ const shellRoutes: Routes = [
       import('./Exercise/Dynamic form').then((m) => m.DynamicFormModule)
   },
   {
+    path: 'panel',
+    loadComponent: () => 
+      import('./Exercise/Panel').then((c) => c.PanelComponent),
+  },
+  {
     path: '**',
     component:  PageNotFoundComponent   //  => standalone component =>  dùng component thay vì module.
   }

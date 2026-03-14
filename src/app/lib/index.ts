@@ -3,3 +3,4 @@ export * from "./bravo-control-base";
 export * from "./button";
 export * from "./drop-file";
 export * from "./tabs";
+export * from "./bravo-panel";

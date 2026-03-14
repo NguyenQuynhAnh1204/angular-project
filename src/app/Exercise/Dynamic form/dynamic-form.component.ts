@@ -90,6 +90,7 @@ export class DynamicFormComponent implements AfterViewInit {
     private _addTexBox() {
         configData.forEach((item) => {
             const container = this.containerRef.createComponent(BravoTextBoxComponent);
+            container.instance.label = item.label
             container.instance.width = item.style.width
             container.instance.height = item.style.height
             container.instance.padding = item.style.padding

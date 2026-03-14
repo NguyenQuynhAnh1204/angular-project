@@ -2,7 +2,6 @@ import { BravoColor, BravoFont, BravoPadding, BravoSingleDimension, BravoSize } 
 import { IFont, ISize, UnitType } from "./bravo-attribute.type";
 
 const regex = /\d+|[a-zA-Z]+/g;
-const regexNumber = /^\d+$/;
 const unitType = ['px', "rem", "%", "em", 'vh', 'vw'];
 
 export function singleDimension(pValue: string) {

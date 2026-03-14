@@ -309,7 +309,6 @@ export class BravoControlBaseComponent implements ControlValueAccessor {
     }
 
     private _markAsTouched() {
-        console.log("touche");
         if(!this.touched) {
             this.updateValueTouched();
             this.touched = true;
