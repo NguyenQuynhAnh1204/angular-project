@@ -46,6 +46,11 @@ const shellRoutes: Routes = [
       import('./Exercise/Panel').then((c) => c.PanelComponent),
   },
   {
+    path: 'data-entry',
+    loadComponent: () => 
+      import("./features/DataEntry").then((c) => c.DataEntryComponent)
+  },
+  {
     path: '**',
     component:  PageNotFoundComponent   //  => standalone component =>  dùng component thay vì module.
   }

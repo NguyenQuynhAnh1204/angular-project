@@ -6,7 +6,8 @@ export interface IConfigLayOut {
         column: number,
         row: number, 
         label: string,
-        style: {
+        gridSpan?: number,
+        style?: {
             margin?: string,
             padding?: string,
             width?: string,
@@ -23,5 +24,6 @@ export interface IConfigLayOut {
             font?: IFont,
             backColor?: string,
             color?: string,
-        }
+        },
+        child?: IConfigLayOut[]
 }
