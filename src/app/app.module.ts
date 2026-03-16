@@ -18,7 +18,7 @@ const shellRoutes: Routes = [
   {
     path: 'uploadfile',
     loadChildren: () =>
-      import('./features/uploadFile').then((m) => m.UploadfileModule),
+      import('./features/upload-file').then((m) => m.UploadfileModule),
   },
   {
     path: 'student',
@@ -33,22 +33,22 @@ const shellRoutes: Routes = [
   {
     path: 'reactive-form',
     loadChildren: () => 
-      import('./Exercise/form').then((m) => m.ReactiveFormModule),
+      import('./exercise/form').then((m) => m.ReactiveFormModule),
   }, 
   {
     path: 'dynamic-form',
     loadChildren: () => 
-      import('./Exercise/Dynamic form').then((m) => m.DynamicFormModule)
+      import('./exercise/dynamic-form').then((m) => m.DynamicFormModule)
   },
   {
     path: 'panel',
     loadComponent: () => 
-      import('./Exercise/Panel').then((c) => c.PanelComponent),
+      import('./exercise/table-panel').then((c) => c.PanelComponent),
   },
   {
     path: 'data-entry',
     loadComponent: () => 
-      import("./features/DataEntry").then((c) => c.DataEntryComponent)
+      import("./features/bravo-data-entry").then((c) => c.DataEntryComponent)
   },
   {
     path: '**',

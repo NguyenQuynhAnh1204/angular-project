@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { BravoPanelComponent } from 'src/app/lib';
-import { CONFIG_LAYOUT } from './config-layout';
+import { PANEL_CONFIG } from './config-layout';
+
 
 @Component({
     standalone: true,
@@ -11,7 +12,5 @@ import { CONFIG_LAYOUT } from './config-layout';
 })
 
 export class DataEntryComponent {
-    public configLayout = CONFIG_LAYOUT;
-
-    
+    public configLayout = PANEL_CONFIG;
 }

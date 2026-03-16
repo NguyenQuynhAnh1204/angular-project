@@ -1,8 +1,21 @@
-import { IFont, ISize } from "../bravo-control-base/bravo-attribute.type";
 
 
+export type UnitType = 'px' | "rem" | "%" | 'em';
 
-export interface IConfigLayOut {
+export interface ISize {
+    width: number;
+    height: number;
+    unitWidth: string;
+    unitHeight?: string;
+}
+
+export interface IFont {
+    family: string;
+    size: number;
+}
+
+
+export interface IControlBase {
         column: number,
         row: number, 
         label: string,
@@ -24,6 +37,5 @@ export interface IConfigLayOut {
             font?: IFont,
             backColor?: string,
             color?: string,
-        },
-        child?: IConfigLayOut[]
+        }
 }

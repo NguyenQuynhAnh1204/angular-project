@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { BravoPanelComponent, IConfigLayOut } from 'src/app/lib';
+import { BravoPanelComponent } from 'src/app/lib';
+import { IControlBase } from 'src/app/lib/bravo-control-base/bravo-control-base.type';
 
 
 
-const CONFIG_LAYOUT: IConfigLayOut[] = [
+const CONFIG_LAYOUT: IControlBase[] = [
     {
         column: 3,
         row: 1, 
