@@ -89,7 +89,17 @@ export const PANEL_CONFIG: ITablePanel = {
             control: {
                 row: 1,
                 column: 1,
-                label: "Địa chỉ"
+                label: "Địa chỉ",
+                // style: {
+                //     width: "1000px",
+                //     maxWidth: "100%",
+                //     height: '100%',
+                //     borderStyle: "dashed",
+                //     borderRadius: "10px",
+                //     borderColor: "#ccc",
+                //     color: "red",
+                //     padding: "10 20",
+                // }
             }
         }, 
         {
