@@ -50,10 +50,14 @@ export class BravoPanelComponent implements AfterViewInit {
                 const panelItem = pContainerRef.createComponent(BravoTextBoxComponent);
                 panelItem.instance.label = item.control.label;
                 Object.assign(panelItem.instance, item.control.style);
-                panelItem.location.nativeElement.style.gridArea = `${item.control.row} / ${item.control.column}`;
+                const { row, column, rowsSpan, columnsSpan } = item.control;
+                const rowPart = rowsSpan ? `span ${rowsSpan}` : row;
+                const colPart = columnsSpan ? `span ${columnsSpan}` : column;
+                panelItem.location.nativeElement.style.gridArea = `${rowPart} / ${colPart}`;
             }
             else {
                 const panel = pContainerRef.createComponent(BravoPanelComponent);
+                Object.assign(panel.instance.elRef.nativeElement.style, item.control.style);
                 panel.instance.configLayout = item.child;
                 panel.location.nativeElement.style.gridArea = `${item.control.row} / ${item.control.column}`;
             }
@@ -69,33 +73,17 @@ export class BravoPanelComponent implements AfterViewInit {
 
 
 
-    // lấy row columns
+    // lấy số lượng của row columns --> vẽ lền grid
     private _handleGridTemplate() {
-        let templateRows: string[] = []; 
-        let templateColumns: string[] = []; 
-        const {rows, columns} = this.configLayout;
-        rows.forEach((item) => {
-            let type;
-            if(!item.size) {
-                type = new RowType(item.value);
-            } else {
-                type = new RowType(item.value, item.size);
-            }
-            templateRows.push(type.toString());
-        })
-        columns.forEach((item) => {
-            let type;
-            if(!item.size) {
-                type = new ColumnType(item.value);
-            } else {
-                type = new ColumnType(item.value, item.size);
-            }
-            templateColumns.push(type.toString());
-        })
+        const { rows, columns } = this.configLayout;
+
+        const buildTemplate = (items: any[], Type: any) =>
+            items.map(item => new Type(item.value, item.size).toString()).join(" ");
+
         return {
-            templateRows: templateRows.join(" "),
-            templateColumns: templateColumns.join(" ")
-        }
+            templateRows: buildTemplate(rows, RowType),
+            templateColumns: buildTemplate(columns, ColumnType)
+        };
     }
 
 } 

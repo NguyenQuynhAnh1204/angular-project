@@ -14,8 +14,12 @@ export class SizeBase {
         this._size = pSize;
     };
 
+    /**
+     * 
+     * @returns trả về từng giá trị cho từng control riêng biệt. Mặc định không điền gì sẽ trả ra  valuel d auto ;
+     */
     public toString(): string {
-        const regex = /^\d+$/;
+        const regex = /^\d+$/;   // regex kiểm tra chuỗi có toàn số hay không ??
         switch (this._size) {
             case EGridSizeType.ABSOLUTE:
                 if (this._value && regex.test(this._value)) {

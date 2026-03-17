@@ -19,7 +19,8 @@ export interface IControlBase {
         column: number,
         row: number, 
         label: string,
-        gridSpan?: number,
+        columnsSpan?: number,
+        rowsSpan?: number,
         style?: {
             margin?: string,
             padding?: string,

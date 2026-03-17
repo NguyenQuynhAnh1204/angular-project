@@ -21,6 +21,7 @@ export interface IGridControl {
 
 
 export interface ITablePanel {
+    gap?: number;
     rows: IGridPanel[],
     columns: IGridPanel[],
     controls: IGridControl[]

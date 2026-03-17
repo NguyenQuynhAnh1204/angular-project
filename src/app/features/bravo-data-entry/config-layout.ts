@@ -6,6 +6,8 @@ export const PANEL_CONFIG: ITablePanel = {
         {index: 1, value: '100px', size: EGridSizeType.ABSOLUTE},
         {index: 2, value: '2fr', size: EGridSizeType.PERCENT},
         {index: 3, value: '1fr', size: EGridSizeType.PERCENT},
+        {index: 4, value: '2fr', size: EGridSizeType.PERCENT},
+        {index: 5, value: '1fr', size: EGridSizeType.PERCENT},
     ],
     columns: [
         {index: 1, value: '50%', size: EGridSizeType.ABSOLUTE},
@@ -20,10 +22,10 @@ export const PANEL_CONFIG: ITablePanel = {
             },
             child: {
                 columns: [
-                    {index: 1, value: '50px', size: EGridSizeType.ABSOLUTE},
+                    {index: 1, value: 'auto'},
                     {index: 2, value: 'auto'},
-                    {index: 3, value: '1fr', size: EGridSizeType.PERCENT},
-                    {index: 4, value: '4fr', size: EGridSizeType.PERCENT}
+                    {index: 3, value: 'auto'},
+                    {index: 4, value: 'auto'}
                 ],
                 rows: [
                     {index: 1, value: 'auto'}
@@ -82,13 +84,15 @@ export const PANEL_CONFIG: ITablePanel = {
                     }
                 ]
             } 
-        }, {
+        }, 
+        {
             control: {
                 row: 1,
                 column: 1,
                 label: "Địa chỉ"
             }
-        }, {
+        }, 
+        {
             control: {
                 row: 2,
                 column: 2,
@@ -109,17 +113,35 @@ export const PANEL_CONFIG: ITablePanel = {
                     }}
                 ]
             }
-        }, {
+        }, 
+        {
             control: {
                 row: 3,
                 column:1,
                 label: "Người đại diện",
             }
-        }, {
+        }, 
+        {
             control: {
                 row: 3,
                 column: 2,
                 label: "Diễn giả"
+            }
+        },
+        {
+            control: {
+                row: 4,
+                column:1,
+                columnsSpan: 2,
+                label: "Chính sách chiết khấu",
+            }
+        }, 
+        {
+            control: {
+                row: 5,
+                column:1,
+                columnsSpan: 2,
+                label: "Điều khoản thương mại"
             }
         }
     ]
