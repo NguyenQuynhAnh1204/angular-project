@@ -1,6 +1,8 @@
 import { EGridSizeType, ITablePanel } from "src/app/lib/bravo-panel/bravo-panel.type";
 
 
+
+// config layout table panel
 export const PANEL_CONFIG: ITablePanel = {
     rows: [
         {index: 1, value: '100px', size: EGridSizeType.ABSOLUTE},
@@ -16,7 +18,7 @@ export const PANEL_CONFIG: ITablePanel = {
     controls: [
         {
             control: {
-                row: 2,
+                row: 1,
                 column: 1,
                 label: ""
             },
@@ -87,11 +89,11 @@ export const PANEL_CONFIG: ITablePanel = {
         }, 
         {
             control: {
-                row: 1,
+                row: 2,
                 column: 1,
                 label: "Địa chỉ",
                 // style: {
-                //     width: "1000px",
+                //     width: "",
                 //     maxWidth: "100%",
                 //     height: '100%',
                 //     borderStyle: "dashed",
@@ -156,3 +158,4 @@ export const PANEL_CONFIG: ITablePanel = {
         }
     ]
 }
+

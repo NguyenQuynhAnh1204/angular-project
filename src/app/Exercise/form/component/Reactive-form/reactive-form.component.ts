@@ -35,8 +35,7 @@ export class ReactiveFormComponent {
         confirmPassword: new FormControl(
             "", 
             [Validators.required]
-        ),
-        address: new FormControl("")
+        )
     },{
         validators: comparePassword
     })
@@ -57,10 +56,6 @@ export class ReactiveFormComponent {
         return this.profileForm.get('confirmPassword')
     }
 
-    public get address() {
-        return this.profileForm.get('address');
-    }
-
     public onSubmit() { 
         if(this.profileForm.invalid) return;
         console.log(this.profileForm.status);
@@ -77,6 +72,7 @@ function forbiddenUsername(pUser: string[] = ['admin', 'manager']) {
 }
 
 function comparePassword(pGroup: AbstractControl) {
+    console.log(pGroup);
     if(!pGroup.get('confirmPassword')?.touched) return null;
     return pGroup.get('password')?.value != pGroup.get('confirmPassword')?.value ? {
         passwordNoMatch: true

@@ -32,6 +32,7 @@ $my-app-theme: mat.define-light-theme((
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($my-app-theme);
+@import '@angular/cdk/overlay-prebuilt.css';
 
 * {
     margin: 0;
@@ -41,3 +42,25 @@ $my-app-theme: mat.define-light-theme((
 }
 html, body { height: 100%; font-size: 62.5%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.panel-class {
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.color-back {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+
+.cdk-overlay-pane {
+  border: 2px solid red;
+}

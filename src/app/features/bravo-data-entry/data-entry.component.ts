@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { BravoPanelComponent } from 'src/app/lib';
 import { PANEL_CONFIG } from './config-layout';
+import { ITablePanel } from 'src/app/lib/bravo-panel/bravo-panel.type';
 
 
 @Component({
@@ -12,5 +13,17 @@ import { PANEL_CONFIG } from './config-layout';
 })
 
 export class DataEntryComponent {
-    public configLayout = PANEL_CONFIG;
+
+    private _configLayout!: ITablePanel;
+    public get configLayout() {
+        return this._configLayout;
+    }
+    public set configLayout(value) {
+        this._configLayout = value;
+    }
+
+    constructor() {
+        this.configLayout = PANEL_CONFIG;
+        
+    }
 }

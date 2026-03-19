@@ -35,19 +35,6 @@
             </div>
             <p  *ngIf="confirmPassword?.errors?.['required'] && confirmPassword?.touched" class="error">Please confirm your password</p>
             <p  *ngIf="profileForm.hasError('passwordNoMatch') && confirmPassword?.value!=''" class="error">Your password is not same</p>
-            <br-text-box formControlName="address"
-                [minHeight]="'3rem'"
-            />
-            <p class="error"
-                *ngIf="address?.errors?.['notValue'] && address?.touched"
-            >
-                Address is not value
-            </p>
-            <p class="error"
-                *ngIf="address?.errors?.['max']"
-            >
-                Value max is {{address?.errors?.['max'].max}}
-            </p>
 
         </div>
         <div class="row-control row-actions">

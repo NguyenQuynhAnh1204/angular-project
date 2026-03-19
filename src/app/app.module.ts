@@ -9,6 +9,8 @@ import { FooterComponent, HeaderComponent } from './components';
 import { PageNotFoundComponent } from './components/pageNotFound';
 import { BravoButtonModule } from './lib/button';
 
+
+
 const shellRoutes: Routes = [
   {
     path: 'shopping',
@@ -49,6 +51,11 @@ const shellRoutes: Routes = [
     path: 'data-entry',
     loadComponent: () => 
       import("./features/bravo-data-entry").then((c) => c.DataEntryComponent)
+  },
+  {
+    path: 'modal',
+    loadComponent: () =>
+      import("./lib/bravo-modal").then((c) => c.BravoModalComponent)
   },
   {
     path: '**',
