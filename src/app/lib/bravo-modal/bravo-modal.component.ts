@@ -1,7 +1,7 @@
-import { Overlay, OverlayModule } from '@angular/cdk/overlay';
+import { Overlay, OverlayModule, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, inject, Injector } from '@angular/core';
 import { UploadFileComponent } from 'src/app/features/upload-file/uploadfile.component';
 
 @Component({
@@ -24,18 +24,17 @@ export class BravoModalComponent {
             panelClass: "panel-class",
             positionStrategy: this.overlay
                 .position()
-                .flexibleConnectedTo(this._elRef)
-                .withPositions([
-                    {
-                        originX: "start",
-                        originY: "bottom",
-                        overlayX: "start",
-                        overlayY: "top"
-                    }
-                ])
+                .global()
+                .centerHorizontally()
+                .centerVertically()
         }
         const overlayRef = this.overlay.create(config);
-        const componentPortal = new ComponentPortal(SomethingComponent);
+        const injector = Injector.create({
+            providers: [
+                { provide: OverlayRef, useValue: overlayRef }
+            ]
+        });
+        const componentPortal = new ComponentPortal(UploadFileComponent, null, injector);
         overlayRef.attach(componentPortal);
         overlayRef.backdropClick().subscribe(() => overlayRef.detach());
     }
@@ -50,8 +49,4 @@ export class BravoModalComponent {
     `
 })
 
-export class SomethingComponent  {
-    constructor(private cd: ChangeDetectorRef) {
-        console.log(this.cd);
-    }
-}
+export class SomethingComponent  {}

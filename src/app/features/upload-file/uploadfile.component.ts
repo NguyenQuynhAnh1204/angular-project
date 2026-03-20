@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { IFileItem, IUploadItem } from '../../lib/drop-file/bravo-file.definition';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'lib-uploadfile',
@@ -95,6 +96,8 @@ export class UploadFileComponent implements OnDestroy {
     if (this._errorTimer) clearTimeout(this._errorTimer);
   }
 
+  public constructor(private overlay: OverlayRef) {}
+
   //#region handle event
   public onUpload(pFiles: IFileItem[]) {
     if (!pFiles?.length) return;
@@ -136,6 +139,7 @@ export class UploadFileComponent implements OnDestroy {
   public onCancel() {
     this.uploadsItem = [];
     this.countFile = 0;
+    this.overlay.detach();
   }
 
   private _handleFile(pFile: IFileItem) {
