@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, ɵInternalFormsSharedModule } from "@angular/forms";
 import { RouterModule, Routes } from '@angular/router';
+import { BravoTextBoxComponent } from 'src/app/lib/bravo-text-box';
 import { CustomFormComponent } from './component/custom-form';
 import { FormBuilderComponent } from './component/form-builder';
 import { PracticeFormComponent } from './component/practice-form';
@@ -10,7 +11,6 @@ import { LevelControlComponent, PaymentControlComponent, QuantityControlComponen
 import { ReactiveFormComponent } from './component/reactive-form/reactive-form.component';
 import { TemplateDrivenComponent } from './component/template-driven';
 import { BravoFormComponent } from './form.component';
-import { BravoControlBaseModule } from 'src/app/lib/bravo-control-base';
 
 const REACTIVE_FORM_ROUTER: Routes = [
     {
@@ -26,7 +26,7 @@ const REACTIVE_FORM_ROUTER: Routes = [
     FormsModule,
     ReactiveFormsModule,
     ɵInternalFormsSharedModule,
-    BravoControlBaseModule
+    BravoTextBoxComponent
 ],
     exports: [BravoFormComponent],
     declarations: [BravoFormComponent, ReactiveFormComponent, 

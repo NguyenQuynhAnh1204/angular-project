@@ -1,16 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, inject, Input, ViewChild, ViewContainerRef } from '@angular/core';
-import { BravoControlBaseModule } from '../bravo-control-base';
-import { BravoTextBoxComponent } from '../bravo-control-base/bravo-text-box';
+import { Component, ElementRef, inject, Input, ViewChild, ViewContainerRef } from '@angular/core';
 import { ITablePanel } from './bravo-panel.type';
 import { ColumnType, RowType } from './bravo-panel.until';
+import { BravoTextBoxComponent } from '../bravo-text-box';
 
 @Component({
     standalone: true,
     selector: 'bravo-panel',
     templateUrl: './bravo-panel.component.html',
     styleUrls: ["./bravo-panel.component.scss"],
-    imports: [CommonModule, BravoControlBaseModule],
+    imports: [CommonModule],
     providers: []
 })
 

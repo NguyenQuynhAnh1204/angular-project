@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BravoTextBoxComponent } from 'src/app/lib/bravo-control-base/bravo-text-box';
+import { BravoTextBoxComponent } from 'src/app/lib/bravo-text-box';
 
 
 
