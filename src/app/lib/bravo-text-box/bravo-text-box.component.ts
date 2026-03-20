@@ -12,4 +12,6 @@ import { FormsModule } from '@angular/forms';
     imports: [CommonModule, FormsModule]
 })
 
-export class BravoTextBoxComponent extends BravoControlBaseComponent {}
+export class BravoTextBoxComponent extends BravoControlBaseComponent {
+    
+}

@@ -4,12 +4,13 @@ import { EGridSizeType, ITablePanel } from "src/app/lib/bravo-panel/bravo-panel.
 
 // config layout table panel
 export const PANEL_CONFIG: ITablePanel[] = [ 
+    //layout 1
     {
         rows: [
             {index: 1, value: '100px', size: EGridSizeType.ABSOLUTE},
-            {index: 2, value: '2fr', size: EGridSizeType.PERCENT},
-            {index: 3, value: '1fr', size: EGridSizeType.PERCENT},
-            {index: 4, value: '2fr', size: EGridSizeType.PERCENT},
+            {index: 2, value: 'auto', size: EGridSizeType.AUTOSIZE},
+            {index: 3, value: '2fr', size: EGridSizeType.PERCENT},
+            {index: 4, value: '1fr', size: EGridSizeType.PERCENT},
             {index: 5, value: '1fr', size: EGridSizeType.PERCENT},
         ],
         columns: [
@@ -152,13 +153,14 @@ export const PANEL_CONFIG: ITablePanel[] = [
             {
                 control: {
                     row: 5,
-                    column:1,
+                    column:2,
                     columnsSpan: 2,
                     label: "Điều khoản thương mại"
                 }
             }
         ]
     },
+    //layout 2
     {
         rows: [
             {index: 1, value: '1fr', size: EGridSizeType.ABSOLUTE},
@@ -177,7 +179,7 @@ export const PANEL_CONFIG: ITablePanel[] = [
                     row: 4,
                     column: 1,
                     columnsSpan: 2,
-                    label: "",
+                    label: ""
                 },
                 child: {
                     columns: [
@@ -194,7 +196,8 @@ export const PANEL_CONFIG: ITablePanel[] = [
                             control: {
                                 column: 4,
                                 row: 1,
-                                label: "Ngày"
+                                label: "Ngày",
+                                
                             }
                         }, {
                             control: {
@@ -305,13 +308,14 @@ export const PANEL_CONFIG: ITablePanel[] = [
             }
         ]
     },
+    //layout 3
     {
         rows: [
-            {index: 1, value: 'auto', size: EGridSizeType.AUTOSIZE},
-            {index: 2, value: 'auto', size: EGridSizeType.AUTOSIZE},
-            {index: 3, value: '1fr', size: EGridSizeType.PERCENT},
-            {index: 4, value: '1fr', size: EGridSizeType.PERCENT},
-            {index: 5, value: '1fr', size: EGridSizeType.PERCENT},
+            {index: 1, value: '80px', size: EGridSizeType.ABSOLUTE},
+            {index: 2, value: '80px', size: EGridSizeType.ABSOLUTE},
+            {index: 3, value: '80px', size: EGridSizeType.ABSOLUTE},
+            {index: 4, value: '80px', size: EGridSizeType.ABSOLUTE},
+            {index: 5, value: '80px', size: EGridSizeType.ABSOLUTE},
         ],
         columns: [
             {index: 1, value: '800px', size: EGridSizeType.ABSOLUTE},
@@ -322,7 +326,10 @@ export const PANEL_CONFIG: ITablePanel[] = [
                 control: {
                     row: 1,
                     column: 1,
-                    label: ""
+                    label: "",
+                    style: {
+                        color: "#ca660e",
+                    }
                 },
                 child: {
                     columns: [
@@ -367,9 +374,9 @@ export const PANEL_CONFIG: ITablePanel[] = [
                 control: {
                     row: 1,
                     column: 2,
-                    label: "",
+                    label: "" ,
                     style: {
-                        color: "red",
+                        color: "#1fa00c",
                     }
                 },
                 child: {
@@ -380,12 +387,7 @@ export const PANEL_CONFIG: ITablePanel[] = [
                             control: {
                                 column: 1,
                                 row: 1,
-                                label: "Loại yêu cầu",
-                                style: {
-                                    color: "yellow",
-                                    backColor: "#f67fe2",
-                                    padding: "20 10",
-                                }
+                                label: "Loại yêu cầu"
                             }
                         }, {
                             control: {
@@ -403,10 +405,7 @@ export const PANEL_CONFIG: ITablePanel[] = [
                     column: 1,
                     label: "Địa chỉ",
                     style: {
-                        maxWidth: "100%",
-                        height: '100%',
-                        color: "red",
-                        padding: "6 0",
+                        color: "#ca660e",
                     }
                 }
             }, 
@@ -415,6 +414,9 @@ export const PANEL_CONFIG: ITablePanel[] = [
                     row: 2,
                     column: 2,
                     label: "",
+                    style: {
+                        color: "#1fa00c",
+                    }
                 },
                 child: {
                     rows: [{index: 1, value: 'auto'}],
@@ -437,13 +439,19 @@ export const PANEL_CONFIG: ITablePanel[] = [
                     row: 3,
                     column:1,
                     label: "Người đại diện",
+                    style: {
+                        color: '#ca660e'
+                    }
                 }
             }, 
             {
                 control: {
                     row: 3,
                     column: 2,
-                    label: "Diễn giả"
+                    label: "Diễn giả",
+                    style: {
+                        color: "#1fa00c",
+                    }
                 }
             },
             {
@@ -452,6 +460,9 @@ export const PANEL_CONFIG: ITablePanel[] = [
                     column:1,
                     columnsSpan: 2,
                     label: "Chính sách chiết khấu",
+                    style: {
+                        color: "#ca660e"
+                    }
                 }
             }, 
             {
@@ -459,7 +470,10 @@ export const PANEL_CONFIG: ITablePanel[] = [
                     row: 5,
                     column:1,
                     columnsSpan: 2,
-                    label: "Điều khoản thương mại"
+                    label: "Điều khoản thương mại",
+                    style: {
+                        color: "#ca660e",
+                    }
                 }
             }
         ]

@@ -24,7 +24,9 @@ import { colorAttribute, fontAttribute, paddingAttribute, singleDimension, sizeA
 
 export class BravoControlBaseComponent implements ControlValueAccessor {
 
-    constructor(private el: ElementRef) {}
+    constructor(private el: ElementRef) {
+        
+    }
 
     private _text = '';
     public get textValue() {
@@ -292,10 +294,13 @@ export class BravoControlBaseComponent implements ControlValueAccessor {
     }
 
     public writeValue(pText: string) {
+        console.log(pText);
         this.textValue = pText;
     }
+
     public registerOnChange(pOnChange: any) {
         this.updateValueChange = pOnChange;
+
     }
     public registerOnTouched(pOnTouched: any) {
         this.updateValueTouched = pOnTouched;
@@ -315,6 +320,5 @@ export class BravoControlBaseComponent implements ControlValueAccessor {
             this.touched = true;
         }
     }
-
     
 }
