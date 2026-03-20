@@ -1,3 +1,12 @@
 <h4>Table Panel</h4>
 
-<bravo-panel [config]="configLayout"/>
+<div class="dropdown-box">
+    <label for="layout">Chọn layout: </label>
+    <select class="dropdown" id="layout" [(ngModel)]="layout">
+        <option [ngValue]="i"
+            *ngFor="let i of configLayout; let ind = index"
+        >Layout {{ind+1}}</option>
+    </select>
+</div>
+
+<bravo-panel [config]="layout" class="panel"/>
