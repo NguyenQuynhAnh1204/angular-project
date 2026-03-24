@@ -1,10 +1,48 @@
+<h3>Add Course Lessons:</h3>
 
-<h2>
-    Dynamic Form
-</h2>
+<div class="add-lessons-form" [formGroup]="form">
+  <div formArrayName="lessons">
+    
+    <div *ngFor="let lessonForm of lessons.controls; let i = index"
+         class="lesson-form-row"
+         [formGroup]="lessonForm">
 
+      <!-- Title -->
+      <input 
+        type="text"
+        [formControlName]="i"
+        placeholder="Lesson title"
+        class="input-field"
+      />
 
+      <!-- Level -->
+      <select 
+        formControlName="level"
+        class="select-field">
+        <option value="" disabled selected>Lesson level</option>
+        <option value="beginner">Beginner</option>
+        <option value="intermediate">Intermediate</option>
+        <option value="advanced">Advanced</option>
+      </select>
 
-<form>
-    <ng-container #dynamicForm></ng-container>
-</form>
+      <!-- Delete button -->
+      <button 
+        type="button"
+        class="delete-btn"
+        (click)="deleteLesson(i)">
+        Delete
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- Add button -->
+  <button 
+    type="button"
+    class="add-btn"
+    (click)="addLesson()">
+    Add Lesson
+  </button>
+
+</div>

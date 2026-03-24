@@ -1,12 +1,14 @@
 <h4>Table Panel</h4>
 
 <div class="dropdown-box">
-    <label for="layout">Chọn layout: </label>
+    <label for="layout">Layout config: </label>
     <select class="dropdown" id="layout" [(ngModel)]="layout">
         <option [ngValue]="i"
             *ngFor="let i of configLayout; let ind = index"
         >Layout {{ind+1}}</option>
     </select>
 </div>
-
-<bravo-panel [config]="layout" class="panel"/>
+<form (ngSubmit)="onSubmit()" [formGroup]="forms">
+    <bravo-panel class="panel" [form]="forms" [config]="layout" />
+    <button type="submit" class="btn-submit" [class.disabled]="forms.invalid">Submit</button>
+</form>

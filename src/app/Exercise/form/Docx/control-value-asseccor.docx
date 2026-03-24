@@ -2,8 +2,8 @@ Control value accessor():  Là cầu nối giữa Angular với element DOM.
 
 Các phương thức:
     + writeValue(value: any) => lấy giá trị từ model xuống view
-    + registerOnChange(fn: any) => đăng ký một call back function cho Angular => khi nào thay đổi giá trị thì sẽ gọi hàm.
-    + registerOnTouched(fn: any) => Đăng ký một call back function cho Angular => khi nào input bị tương tác => gọi hàm.
+    + registerOnChange(fn: any) => đăng ký một call back function cho Angular => khi nào thay đổi giá trị từ bên ngoài (user) thì sẽ gọi hàm.
+    + registerOnTouched(fn: any) => Đăng ký một call back function cho Angular => khi nào input (user) bị tương tác => gọi hàm.
     + setDisabledState(value: any) => khi bật(enabled) hoặc tắt(disabled) thông qua API của form => gọi hàm này 
         ví dụ: nếu mà form control gọi đến disabled => Angular sẽ gọi đến hàm này và trả về giá trị hiện tại.
 
@@ -17,16 +17,18 @@ Các phương thức:
     + input number          =>  NumberValueAccessor
 
 => Muốn xây dựng được custom form control => implement custom value accessor.
+=> để Angular có thể hiểu được thì custom control sẽ cung cấp provide là chính nó.
+-> tức là khi sử dụng custom control thì nó sẽ gọi đến NG_VALUE_ACCESSOR là chính component đó.
 
 
 
 Implement các phương thức:
 - writeValue: ghi giá trị từ model (form control/group) ra View (HTML)
     + Tức là khi mà FormControl setValue thì gọi đến writeValue để lấy giá trị và gán vào property của component.
-    + Component sẽ binding ra ngoài template
-- registerOnChange: nhận đối số truyền vào là một hàm. Khi bên ngoài form bị thay đổi => gọi đến hàm. 
-    + hàm truyền vào có đối số là một number (pNumber) => {} và không return ra j.
-- registerOnTouched: nhận đối số truyền vào là một hàm. Khi bên ngoài form có tương tác => gọi đến hàm. 
+    + Component sẽ binding ra ngoài template.
+- registerOnChange: nhận đối số truyền vào là một hàm. Khi bên ngoài View bị thay đổi => gọi đến hàm để cập nhật giá trị cho FormControl ở trong Component
+    + hàm truyền vào có đối số là giá trị user nhập vào => {} và không return ra j.
+- registerOnTouched: nhận đối số truyền vào là một hàm. Khi bên ngoài user có tương tác với form => gọi đến hàm để cập nhật trạng thái cho FormControl 
     + hàm truyền vào: () => {} (không nhận đối số, không trả ra giá trị)
 - setDisabledState: nhận đối số truyền vào làm
 

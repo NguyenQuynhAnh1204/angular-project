@@ -1,102 +1,39 @@
-import { AfterViewInit, Component, ViewChild, ViewContainerRef } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BravoTextBoxComponent } from 'src/app/lib/bravo-text-box';
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
-
-
-const configData = [
-    {
-        control: "userName",
-        value: "",
-        label: "User name",
-        required: true,
-        style: {
-            width: '40rem',
-            height: '5rem',
-            padding: '10 4',
-            margin: '10'
-        }
-    },
-    {
-        control: "email",
-        value: "",
-        label: "Email",
-        required: true,
-        style: {
-            width: '40rem',
-            height: '5rem',
-            padding: '10 4',
-            margin: '10'
-        }
-    },
-    {
-        control: "password",
-        value: "",
-        label: "Password",
-        required: true,
-        style: {
-            width: '40rem',
-            height: '5rem',
-            padding: '10 4',
-            margin: '10'
-        }
-    },
-    {
-        control: "confirmPassword",
-        value: "",
-        label: "Confirm password",
-        required: true,
-        style: {
-            width: '40rem',
-            height: '5rem',
-            padding: '10 4',
-            margin: '10'
-        }
-    },
-    
-]
 
 @Component({
+    standalone: true,
     selector: 'dynamic-form',
     templateUrl: './dynamic-form.component.html',
-    styleUrls: ["./dynamic-form.component.scss"]
+    styleUrls: ["./dynamic-form.component.scss"],
+    imports: [FormsModule, CommonModule, ReactiveFormsModule],
 })
 
-export class DynamicFormComponent implements AfterViewInit {
+export class DynamicFormComponent {
 
+    public form = this.fb.group({
+        lessons: this.fb.array([])
+    });
 
-    public form = new FormGroup({})
-
-    private _containerRef!: ViewContainerRef;
-    @ViewChild("dynamicForm", {read: ViewContainerRef})
-    public get containerRef() {
-        return this._containerRef;
-    }
-    public set containerRef(pContainerRef) {
-        this._containerRef = pContainerRef;
+    constructor(private fb:FormBuilder) {}
+  
+    public get lessons(): FormArray<FormGroup> {
+        return this.form.get('lessons') as FormArray<FormGroup>;
     }
 
-    public ngAfterViewInit() {
-        this.addControl()
-        this._addTexBox()
+    public addLesson() {
+      const lessonForm = this.fb.group({
+        titleName: ['', Validators.required],
+        level: ['beginner', Validators.required]
+      });
+      this.lessons.push(lessonForm);
     }
 
-    public addControl() {
-        configData.forEach((control) => {
-            this.form.addControl(control.control, new FormControl(control.value, [Validators.required]))
-        })
+    public deleteLesson(lessonIndex: number) {
+      this.lessons.removeAt(lessonIndex);
     }
-
-    private _addTexBox() {
-        configData.forEach((item) => {
-            const container = this.containerRef.createComponent(BravoTextBoxComponent);
-            container.instance.label = item.label
-            container.instance.width = item.style.width
-            container.instance.height = item.style.height
-            container.instance.padding = item.style.padding
-            container.instance.margin = item.style.margin
-
-        })
-    }
+    
 
 }

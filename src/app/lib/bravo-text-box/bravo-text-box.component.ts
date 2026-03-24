@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { BravoControlBaseComponent } from '../bravo-control-base';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BravoControlBaseComponent } from '../bravo-control-base';
 
 
 @Component({
@@ -13,5 +13,9 @@ import { FormsModule } from '@angular/forms';
 })
 
 export class BravoTextBoxComponent extends BravoControlBaseComponent {
-    
+    public handleOnChange(pEvent: Event) {
+        const input = pEvent.target as HTMLInputElement;
+        const value  = input.value;
+        this.updateValue(value);
+    }
 }

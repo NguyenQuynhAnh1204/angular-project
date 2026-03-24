@@ -58,7 +58,6 @@ export class ReactiveFormComponent {
 
     public onSubmit() { 
         if(this.profileForm.invalid) return;
-        console.log(this.profileForm.status);
         this.profileForm.reset();
     }
 }
@@ -72,7 +71,6 @@ function forbiddenUsername(pUser: string[] = ['admin', 'manager']) {
 }
 
 function comparePassword(pGroup: AbstractControl) {
-    console.log(pGroup);
     if(!pGroup.get('confirmPassword')?.touched) return null;
     return pGroup.get('password')?.value != pGroup.get('confirmPassword')?.value ? {
         passwordNoMatch: true

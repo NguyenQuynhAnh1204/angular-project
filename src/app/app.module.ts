@@ -40,7 +40,7 @@ const shellRoutes: Routes = [
   {
     path: 'dynamic-form',
     loadChildren: () => 
-      import('./exercise/dynamic-form').then((m) => m.DynamicFormModule)
+      import('./exercise/dynamic-form').then((r) => r.DYNAMIC_FORM_ROUTER),
   },
   {
     path: 'panel',

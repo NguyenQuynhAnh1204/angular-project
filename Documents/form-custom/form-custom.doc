@@ -1,0 +1,12 @@
+
+
+## Xây dựng một table panel được config cho trước và tự render ra một grid layout.
+1. Xây dựng một data-entry chứa table-panel.
+2. Xây dựng một table-panel để xây dựng ra layout gồm các control
+3. Xây dựng một bravo-control-base nhận đầu vào là các style, và thực thi CVA
+4. Xây dựng một bravo-text-box kế thừa từ control-base 
+5. Xây dựng Form. liên kết Form với control base.
+
+
+
+1. 

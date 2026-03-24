@@ -2,7 +2,9 @@
     class="label"
     [class.have-text]="focus || textValue"
     [class.no-text]="textValue=='' && !focus"
->{{label}}: </p>
+>
+    {{label}}: 
+</p>
 <input type="text" 
     class="input-under-line text-box"
     [readOnly]="readOnly"
@@ -11,3 +13,5 @@
     (focus)="handleFocus()"
     (blur)="handleFocus()"
 >
+<p *ngIf="errors && control.touched" class="error">{{control.getError('required')?.message}}</p>
+<p *ngIf="errors && control.value" class="error">{{control.getError('isNumber')?.message}}</p>

@@ -1,9 +1,11 @@
+import { AbstractControl, ValidationErrors } from "@angular/forms";
 import { BravoColor, BravoFont, BravoPadding, BravoSingleDimension, BravoSize } from "../shared";
-import { IFont, ISize, UnitType } from "./bravo-control-base.type";
+import { IFont, ISize, IValidation, UnitType } from "./bravo-control-base.type";
 
 const regex = /\d+|[a-zA-Z]+|%/g;
 const unitType = ['px', "rem", "%", "em", 'vh', 'vw'];
 
+// hàm xử lý w, h
 export function singleDimension(pValue: string) {
     
     const arr = pValue.match(regex);
@@ -20,7 +22,7 @@ export function singleDimension(pValue: string) {
     return '';
 }
 
-
+// hàm xử lý padding/margin
 export function paddingAttribute(pValue: string) {
     const arr = pValue.match(regex);
     let unit: UnitType = 'px';
@@ -62,6 +64,7 @@ export function paddingAttribute(pValue: string) {
 
 }
 
+// hàm xử lý size: w/h
 export function sizeAttribute(pValue: ISize) {
     let width = pValue.width;
     let height = pValue.height;
@@ -74,7 +77,7 @@ export function sizeAttribute(pValue: ISize) {
     }
 }
 
-
+// hàm xưt lý về font
 export function fontAttribute(pValue: IFont) {
     let fontFamily = pValue.family;
     let fontSize = pValue.size;
@@ -85,9 +88,30 @@ export function fontAttribute(pValue: IFont) {
     }
 }
 
-
+// hàm xử lý về color/backColor
 export function colorAttribute(pValue: string) {
     const color = new BravoColor(pValue);
     return color.toString();
 } 
 
+
+// hàm xử lý về validator: required
+export function requiredValidator(pControl: AbstractControl): ValidationErrors | null {
+    if(pControl.value != '') return null;
+    return {
+        'required': {
+            message: "Field is required",
+        }
+    };
+}
+
+// hàm xử lý về validator: required
+export function numberValidator(pControl: AbstractControl): ValidationErrors | null {
+    const regex = /^-?(\d+(\.\d*)?|\.\d+)$/;    // kiể tra số thực
+    if(regex.test(pControl.value)) return null;
+    return {
+        'isNumber': {
+            message: "Input is not Number",
+        }
+    }
+}

@@ -2,6 +2,34 @@
     font-size: 1.6rem;
 }
 
-h2 {
-    font-size: 2rem;
+.add-lessons-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lesson-form-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.input-field, .select-field {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.delete-btn {
+  background: red;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.add-btn {
+  width: fit-content;
+  padding: 8px 12px;
+  cursor: pointer;
 }

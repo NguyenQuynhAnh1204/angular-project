@@ -1,0 +1,35 @@
+?? Câu hỏi đặt ra là : Làm thế nào để Angular biết được sự thay đổi từ component để có thể update sự thay đổi đó ra ngoài DOM.
+
+## IVI là engine render + compile mới của Angular
+
+Khi mà chúng ta tạo ra một binding từ component ra template <>{{something}}</>
+-> IVy sẽ giúp chúng ta chuyển đổi từ Template đưa về code js.
+Ivy sẽ compile template thành instructions (JS) các hàm nội bộ
+
+-> sẽ lưu trữ dưới dạng tree, có thể biết được vị trí của từng giá trị đang được binding nằm ở đâu trong DOM
+-> khi cần update DOM -> Angular sẽ xác định được vị trí cần phải cập nhập. 
+Ivy được thiết kế thành hai phần chính: TView / LView
+    - TView: (một bản thiết kế): dùng để sử dụng chung
+        bao gồm: cấu trúc DOM của template, các binding có trong template.
+    - LView: là nơi chứa dữ liệu của từng component -> tương ứng với từng instance
+        bao gồn: giá trị binding cũ/mới
+
+?? Câu hỏi đặt ra là: Làm thế nào để Angular biết được khi nào cần phải gọi đến change detection để so sánh giá trị và cập nhật DOM
+
+## Zone.js
+
+zones sẽ bọc lại các task là async, khi nào các task async chạy xong thì sẽ báo với Angular là một task đã chạy xong
+-> Angular sẽ chạy change detection để so sánh giá trị (cũ và mới) nếu khác nhau -> update ra DOM.
+
+
+
+
+
+## Flow
+- Sự kiện: click, mouse,...
+- Zone bọc lại
+- async done
+- Zone thông báo cho Angular 
+- Angular chạy change detection -> chạy lại toàn bộ component tree <-> chạy lại các instructions để so sánh cập nhật 
+- So sánh giá trị dựa vào LView
+- Nếu khác cập nhật ra DOM dựa vào TView

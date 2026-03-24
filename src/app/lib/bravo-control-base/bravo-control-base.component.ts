@@ -1,33 +1,37 @@
-import { booleanAttribute, Component, ElementRef, forwardRef, HostBinding, Input } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { booleanAttribute, Component, ElementRef, HostBinding, Input } from '@angular/core';
+import { AbstractControl, ControlValueAccessor } from '@angular/forms';
 import { HostColor } from '../shared/decorator/host-color.decorator';
 import { HostDimension } from '../shared/decorator/host-dimension.decorator';
 import { HostFont } from '../shared/decorator/host-font.decorator';
 import { HostPadding } from '../shared/decorator/host-padding.decorator';
 import { HostSize } from '../shared/decorator/host-size.decorator';
-import { IFont, ISize } from './bravo-control-base.type';
+import { IFont, ISize, IValidation } from './bravo-control-base.type';
 import { colorAttribute, fontAttribute, paddingAttribute, singleDimension, sizeAttribute } from './bravo-control.until';
 
 @Component({
     standalone: true,
     selector: 'bravo-control-base',
-    templateUrl: './bravo-control-base.component.html',
-    styleUrls: ["./bravo-control-base.component.scss"],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => BravoControlBaseComponent),
-            multi: true
-        }
-    ]
+    template: '',
+    imports: [CommonModule]
 })
 
 export class BravoControlBaseComponent implements ControlValueAccessor {
 
-    constructor(private el: ElementRef) {
-        
+    constructor(private el: ElementRef) {}
+
+    private _control!: AbstractControl;
+    public get control() {
+        return this._control;
+    }
+    public set control(pControl) {
+        this._control = pControl;
     }
 
+    public get errors() {
+        return this.control.errors;
+    }
+    
     private _text = '';
     public get textValue() {
         return this._text;
@@ -44,9 +48,6 @@ export class BravoControlBaseComponent implements ControlValueAccessor {
     public set focus(pFocus) {
         this._focus = pFocus;
     }
-
-    public updateValueChange = (pText: string) => {}
-    public updateValueTouched = () => {}
 
     protected _label = 'Tex box';
     @Input('label')
@@ -293,32 +294,35 @@ export class BravoControlBaseComponent implements ControlValueAccessor {
         this.focus = !this.focus;
     }
 
+    public onChange = (pText: string) => {}
+    public onTouched = () => {}
+    
     public writeValue(pText: string) {
-        console.log(pText);
         this.textValue = pText;
     }
 
     public registerOnChange(pOnChange: any) {
-        this.updateValueChange = pOnChange;
-
+        this.onChange = pOnChange;
     }
+    
     public registerOnTouched(pOnTouched: any) {
-        this.updateValueTouched = pOnTouched;
+        this.onTouched = pOnTouched;
     }
 
-    public handleOnChange(pEvent: Event) {
-        const input = pEvent.target as HTMLInputElement;
+    public updateValue(pVal: string) {
+        this.textValue = pVal;
+        this.onChange(this.textValue);
         this._markAsTouched();
-        this.updateValueTouched();
-        this.textValue = input.value;
-        this.updateValueChange(this.textValue);
     }
 
     private _markAsTouched() {
         if(!this.touched) {
-            this.updateValueTouched();
+            this.onTouched();
             this.touched = true;
         }
     }
     
 }
+
+
+
