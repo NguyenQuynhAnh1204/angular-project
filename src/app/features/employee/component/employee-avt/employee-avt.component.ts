@@ -1,13 +1,13 @@
-import { AfterViewInit, Component, Directive, HostBinding, HostListener, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { IEmployee } from '../../employee';
-
-
-
+import { CommonModule } from '@angular/common';
 
 @Component({
+    standalone: true,
     selector: 'avatar',
     templateUrl: './employee-avt.component.html',
-    styleUrls: ["./employee-avt.component.scss"]
+    styleUrls: ["./employee-avt.component.scss"],
+    imports: [CommonModule]
 
 })
 export class EmployeeAvatarComponent implements OnInit, AfterViewInit {
@@ -51,8 +51,6 @@ export class EmployeeAvatarComponent implements OnInit, AfterViewInit {
         this.avatar = this.employee.avatar as string;
     }
 }
-
-
 
 export class BravoAvatarViewer {
     public static generateAvatar(pFullName: string, pOptions?: Partial<typeof DefaultOptionAvatar>) {

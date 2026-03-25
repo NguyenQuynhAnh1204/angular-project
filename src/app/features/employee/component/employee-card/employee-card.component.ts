@@ -1,9 +1,12 @@
-import { Component, OnInit, Directive, ElementRef, ViewContainerRef, TemplateRef, Input, HostListener, HostBinding } from '@angular/core';
-import { EmployeeAvatarComponent } from '../employee-avt';
+import { Component, Directive, HostBinding, HostListener, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { IEmployee } from '../../employee';
+import { EmployeeAvatarComponent } from '../employee-avt';
 
 
-@Directive({ selector: '[hideAfter]' })
+@Directive({
+    standalone: true,
+    selector: '[hideAfter]'
+})
 export class HideAfterDirective implements OnInit {
 
     @Input('hideAfter') delay = 0;
@@ -26,9 +29,11 @@ export class HideAfterDirective implements OnInit {
 
 
 @Component({
+    standalone : true,
     selector: 'employee-card',
     templateUrl: './employee-card.component.html',
-    styleUrls: ["./employee-card.component.scss"]
+    styleUrls: ["./employee-card.component.scss"],
+    imports: [EmployeeAvatarComponent]
 })
 
 export class EmployeeCardComponent implements OnInit {

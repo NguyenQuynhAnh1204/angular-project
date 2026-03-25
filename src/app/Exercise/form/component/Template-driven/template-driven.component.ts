@@ -1,5 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 
 export interface IUser {
     name: string;
@@ -8,9 +9,11 @@ export interface IUser {
 }
 
 @Component({
+    standalone: true,
     selector: 'template-driven',
-    templateUrl: './template-driven.components.html',
-    styleUrls: ["./template-driven.component.scss"]
+    templateUrl: './template-driven.component.html',
+    styleUrls: ["./template-driven.component.scss"],
+    imports: [CommonModule, FormsModule]
 })
 
 export class TemplateDrivenComponent {

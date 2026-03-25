@@ -1,9 +1,12 @@
 import { AfterViewInit, Component, Directive, ElementRef, HostListener, inject, Input, OnInit, Pipe, PipeTransform, QueryList, ViewChildren } from '@angular/core';
 import { Subject } from 'rxjs';
 import { IStudent, studentList } from './studentList';
+import { CommonModule } from '@angular/common';
+import { BravoButtonComponent } from 'src/app/lib';
 
 
 @Pipe({
+    standalone: true,
     name: 'rank'
 })
 export class RankPipe implements PipeTransform {
@@ -19,8 +22,11 @@ export class RankPipe implements PipeTransform {
 }
 
 
-@Directive({ selector: '[highlight-text]' })
-export class HighlightText implements OnInit, AfterViewInit {
+@Directive({
+    standalone : true,
+    selector: '[highlight-text]' 
+})
+export class HighlightText{
     private text = '';  
     @Input('text-search') 
     get textSearch() {
@@ -32,12 +38,6 @@ export class HighlightText implements OnInit, AfterViewInit {
     }
     
     constructor(private el: ElementRef) { 
-    }
-    
-    ngOnInit() {
-    }
-    
-    ngAfterViewInit(): void {
     }
     
     private highlight() {
@@ -61,6 +61,7 @@ export class HighlightText implements OnInit, AfterViewInit {
 }
 
 @Directive({
+    standalone: true,
     selector: "[highlight-row]"
 })
 export class HighlightRow implements AfterViewInit {
@@ -93,38 +94,14 @@ export class HighlightRow implements AfterViewInit {
 
 
 @Component({
-    selector: 'button-item',
-    template: `<button>{{btnName}}</button>`,
-    host: {
-        
-    }
-})
-export class ButtonComponent implements OnInit, AfterViewInit {
-    private btnRef = new Subject<HTMLButtonElement>;
-
-    @Input('name') btnName!: string;
-
-    constructor() { 
-    }
-
-    ngOnInit() { }
-    ngAfterViewInit(): void {
-        this.btnRef.asObservable().subscribe(() => this)
-    }
-
-    private onClick() {
-
-    }
-}
-
-
-@Component({
+    standalone : true,
     selector: 'student-table',
     templateUrl: './student-table.component.html',
-    styleUrls: ["./student-table.components.scss"]
+    styleUrls: ["./student-table.components.scss"],
+    imports: [CommonModule, RankPipe, HighlightRow, HighlightText, BravoButtonComponent]
 })
 
-export class StudentTableComponent implements OnInit, AfterViewInit {
+export class StudentTableComponent {
     private _students = studentList;
     public get studentList(): IStudent[] {
         return this._students;
@@ -133,18 +110,8 @@ export class StudentTableComponent implements OnInit, AfterViewInit {
         this._students = pStudents;
     }
 
-    // @ViewChildren('studentName') studentName!: QueryList<ElementRef>;
-
-    constructor() { }
-
-    ngOnInit() { }
-
-    ngAfterViewInit(): void {
-    }
-
     onChange(event: Event) {
         const input = event.target as HTMLInputElement;
-        const search = input.value;
     }
 
     handleUpdate(pStudentId: string) {

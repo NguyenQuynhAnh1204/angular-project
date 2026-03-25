@@ -1,1 +1,2 @@
-export * from "./form.module";
+export * from "./form.router";
+export * from "./form.component";

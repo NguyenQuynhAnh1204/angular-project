@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { StudentTableComponent } from './component';
 
 @Component({
+    standalone: true,
     selector: 'student',
     templateUrl: './student.component.html',
-    styleUrls: ["./student.component.scss"]
+    styleUrls: ["./student.component.scss"],
+    imports: [StudentTableComponent]
 })
 
-export class StudentComponent implements OnInit {
-    constructor() { }
-
-    ngOnInit() { }
-}
+export class StudentComponent {}

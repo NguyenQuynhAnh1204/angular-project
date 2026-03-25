@@ -5,14 +5,14 @@ import { ETypeValidation, IValidation, numberValidator, requiredValidator } from
 import { BravoTextBoxComponent } from '../bravo-text-box';
 import { ITablePanel } from './bravo-panel.type';
 import { ColumnType, RowType } from './bravo-panel.until';
+import { BravoWrapperComponent } from '../bravo-wrapper';
 
 @Component({
     standalone: true,
     selector: 'bravo-panel',
     templateUrl: './bravo-panel.component.html',
     styleUrls: ["./bravo-panel.component.scss"],
-    imports: [CommonModule],
-    providers: []
+    imports: [CommonModule]
 })
 
 export class BravoPanelComponent  {
@@ -59,37 +59,36 @@ export class BravoPanelComponent  {
             const rowPart = rowsSpan ? `span ${rowsSpan}` : row;
             const colPart = columnsSpan ? `span ${columnsSpan}` : column;
             if(!item.child) {
-                const panelItem = pContainerRef.createComponent(BravoTextBoxComponent);
-                // const panelError = pContainerRef.createEmbeddedView("Lỗi");
-                panelItem.instance.label = item.control.label;
-                Object.assign(panelItem.instance, item.control.style);
+                const panelItem = pContainerRef.createComponent(BravoWrapperComponent);
+                // panelItem.instance.label = item.control.label;
+                // Object.assign(panelItem.instance, item.control.style);
                 panelItem.location.nativeElement.style.gridArea = `${rowPart} / ${colPart}`; 
-                const control = this.forms?.get(toCamelCase(item.control.label));
-                if(control) {                    
-                    // Form → UI (giá trị khởi tạo)
-                    panelItem.instance.writeValue(control.value);
-                    // Form → UI (reactive)
-                    // khi setValue/reset từ form->control -> phát ra giá trị thay đổi -> writeValue
-                    const sub = control.valueChanges.subscribe(value => {
-                        panelItem.instance.writeValue(value);
-                    });
+                // const control = this.forms?.get(toCamelCase(item.control.label));
+                // if(control) {                    
+                //     // Form → UI (giá trị khởi tạo)
+                //     panelItem.instance.writeValue(control.value);
+                //     // Form → UI (reactive)
+                //     // khi setValue/reset từ form->control -> phát ra giá trị thay đổi -> writeValue
+                //     const sub = control.valueChanges.subscribe(value => {
+                //         panelItem.instance.writeValue(value);
+                //     });
                     
-                    // UI → Form
-                    panelItem.instance.registerOnChange((value: any) => {
-                        control.setValue(value);
-                    });
-                    panelItem.instance.registerOnTouched(() => {
-                        control.markAsTouched();
-                    });
-                    panelItem.onDestroy(() => sub.unsubscribe());
+                //     // UI → Form
+                //     panelItem.instance.registerOnChange((value: any) => {
+                //         control.setValue(value);
+                //     });
+                //     panelItem.instance.registerOnTouched(() => {
+                //         control.markAsTouched();
+                //     });
+                //     panelItem.onDestroy(() => sub.unsubscribe());
                     
-                    panelItem.instance.control = control;
-                    if(item.control.validator) {
-                        const validator = buildValidator(item.control.validator);
-                        control.addValidators(validator);
-                        control.updateValueAndValidity();
-                    }
-                } 
+                //     panelItem.instance.control = control;
+                //     if(item.control.validator) {
+                //         const validator = buildValidator(item.control.validator);
+                //         control.addValidators(validator);
+                //         control.updateValueAndValidity();
+                //     }
+                // } 
             }
             else {
                 const panel = pContainerRef.createComponent(BravoPanelComponent);

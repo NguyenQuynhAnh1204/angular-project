@@ -7,35 +7,29 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { FooterComponent, HeaderComponent } from './components';
 import { PageNotFoundComponent } from './components/pageNotFound';
-import { BravoButtonModule } from './lib/button';
 
 
 
 const shellRoutes: Routes = [
   {
-    path: 'shopping',
-    loadChildren: () =>
-      import('./features/shopping').then((m) => m.ShoppingModule),
-  },
-  {
     path: 'uploadfile',
     loadChildren: () =>
-      import('./features/upload-file').then((m) => m.UploadfileModule),
+      import('./features/upload-file').then((r) => r.UPLOADFILE_ROUTERS),
   },
   {
     path: 'student',
     loadChildren: () =>
-      import('./features/student').then((m) => m.StudentModule),
+      import('./features/student').then((r) => r.STUDENT_ROUTERS),
   },
   {
     path: 'employee',
     loadChildren: () =>
-      import('./features/employee').then((m) => m.EmployeeModule),
+      import('./features/employee').then((r) => r.EMPLOYEE_ROUTERS),
   },
   {
     path: 'reactive-form',
     loadChildren: () => 
-      import('./exercise/form').then((m) => m.ReactiveFormModule),
+      import('./exercise/form').then((r) => r.REACTIVE_FORM_ROUTER),
   }, 
   {
     path: 'dynamic-form',
@@ -70,9 +64,10 @@ const shellRoutes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(shellRoutes),
     BrowserAnimationsModule,
-    BravoButtonModule
+    HeaderComponent,
+    FooterComponent
   ],
-  declarations: [AppComponent, HeaderComponent, FooterComponent],
+  declarations: [AppComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

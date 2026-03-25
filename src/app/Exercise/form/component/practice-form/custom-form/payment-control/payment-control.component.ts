@@ -1,7 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
+    standalone: true,
     selector: 'payment-control',
     templateUrl: './payment-control.component.html',
     styleUrls: ["./payment-control.component.scss"],
@@ -11,7 +13,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
             useExisting: PaymentControlComponent,
             multi: true
         }
-    ]
+    ],
+    imports: [CommonModule]
 })
 
 export class PaymentControlComponent implements ControlValueAccessor  {

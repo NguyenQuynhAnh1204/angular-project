@@ -1,10 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { UploadFileExtension } from '../../../../lib/drop-file';
+import { UploadFileExtension } from 'src/app/lib';
 
 @Component({
+  standalone: true,
   selector: 'input-link',
   templateUrl: './input-link.component.html',
   styleUrls: ['./input-link.component.scss'],
+  imports: [CommonModule]
 })
 export class InputLinkComponent {
   //* error

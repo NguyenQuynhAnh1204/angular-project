@@ -1,10 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
+    standalone: true,
     selector: 'reactive-form',
     templateUrl: './reactive-form.component.html',
     styleUrls: ["./reactive-form.component.scss"],
+    imports: [CommonModule, ReactiveFormsModule]
 })
 
 export class ReactiveFormComponent {

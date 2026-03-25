@@ -1,11 +1,15 @@
+import { OverlayRef } from '@angular/cdk/overlay';
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
-import { IFileItem, IUploadItem } from '../../lib/drop-file/bravo-file.definition';
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { BravoDropFileComponent, IFileItem, IUploadItem } from 'src/app/lib';
+import { FileItemComponent, InputLinkComponent } from './component';
 
 @Component({
+  standalone: true,
   selector: 'lib-uploadfile',
   templateUrl: 'uploadfile.component.html',
   styleUrls: ['./uploadfile.component.scss'],
+  imports: [CommonModule, BravoDropFileComponent, FileItemComponent, InputLinkComponent]
 })
 export class UploadFileComponent implements OnDestroy {
   //#region props

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 
 @Component({
+    standalone: true,
     selector: 'custom-form',
     templateUrl: './custom-form.component.html',
     styleUrls: ["./custom-form.component.scss"],

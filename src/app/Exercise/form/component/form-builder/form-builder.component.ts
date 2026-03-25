@@ -1,11 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { CustomFormComponent } from '../custom-form';
 
 @Component({
+    standalone: true,
     selector: 'form-builder',
     templateUrl: './form-builder.component.html',
-    styleUrls: ["./form-builder.component.scss"]
+    styleUrls: ["./form-builder.component.scss"],
+    imports: [FormsModule, CommonModule, CustomFormComponent, ReactiveFormsModule]
 })
 
 export class FormBuilderComponent implements OnDestroy {

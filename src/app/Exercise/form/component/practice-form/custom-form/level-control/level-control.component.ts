@@ -1,7 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
+    standalone: true,
     selector: 'level-control',
     templateUrl: './level-control.component.html',
     styleUrls: ["./level-control.component.scss"],
@@ -11,7 +13,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
             useExisting: LevelControlComponent,
             multi: true
         }
-    ]
+    ],
+    imports: [CommonModule] 
 })
 
 export class LevelControlComponent implements ControlValueAccessor {

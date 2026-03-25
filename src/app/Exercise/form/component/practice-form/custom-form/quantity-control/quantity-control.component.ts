@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
+    standalone: true,
     selector: 'quantity-control',
     templateUrl: './quantity-control.component.html',
     styleUrls: ["./quantity-control.component.scss"],

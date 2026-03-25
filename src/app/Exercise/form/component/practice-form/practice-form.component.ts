@@ -1,10 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { LevelControlComponent, PaymentControlComponent, QuantityControlComponent } from './custom-form';
 
 @Component({
+    standalone: true,
     selector: 'practice-form',
     templateUrl: './practice-form.component.html',
-    styleUrls: ["./practice-form.component.scss"]
+    styleUrls: ["./practice-form.component.scss"],
+    imports: [CommonModule, LevelControlComponent, PaymentControlComponent, QuantityControlComponent, ReactiveFormsModule]
 })
 
 export class PracticeFormComponent {

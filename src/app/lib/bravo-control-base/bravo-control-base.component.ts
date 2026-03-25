@@ -6,7 +6,7 @@ import { HostDimension } from '../shared/decorator/host-dimension.decorator';
 import { HostFont } from '../shared/decorator/host-font.decorator';
 import { HostPadding } from '../shared/decorator/host-padding.decorator';
 import { HostSize } from '../shared/decorator/host-size.decorator';
-import { IFont, ISize, IValidation } from './bravo-control-base.type';
+import { IFont, ISize } from './bravo-control-base.type';
 import { colorAttribute, fontAttribute, paddingAttribute, singleDimension, sizeAttribute } from './bravo-control.until';
 
 @Component({
