@@ -2,13 +2,14 @@ import {Component,EventEmitter,Input,OnDestroy,Output} from '@angular/core';
 import { IFileItem } from './bravo-file.definition';
 import { UploadFileExtension } from './bravo-file.extension';
 import { BravoByteTypePipe } from './bravo-file.pipe';
+import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
   selector: 'bravo-drop-file',
   templateUrl: './bravo-drop-file.component.html',
   styleUrls: ['./bravo-drop-file.component.scss'],
-  imports: [BravoByteTypePipe]
+  imports: [BravoByteTypePipe, CommonModule]
 })
 export class BravoDropFileComponent implements OnDestroy {
   //* errorTimer

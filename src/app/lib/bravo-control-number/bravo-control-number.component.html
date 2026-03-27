@@ -1,0 +1,15 @@
+<p
+    class="label"
+    [class.have-text]="focus || textValue"
+    [class.no-text]="textValue=='' && !focus"
+>
+    {{label || 'Number'}}: 
+</p>
+<input type="number" 
+    class="input-under-line number-box"
+    [readOnly]="readOnly"
+    [value]="textValue" 
+    (change)="handleOnChange($event)"
+    (focus)="handleFocus()"
+    (blur)="handleFocus()"
+>

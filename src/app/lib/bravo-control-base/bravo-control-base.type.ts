@@ -2,10 +2,18 @@
 
 export type UnitType = 'px' | "rem" | "%" | 'em';
 
-export type ControlType = 'textbox' | 'email' | 'number' | 'select' | 'checkbox' | 'date' | 'textarea';
+export enum EControlType {
+    TEXTBOX = 1,
+    NUMBER,
+    SELECT,
+    CHECKBOX,
+    RADIO,
+    DATE,
+    TEXTAREA
+}
 
 export enum ETypeValidation {
-    REQUIRED,
+    REQUIRED = 1,
     NUMBER,
 }
 
@@ -33,7 +41,7 @@ export interface IControlBase {
     columnsSpan?: number,
     row: number, 
     rowsSpan?: number,
-    type?: ControlType,
+    type?: EControlType,
     name?: string,
     label: string,
     value?: any,

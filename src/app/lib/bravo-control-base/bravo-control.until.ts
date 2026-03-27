@@ -1,6 +1,5 @@
-import { AbstractControl, ValidationErrors } from "@angular/forms";
 import { BravoColor, BravoFont, BravoPadding, BravoSingleDimension, BravoSize } from "../shared";
-import { IFont, ISize, IValidation, UnitType } from "./bravo-control-base.type";
+import { IFont, ISize, UnitType } from "./bravo-control-base.type";
 
 const regex = /\d+|[a-zA-Z]+|%/g;
 const unitType = ['px', "rem", "%", "em", 'vh', 'vw'];
@@ -94,24 +93,3 @@ export function colorAttribute(pValue: string) {
     return color.toString();
 } 
 
-
-// hàm xử lý về validator: required
-export function requiredValidator(pControl: AbstractControl): ValidationErrors | null {
-    if(pControl.value != '') return null;
-    return {
-        'required': {
-            message: "Field is required",
-        }
-    };
-}
-
-// hàm xử lý về validator: required
-export function numberValidator(pControl: AbstractControl): ValidationErrors | null {
-    const regex = /^-?(\d+(\.\d*)?|\.\d+)$/;    // kiể tra số thực
-    if(regex.test(pControl.value)) return null;
-    return {
-        'isNumber': {
-            message: "Input is not Number",
-        }
-    }
-}

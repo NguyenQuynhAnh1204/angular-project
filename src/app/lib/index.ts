@@ -7,4 +7,5 @@ export * from "./bravo-panel";
 export * from "./bravo-tabs";
 export * from "./bravo-text-box";
 export * from "./bravo-wrapper";
+export * from "./bravo-control-number";
 export * from "./shared";

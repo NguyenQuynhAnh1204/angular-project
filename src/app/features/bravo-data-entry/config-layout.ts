@@ -1,4 +1,4 @@
-import { ETypeValidation } from "src/app/lib";
+import { EControlType, ETypeValidation } from "src/app/lib";
 import { EGridSizeType, ITablePanel } from "src/app/lib/bravo-panel/bravo-panel.type";
 
 
@@ -42,7 +42,7 @@ export const PANEL_CONFIG: ITablePanel[] = [
                                 row: 1,
                                 label: "Ngày",
                                 name: "ngay",
-                                type: "textbox",
+                                type: EControlType.DATE,
                                 validator:{type: ETypeValidation.REQUIRED, message: "Field is required"},
                             }
                         }, 
@@ -51,7 +51,7 @@ export const PANEL_CONFIG: ITablePanel[] = [
                                 column: 2,
                                 row: 1,
                                 label: "Số",
-                                type: "textbox",
+                                type: EControlType.NUMBER,
                                 name: "so",
                                 validator: [
                                     {type: ETypeValidation.REQUIRED, message: "Field is required"},
@@ -64,7 +64,7 @@ export const PANEL_CONFIG: ITablePanel[] = [
                                 column: 3,
                                 row: 1,
                                 label: "Tiền tệ",
-                                type: "textbox",
+                                type: EControlType.NUMBER,
                                 name: "tienTe",
                                 validator: [
                                     {type: ETypeValidation.REQUIRED, message: "Field is required"},
@@ -77,7 +77,7 @@ export const PANEL_CONFIG: ITablePanel[] = [
                                 column: 1,
                                 row: 1,
                                 label: "Tỉ giá",
-                                type: "textbox",
+                                type: EControlType.NUMBER,
                                 name: "tiGia",
                                 validator: [
                                     {type: ETypeValidation.REQUIRED, message: "Field is required"},
@@ -103,7 +103,7 @@ export const PANEL_CONFIG: ITablePanel[] = [
                                 column: 1,
                                 row: 1,
                                 label: "Loại yêu cầu",
-                                type: 'textbox',
+                                type: EControlType.TEXTBOX,
                                 name: "loaiYeuCau",
                                 validator: [
                                     {type: ETypeValidation.REQUIRED, message: "Field is required"},
@@ -115,7 +115,7 @@ export const PANEL_CONFIG: ITablePanel[] = [
                                 column: 2,
                                 row: 1,
                                 label: "Yêu cầu báo giá",
-                                type: 'textbox',
+                                type: EControlType.TEXTBOX,
                                 name: "yeuCauBaoGia",
                                 validator: [
                                     {type: ETypeValidation.REQUIRED, message: "Field is required"},
@@ -131,7 +131,7 @@ export const PANEL_CONFIG: ITablePanel[] = [
                     row: 2,
                     column: 1,
                     label: "Địa chỉ",
-                    type: "textbox",
+                    type: EControlType.TEXTBOX,
                     name: "diaChi"
                 }
             }, 
@@ -149,13 +149,13 @@ export const PANEL_CONFIG: ITablePanel[] = [
                             column: 1,
                             row: 1,
                             label: "Hiệu lực đến",
-                            type: "textbox",
+                            type: EControlType.TEXTBOX,
                             name: "hieuLucDen"
                         }}, {control: {
                             column: 2,
                             row: 1,
                             label: "Lần báo giá",
-                            type: "textbox",
+                            type: EControlType.TEXTBOX,
                             name: "lanBaoGia"
                         }}
                     ]
@@ -166,7 +166,7 @@ export const PANEL_CONFIG: ITablePanel[] = [
                     row: 3,
                     column:1,
                     label: "Người đại diện",
-                    type: 'textbox',
+                    type: EControlType.TEXTBOX,
                     name: "nguoiDaiDien"
                 }
             }, 
@@ -175,7 +175,7 @@ export const PANEL_CONFIG: ITablePanel[] = [
                     row: 3,
                     column: 2,
                     label: "Diễn giả",
-                    type: "textbox",
+                    type: EControlType.TEXTBOX,
                     name: "dienGia"
                 }
             },
@@ -185,7 +185,7 @@ export const PANEL_CONFIG: ITablePanel[] = [
                     column:1,
                     columnsSpan: 2,
                     label: "Chính sách chiết khấu",
-                    type: "textbox",
+                    type: EControlType.TEXTBOX,
                     name: "chinhSach"
                 }
             }, 
@@ -195,7 +195,7 @@ export const PANEL_CONFIG: ITablePanel[] = [
                     column:2,
                     columnsSpan: 2,
                     label: "Điều khoản thương mại",
-                    type: "textbox",
+                    type: EControlType.TEXTBOX,
                     name: "dieuKhoan"
                 }
             }

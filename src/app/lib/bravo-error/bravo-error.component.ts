@@ -20,6 +20,4 @@ export class BravoErrorComponent {
         this._error = pVal;
     }
 
-    
-
 }

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { booleanAttribute, Component, ElementRef, HostBinding, Input } from '@angular/core';
+import { booleanAttribute, Component, ElementRef, HostBinding, Input, OnDestroy } from '@angular/core';
 import { AbstractControl, ControlValueAccessor } from '@angular/forms';
+import { Subject } from 'rxjs';
 import { HostColor } from '../shared/decorator/host-color.decorator';
 import { HostDimension } from '../shared/decorator/host-dimension.decorator';
 import { HostFont } from '../shared/decorator/host-font.decorator';
@@ -16,20 +17,26 @@ import { colorAttribute, fontAttribute, paddingAttribute, singleDimension, sizeA
     imports: [CommonModule]
 })
 
-export class BravoControlBaseComponent implements ControlValueAccessor {
+export class BravoControlBaseComponent implements ControlValueAccessor, OnDestroy {
+    private destroy$ = new Subject<void>();
 
     constructor(private el: ElementRef) {}
 
-    private _control!: AbstractControl;
-    public get control() {
-        return this._control;
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
-    public set control(pControl) {
-        this._control = pControl;
+
+    private _formControl!: AbstractControl;
+    public get formControl() {
+        return this._formControl;
+    }
+    public set formControl(pControl) {
+        this._formControl = pControl;
     }
 
     public get errors() {
-        return this.control.errors;
+        return this.formControl.errors;
     }
     
     private _text = '';
@@ -49,7 +56,7 @@ export class BravoControlBaseComponent implements ControlValueAccessor {
         this._focus = pFocus;
     }
 
-    protected _label = 'Tex box';
+    protected _label!: string;
     @Input('label')
     public get label() {
         return this._label;
@@ -314,7 +321,7 @@ export class BravoControlBaseComponent implements ControlValueAccessor {
         this.onChange(this.textValue);
         this._markAsTouched();
     }
-
+    
     private _markAsTouched() {
         if(!this.touched) {
             this.onTouched();
@@ -323,6 +330,5 @@ export class BravoControlBaseComponent implements ControlValueAccessor {
     }
     
 }
-
 
 

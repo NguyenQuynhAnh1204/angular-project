@@ -3,7 +3,7 @@
     [class.have-text]="focus || textValue"
     [class.no-text]="textValue=='' && !focus"
 >
-    {{label}}: 
+    {{label || 'Tex box'}}: 
 </p>
 <input type="text" 
     class="input-under-line text-box"
@@ -14,5 +14,5 @@
     (blur)="handleFocus()"
 >
 
-<!-- <p *ngIf="errors && control.touched" class="error">{{control.getError('required')?.message}}</p> -->
-<!-- <p *ngIf="errors && control.value" class="error">{{control.getError('isNumber')?.message}}</p> -->
+<!-- <p *ngIf="errors && formControl.touched" class="error">{{formControl.getError('required')?.message}}</p>
+<p *ngIf="errors && formControl.value" class="error">{{formControl.getError('isNumber')?.message}}</p> -->
