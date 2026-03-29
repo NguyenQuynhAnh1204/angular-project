@@ -5,7 +5,6 @@ import { BravoTabPanelComponent, BravoTabsComponent } from 'src/app/lib';
 import { EmployeeCardComponent } from './component';
 
 @Component({
-    standalone: true,
     selector: 'employee',
     templateUrl: './employee.component.html',
     styleUrls: ["./employee.component.scss"],

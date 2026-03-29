@@ -4,7 +4,6 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LevelControlComponent, PaymentControlComponent, QuantityControlComponent } from './custom-form';
 
 @Component({
-    standalone: true,
     selector: 'practice-form',
     templateUrl: './practice-form.component.html',
     styleUrls: ["./practice-form.component.scss"],

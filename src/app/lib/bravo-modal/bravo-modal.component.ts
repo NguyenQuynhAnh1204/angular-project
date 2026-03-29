@@ -5,7 +5,6 @@ import { Component, Injector } from '@angular/core';
 import { UploadFileComponent } from 'src/app/features/upload-file/uploadfile.component';
 
 @Component({
-    standalone: true,
     selector: 'br-modal',
     templateUrl: './bravo-modal.component.html',
     styleUrls: ["./bravo-modal.component.scss"],

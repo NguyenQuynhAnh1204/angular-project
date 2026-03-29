@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 @Component({
-    standalone: true,
     selector: 'br-error',
     templateUrl: './bravo-error.component.html',
     styleUrls: ["./bravo-error.component.scss"],

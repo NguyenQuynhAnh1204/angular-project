@@ -10,7 +10,6 @@ import { OVERLAY_POSITION_MAP } from '../../shared';
 
 
 @Component({
-    standalone: true,
     selector: 'br-control-date',
     templateUrl: './bravo-control-date.component.html',
     styleUrls: ["./bravo-control-date.component.scss"],

@@ -12,11 +12,10 @@ import { interval, Subject, takeUntil, takeWhile } from 'rxjs';
 import { BravoByteTypePipe, IUploadItem } from 'src/app/lib';
 
 @Component({
-  standalone: true,
-  selector: 'file-item',
-  templateUrl: 'file-item.component.html',
-  styleUrls: ['./file-item.component.scss'],
-  imports: [CommonModule, BravoByteTypePipe]
+    selector: 'file-item',
+    templateUrl: 'file-item.component.html',
+    styleUrls: ['./file-item.component.scss'],
+    imports: [CommonModule, BravoByteTypePipe]
 })
 export class FileItemComponent implements AfterViewInit, OnDestroy {
   #destroy$ = new Subject<void>();

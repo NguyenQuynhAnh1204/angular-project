@@ -3,7 +3,6 @@ import { Component, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-    standalone: true,
     selector: 'payment-control',
     templateUrl: './payment-control.component.html',
     styleUrls: ["./payment-control.component.scss"],

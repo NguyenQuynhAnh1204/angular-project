@@ -5,7 +5,6 @@ import { BravoControlBaseComponent } from '../bravo-control-base';
 
 
 @Component({
-    standalone: true,
     selector: 'br-text-box',
     templateUrl: './bravo-text-box.component.html',
     styleUrls: ["./bravo-text-box.component.scss"],

@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { CustomFormComponent } from '../custom-form';
 
 @Component({
-    standalone: true,
     selector: 'form-builder',
     templateUrl: './form-builder.component.html',
     styleUrls: ["./form-builder.component.scss"],

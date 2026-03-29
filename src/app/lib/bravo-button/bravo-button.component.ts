@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, HostBinding, Input, OnInit } from '@angular/core';
 
 @Component({
-    standalone: true,
     selector: 'bravo-button',
     templateUrl: './bravo-button.component.html',
     styleUrls: ["./bravo-button.component.scss"],

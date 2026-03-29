@@ -7,7 +7,6 @@ import { ColumnType, RowType } from './bravo-panel.until';
 import { BravoWrapperComponent } from '../bravo-control';
 
 @Component({
-    standalone: true,
     selector: 'bravo-panel',
     templateUrl: './bravo-panel.component.html',
     styleUrls: ["./bravo-panel.component.scss"],

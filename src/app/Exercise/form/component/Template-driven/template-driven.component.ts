@@ -9,7 +9,6 @@ export interface IUser {
 }
 
 @Component({
-    standalone: true,
     selector: 'template-driven',
     templateUrl: './template-driven.component.html',
     styleUrls: ["./template-driven.component.scss"],

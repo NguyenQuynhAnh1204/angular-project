@@ -7,7 +7,6 @@ import { IFont, ISize } from '../bravo-control.type';
 import { colorAttribute, fontAttribute, paddingAttribute, singleDimension, sizeAttribute } from '../bravo-control.until';
 
 @Component({
-    standalone: true,
     selector: 'bravo-control-base',
     template: '',
     imports: [CommonModule]

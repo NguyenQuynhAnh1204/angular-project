@@ -94,10 +94,9 @@ export class HighlightRow implements AfterViewInit {
 
 
 @Component({
-    standalone : true,
     selector: 'student-table',
     templateUrl: './student-table.component.html',
-    styleUrls: ["./student-table.components.scss"],
+    styleUrls: ["./student-table.component.scss"],
     imports: [CommonModule, RankPipe, HighlightRow, HighlightText, BravoButtonComponent]
 })
 

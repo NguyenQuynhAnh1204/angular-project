@@ -29,7 +29,6 @@ export class HideAfterDirective implements OnInit {
 
 
 @Component({
-    standalone : true,
     selector: 'employee-card',
     templateUrl: './employee-card.component.html',
     styleUrls: ["./employee-card.component.scss"],

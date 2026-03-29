@@ -5,11 +5,10 @@ import { BravoDropFileComponent, IFileItem, IUploadItem } from 'src/app/lib';
 import { FileItemComponent, InputLinkComponent } from './component';
 
 @Component({
-  standalone: true,
-  selector: 'lib-uploadfile',
-  templateUrl: 'uploadfile.component.html',
-  styleUrls: ['./uploadfile.component.scss'],
-  imports: [CommonModule, BravoDropFileComponent, FileItemComponent, InputLinkComponent]
+    selector: 'lib-uploadfile',
+    templateUrl: 'uploadfile.component.html',
+    styleUrls: ['./uploadfile.component.scss'],
+    imports: [CommonModule, BravoDropFileComponent, FileItemComponent, InputLinkComponent]
 })
 export class UploadFileComponent implements OnDestroy {
   //#region props

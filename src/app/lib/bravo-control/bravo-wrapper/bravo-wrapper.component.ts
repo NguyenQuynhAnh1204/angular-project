@@ -11,7 +11,6 @@ import { buildValidator } from '../../shared/until/formValidator.until';
 import { BravoErrorComponent } from '../../bravo-error';
 
 @Component({
-    standalone: true,
     selector: 'br-wrapper',
     templateUrl: './bravo-wrapper.component.html',
     styleUrls: ["./bravo-wrapper.component.scss"],

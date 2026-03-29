@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { DATE_TIME, IDate } from '../bravo-control-date.type';
 
 @Component({
-    standalone: true,
     selector: 'date-picker',
     templateUrl: './bravo-date-picker.component.html',
     styleUrls: ["./bravo-date-picker.component.scss"],

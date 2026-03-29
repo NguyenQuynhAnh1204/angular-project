@@ -3,12 +3,10 @@ import { IEmployee } from '../../employee';
 import { CommonModule } from '@angular/common';
 
 @Component({
-    standalone: true,
     selector: 'avatar',
     templateUrl: './employee-avt.component.html',
     styleUrls: ["./employee-avt.component.scss"],
     imports: [CommonModule]
-
 })
 export class EmployeeAvatarComponent implements OnInit, AfterViewInit {
     private _avatar!: string;

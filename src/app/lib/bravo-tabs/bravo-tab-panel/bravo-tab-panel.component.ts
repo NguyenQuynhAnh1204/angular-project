@@ -3,7 +3,6 @@ import { BravoTabsComponent } from '../bravo-tabs.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
-    standalone: true,
     selector: 'bravo-tab-panel',
     templateUrl: './bravo-tab-panel.component.html',
     styleUrls: ["./bravo-tab-panel.component.scss"],

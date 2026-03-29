@@ -4,11 +4,10 @@ import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Va
 
 
 @Component({
-    standalone: true,
     selector: 'dynamic-form',
     templateUrl: './dynamic-form.component.html',
     styleUrls: ["./dynamic-form.component.scss"],
-    imports: [FormsModule, CommonModule, ReactiveFormsModule],
+    imports: [FormsModule, CommonModule, ReactiveFormsModule]
 })
 
 export class DynamicFormComponent {

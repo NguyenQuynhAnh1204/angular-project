@@ -7,12 +7,10 @@ import { CommonModule } from '@angular/common';
 
 
 @Component({
-    standalone: true,
     selector: 'bravo-tabs',
     templateUrl: './bravo-tabs.component.html',
     styleUrls: ["./bravo-tabs.component.scss"],
     imports: [CommonModule]
-
 })
 
 export class BravoTabsComponent implements AfterViewInit {
