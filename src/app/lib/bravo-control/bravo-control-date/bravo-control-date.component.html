@@ -1,0 +1,16 @@
+<p
+    class="label"
+    [class.have-text]="focus || textValue"
+    [class.no-text]="textValue=='' && !focus"
+>
+    {{label || 'Date'}}: 
+</p>
+<span class="material-symbols-outlined calendar-icon" [class.select-date]="focus">calendar_month</span>
+<input type="text" #dateBox
+    class="input-under-line date-box"
+    [readOnly]="readOnly"
+    [value]="textValue" 
+    (change)="handleOnChange($event)"
+    (focus)="handleFocus()"
+    (blur)="handleFocus()"
+>

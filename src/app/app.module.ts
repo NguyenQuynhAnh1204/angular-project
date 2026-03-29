@@ -37,11 +37,6 @@ const shellRoutes: Routes = [
       import('./exercise/dynamic-form').then((r) => r.DYNAMIC_FORM_ROUTER),
   },
   {
-    path: 'panel',
-    loadComponent: () => 
-      import('./exercise/table-panel').then((c) => c.PanelComponent),
-  },
-  {
     path: 'data-entry',
     loadComponent: () => 
       import("./features/bravo-data-entry").then((c) => c.DataEntryComponent)

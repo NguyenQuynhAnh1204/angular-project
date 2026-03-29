@@ -4,10 +4,11 @@ import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild, ViewCont
 import { AbstractControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { BravoControlBaseComponent, EControlType, IControlBase } from '../bravo-control-base';
+import { BravoControlDateComponent } from '../bravo-control-date';
 import { BravoControlNumberComponent } from '../bravo-control-number';
-import { BravoErrorComponent } from '../bravo-error';
 import { BravoTextBoxComponent } from '../bravo-text-box';
-import { buildValidator } from '../shared/until/formValidator.until';
+import { buildValidator } from '../../shared/until/formValidator.until';
+import { BravoErrorComponent } from '../../bravo-error';
 
 @Component({
     standalone: true,
@@ -104,6 +105,9 @@ export class BravoWrapperComponent implements AfterViewInit, OnDestroy, OnInit  
                 break;
             case EControlType.NUMBER:
                 this.control = BravoControlNumberComponent;
+                break;
+            case EControlType.DATE:
+                this.control = BravoControlDateComponent;
                 break;
             default:
                 this.control = BravoTextBoxComponent;

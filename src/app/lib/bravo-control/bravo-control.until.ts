@@ -1,5 +1,5 @@
 import { BravoColor, BravoFont, BravoPadding, BravoSingleDimension, BravoSize } from "../shared";
-import { IFont, ISize, UnitType } from "./bravo-control-base.type";
+import { IFont, ISize, UnitType } from "./bravo-control.type";
 
 const regex = /\d+|[a-zA-Z]+|%/g;
 const unitType = ['px', "rem", "%", "em", 'vh', 'vw'];

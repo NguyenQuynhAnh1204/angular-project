@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, inject, Input, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { BravoWrapperComponent } from '../bravo-wrapper';
 import { toCamelCase } from '../shared';
 import { ITablePanel } from './bravo-panel.type';
 import { ColumnType, RowType } from './bravo-panel.until';
+import { BravoWrapperComponent } from '../bravo-control';
 
 @Component({
     standalone: true,
@@ -59,8 +59,6 @@ export class BravoPanelComponent  {
             const colPart = columnsSpan ? `span ${columnsSpan}` : column;
 
             if(!item.child) {
-
-                // const panelItem = pContainerRef.createComponent(BravoTextBoxComponent);
                 const panelItem = pContainerRef.createComponent(BravoWrapperComponent);
                 panelItem.location.nativeElement.style.gridArea = `${rowPart} / ${colPart}`; 
                 panelItem.instance.config = item.control;

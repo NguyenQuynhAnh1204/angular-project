@@ -1,5 +1,5 @@
 import { AbstractControl, ValidationErrors } from "@angular/forms";
-import { ETypeValidation, IValidation} from "../../bravo-control-base";
+import { ETypeValidation, IValidation } from "../../bravo-control";
 
 
 export function extractErrors(control: AbstractControl): string[] {

@@ -1,14 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { booleanAttribute, Component, ElementRef, HostBinding, Input, OnDestroy } from '@angular/core';
+import { booleanAttribute, Component, ElementRef, HostBinding, inject, Input, OnDestroy } from '@angular/core';
 import { AbstractControl, ControlValueAccessor } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { HostColor } from '../shared/decorator/host-color.decorator';
-import { HostDimension } from '../shared/decorator/host-dimension.decorator';
-import { HostFont } from '../shared/decorator/host-font.decorator';
-import { HostPadding } from '../shared/decorator/host-padding.decorator';
-import { HostSize } from '../shared/decorator/host-size.decorator';
-import { IFont, ISize } from './bravo-control-base.type';
-import { colorAttribute, fontAttribute, paddingAttribute, singleDimension, sizeAttribute } from './bravo-control.until';
+import { HostColor, HostDimension, HostFont, HostPadding, HostSize } from '../../shared';
+import { IFont, ISize } from '../bravo-control.type';
+import { colorAttribute, fontAttribute, paddingAttribute, singleDimension, sizeAttribute } from '../bravo-control.until';
 
 @Component({
     standalone: true,
@@ -19,8 +15,7 @@ import { colorAttribute, fontAttribute, paddingAttribute, singleDimension, sizeA
 
 export class BravoControlBaseComponent implements ControlValueAccessor, OnDestroy {
     private destroy$ = new Subject<void>();
-
-    constructor(private el: ElementRef) {}
+    private el = inject(ElementRef);
 
     public ngOnDestroy(): void {
         this.destroy$.next();

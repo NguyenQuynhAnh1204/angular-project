@@ -1,5 +1,4 @@
-import { IControlBase } from "../bravo-control-base/bravo-control-base.type"
-
+import { IControlBase } from "../bravo-control";
 
 export enum EGridSizeType {
     ABSOLUTE = 1,
