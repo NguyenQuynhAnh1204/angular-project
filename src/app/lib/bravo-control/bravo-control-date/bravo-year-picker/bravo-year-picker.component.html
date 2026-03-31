@@ -22,7 +22,7 @@
    @for (item of yearRange; track $index) {
         <button #monthItemRef
             class="btn-month"
-            [class.selected]="item==selectedYear"
+            [class.selected]="item==selectedYear.year"
             (click)="onSelectYear(item)"
         >{{item}}</button>
    }

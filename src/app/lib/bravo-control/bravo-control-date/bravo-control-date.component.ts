@@ -1,20 +1,16 @@
-import { AfterViewInit, Component, ElementRef, forwardRef, inject, Injector, Type, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AbstractControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors } from '@angular/forms';
 import { Overlay, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
+import { CommonModule } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, inject, Injector, OnDestroy, Type, ViewChild } from '@angular/core';
+import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OVERLAY_POSITION_MAP } from '../../shared';
 import { BravoControlBaseComponent, ESelectDateTime } from '../bravo-control-base';
 import { BravoControlDirective } from '../bravo-control-directive';
-import { DATE_TIME, IDateTime } from './bravo-control-date.type';
+import { IDateTime, SELECT_TIME } from './bravo-control-date.type';
 import { BravoDatePickerComponent } from './bravo-date-picker';
 import { BravoMonthPickerComponent } from './bravo-month-picker';
 import { BravoYearPickerComponent } from './bravo-year-picker';
-
-const REGEX_DATE = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[012])\/\d{4}$/;   // regex kiểm tra định dạng ngày/tháng/năm
-const REGEX_MONTH = /^(0?[1-9]|1[0-2])\/\d{4}$/;                             // regex kiểm tra định dạng tháng/năm
-const REGEX_YEAR = /^\d{4}$/;                                                // regex kiểm tra định dạng năm
-
+import { Subject, takeUntil } from 'rxjs';
 @Component({
     selector: 'br-control-date',
     templateUrl: './bravo-control-date.component.html',
@@ -38,9 +34,10 @@ const REGEX_YEAR = /^\d{4}$/;                                                // 
     }]
 })
 
-export class BravoControlDateComponent extends BravoControlBaseComponent implements AfterViewInit {
+export class BravoControlDateComponent extends BravoControlBaseComponent implements AfterViewInit, OnDestroy {
     private _overlay = inject(Overlay);
     private _scrollOPt = inject(ScrollStrategyOptions);
+    private _destroy$ = new Subject<void>();
 
     private _timeType!: ESelectDateTime;
     public get timeType() {
@@ -49,8 +46,15 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
     public set timeType(pVal) {
         this._timeType = pVal;
     }
-    
 
+    private _selectTime!:string;
+    public get selectTime() {
+        return this._selectTime;
+    }
+    public set selectTime(pTime) {
+        this._selectTime = pTime;
+    }
+    
     private _dateRef!: ElementRef;
     @ViewChild("dateBox", {static: true})
     public get dateRef() {
@@ -61,10 +65,10 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
     }
 
     private _modalComponent!: Type<any>;
-    public get modalComponent() {
+    public get datePickerComponent() {
         return this._modalComponent;
     }
-    public set modalComponent(pCompo) {
+    public set datePickerComponent(pCompo) {
         this._modalComponent = pCompo;
     }
 
@@ -76,27 +80,20 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
         this._overlayRef = pOver;
     }
 
-    private _selectTime!: IDateTime;
-    public get selectTime() {
-        return this._selectTime;
-    }
-    public set selectTime(pSelectTime) {
-        this._selectTime = pSelectTime; 
+    public ngAfterViewInit() {
+        this.datePickerComponent = selectComponent(this.timeType);
     }
 
-    public ngAfterViewInit() {
-        if(this.selectTime) {
-            setTimeout(() => {
-                this.textValue = this.convertDateToString(this.selectTime);
-            });
-        }
-        this.modalComponent = selectComponent(this.timeType);
+    public ngOnDestroy(): void {
+        this._destroy$.next();
+        this._destroy$.complete();
     }
 
     public handleOnChange(pEvent: Event) {
         const input = pEvent.target as HTMLInputElement;
         const value  = input.value;
         this.updateValue(value);
+        this.selectTime = value;
     }
 
     override handleFocus() {
@@ -119,28 +116,25 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
                 {
                     provide: OverlayRef,
                     useValue: this.overlayRef
+                },
+                {
+                    provide: SELECT_TIME,
+                    useValue: this.selectTime
                 }
             ]
         })
-        // tạo modal
-        const componentPortal = new ComponentPortal(this.modalComponent, null, injector);
-        const componentRef = this.overlayRef.attach(componentPortal); // gắn modal vào overlay
-        // console.log("", componentRef);
+        // tạo date picker
+        const componentPortal = new ComponentPortal(this.datePickerComponent, null, injector);
+        const componentRef = this.overlayRef.attach(componentPortal); // gắn datePicker vào overlay
+        componentRef.instance.select$
+            .pipe(takeUntil(this._destroy$))
+            .subscribe((val: any) => {
+                this.updateValue(val);
+                this.selectTime = val;
+            });
         this.overlayRef.backdropClick().subscribe(() => this.overlayRef.detach()); 
     }
 
-    private _isValidDate() {
-
-    }
-
-    public convertDateToString(pDate: IDateTime): string {
-        if(!pDate) return '';
-        return `${this.selectTime.date}/${this.selectTime.month}/${this.selectTime.year}`
-    }
-
-    public override validate(control: AbstractControl): ValidationErrors | null {
-        return null
-    }
 }
 
 

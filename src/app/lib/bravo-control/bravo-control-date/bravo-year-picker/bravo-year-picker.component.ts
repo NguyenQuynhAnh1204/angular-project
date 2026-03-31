@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { OverlayRef } from '@angular/cdk/overlay';
+import { Component, EventEmitter, inject } from '@angular/core';
+import { IDateTime, SELECT_TIME } from '../bravo-control-date.type';
 
 @Component({
     selector: 'br-year-picker',
@@ -7,17 +9,25 @@ import { Component } from '@angular/core';
 })
 
 export class BravoYearPickerComponent {
+    private _overlay = inject(OverlayRef);
+    private _date = inject(SELECT_TIME);
+    public select$ = new EventEmitter<string>();
+
     private _current = new Date();
     public get currentYear() {
         return this._current.getFullYear();
     }
 
-    private _selectedYear = -1;
+    private _selectedYear: Pick<IDateTime, 'year'> = {
+        year: -1,
+    };
     public get selectedYear() {
         return this._selectedYear;
     }
     public set selectedYear(pYear) {
         this._selectedYear = pYear;
+        this.select$.emit(`${pYear.year}`);
+        this._overlay.detach();
     }
 
     private _startYear = this.currentYear;
@@ -47,6 +57,9 @@ export class BravoYearPickerComponent {
     }
     
     constructor() {
+        if(this._date) {
+            this.selectedYear = this.parseFlexibleDate(this._date);
+        }
         this.rangeYear()
     }
     
@@ -61,7 +74,9 @@ export class BravoYearPickerComponent {
     }
     
     public onSelectYear(pYear: number) {
-        this.selectedYear = pYear;
+        this.selectedYear = {
+            year: pYear
+        }
     }
     
     public onChangeStartYear(pEvent: Event) {
@@ -76,10 +91,21 @@ export class BravoYearPickerComponent {
         const value = Number(input.value);
         this.endYear = value;
         this.startYear = this.endYear - 24;
-        console.log(this.startYear, this.endYear);
     }
 
     public rangeYear() {
         this.yearRange = Array.from({ length: this.endYear - this.startYear + 1 },(_, i) => this.startYear + i);
+    }
+
+    public parseFlexibleDate(pDateStr: string): Pick<IDateTime, 'year'> {
+        if (!pDateStr) return {
+            year: -1
+        };
+        const parts = pDateStr.split('/');
+        const year = parts.length >= 1 ? parseInt(parts[parts.length - 1], 10) : -1;
+
+        return {
+            year: year
+        };
     }
 }

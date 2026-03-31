@@ -1,8 +1,7 @@
-import { AfterViewInit, Component, ElementRef, inject, OnDestroy, QueryList, ViewChildren } from '@angular/core';
-import { debounceTime, distinctUntilChanged, fromEvent, Subject, takeUntil } from 'rxjs';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
-import { DATE_TIME, IDateTime } from '../bravo-control-date.type';
+import { Component, ElementRef, EventEmitter, inject, QueryList, ViewChildren } from '@angular/core';
+import { IDateTime, SELECT_TIME } from '../bravo-control-date.type';
 
 @Component({
     selector: 'date-picker',
@@ -11,9 +10,10 @@ import { DATE_TIME, IDateTime } from '../bravo-control-date.type';
     imports: [CommonModule]
 })
 
-export class BravoDatePickerComponent implements AfterViewInit, OnDestroy{
+export class BravoDatePickerComponent {
     private _overlay = inject(OverlayRef);
-    private destroy$ = new Subject<void>();
+    private _date = inject(SELECT_TIME);
+    public select$ = new EventEmitter();
 
     private _dateBoxRef !: QueryList<ElementRef>;
     @ViewChildren('dateItemBox')
@@ -92,6 +92,8 @@ export class BravoDatePickerComponent implements AfterViewInit, OnDestroy{
             this.selectedMonth = pSelectTime.month;
             this.selectedYear = pSelectTime.year;
         }
+        this.select$.emit(this.convertToString(this.selectTime));
+        this._overlay.detach();
     }
 
     // tất cả các ngày trong tháng
@@ -122,30 +124,14 @@ export class BravoDatePickerComponent implements AfterViewInit, OnDestroy{
     }
 
     public constructor() {
+        if(this._date) {
+            this.selectTime = this.parseFlexibleDate(this._date);
+        }
         this.getAllDayOfMonth();
         this.getFirstOfNextMonth()
         this.getLastOfPrevMonth()
     }
 
-    public ngAfterViewInit() {
-        this.dateBoxRef.forEach((boxItem) => {
-            fromEvent(boxItem.nativeElement, "mouseenter")
-                .pipe(
-                    debounceTime(500),
-                    distinctUntilChanged(),
-                    takeUntil(this.destroy$)
-                )
-                .subscribe(() => {
-                    // console.log(boxItem.nativeElement.textContent)
-                })
-        })
-    }
-
-    public ngOnDestroy() {
-        this.destroy$.next();
-        this.destroy$.complete()
-    }
-    
     public previousMonth() {
         this.selectedMonth = this.selectedMonth - 1;
         if(this.selectedMonth < 1) {
@@ -205,5 +191,34 @@ export class BravoDatePickerComponent implements AfterViewInit, OnDestroy{
     // hàm chọn Thời gian
     public onSelectDate(pDate: IDateTime) {
         this.selectTime = pDate;
+    }
+
+    public convertToString(pDate: IDateTime): string {
+        if(!pDate) return '';
+        const dateStr = pDate.date.toString().padStart(2, '0');
+        const monthStr = pDate.month.toString().padStart(2, '0');
+
+        return `${dateStr}/${monthStr}/${pDate.year}`
+    }
+
+    public parseFlexibleDate(pDateStr: string): IDateTime {
+        if (!pDateStr) return {
+            day: -1,
+            date: -1,
+            month: -1,
+            year: -1
+        };
+
+        const parts = pDateStr.split('/');
+        const year = parts.length >= 1 ? parseInt(parts[parts.length - 1], 10) : -1;
+        const month = parts.length >= 2 ? parseInt(parts[parts.length - 2], 10) : -1;
+        const date = parts.length >= 3 ? parseInt(parts[parts.length - 3], 10) : -1;
+
+        return {
+            day: -1,
+            date: date,
+            month: month,
+            year: year
+        };
     }
 }

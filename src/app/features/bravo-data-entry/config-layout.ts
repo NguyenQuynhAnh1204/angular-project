@@ -177,7 +177,9 @@ export const PANEL_CONFIG: ITablePanel[] = [
                             control: {
                                 column: 1,
                                 row: 1,
-                                label: "Ngày"
+                                label: "Ngày",
+                                type: EControlType.DATE,
+                                selectDate: ESelectDateTime.DATE,
                             }
                         }, {
                             control: {
