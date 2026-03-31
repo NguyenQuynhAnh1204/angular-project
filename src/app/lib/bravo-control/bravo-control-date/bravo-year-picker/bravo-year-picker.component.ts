@@ -12,7 +12,7 @@ export class BravoYearPickerComponent {
         return this._current.getFullYear();
     }
 
-    private _selectedYear = this.currentYear;
+    private _selectedYear = -1;
     public get selectedYear() {
         return this._selectedYear;
     }
@@ -51,12 +51,12 @@ export class BravoYearPickerComponent {
     }
     
     public previousYear() {
-        this.endYear = this.startYear;
+        this.endYear = this.startYear - 1;
         this.startYear = this.endYear - 24;
     }
     
     public nextYear() {
-        this.startYear = this.endYear;
+        this.startYear = this.endYear + 1;
         this.endYear = this.startYear + 24
     }
     

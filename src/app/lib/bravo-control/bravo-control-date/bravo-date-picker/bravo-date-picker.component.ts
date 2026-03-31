@@ -13,7 +13,6 @@ import { DATE_TIME, IDateTime } from '../bravo-control-date.type';
 
 export class BravoDatePickerComponent implements AfterViewInit, OnDestroy{
     private _overlay = inject(OverlayRef);
-    private _dateTimePro = inject(DATE_TIME);
     private destroy$ = new Subject<void>();
 
     private _dateBoxRef !: QueryList<ElementRef>;
@@ -123,9 +122,6 @@ export class BravoDatePickerComponent implements AfterViewInit, OnDestroy{
     }
 
     public constructor() {
-        if(this._dateTimePro) {
-            this.selectTime = this._dateTimePro
-        }
         this.getAllDayOfMonth();
         this.getFirstOfNextMonth()
         this.getLastOfPrevMonth()

@@ -3,7 +3,7 @@
 
     <input type="number" class="input-month"
         [value]="selectYear"
-        (input)="onChangeMonth($event)"
+        (input)="onChangeYear($event)"
     >
 
     <span class="material-symbols-outlined calender-chevron" (click)="nextYear()">chevron_right</span>
@@ -13,7 +13,7 @@
    @for (item of fullMonth; track $index) {
         <button #monthItemRef
             class="btn-month"
-            [class.selected]="item==selectMonth"
+            [class.selected]="item==selectedTime.month && selectYear==selectedTime.year"
             (click)="onSelectMonth(item)"
         >Tháng {{item}}</button>
    }

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, forwardRef, inject, Injector, Type, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AbstractControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors } from '@angular/forms';
 import { Overlay, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { OVERLAY_POSITION_MAP } from '../../shared';
@@ -119,16 +119,13 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
                 {
                     provide: OverlayRef,
                     useValue: this.overlayRef
-                },
-                {
-                    provide: DATE_TIME,
-                    useValue: this.selectTime
                 }
             ]
         })
         // tạo modal
         const componentPortal = new ComponentPortal(this.modalComponent, null, injector);
-        this.overlayRef.attach(componentPortal); // gắn modal vào overlay
+        const componentRef = this.overlayRef.attach(componentPortal); // gắn modal vào overlay
+        // console.log("", componentRef);
         this.overlayRef.backdropClick().subscribe(() => this.overlayRef.detach()); 
     }
 
@@ -139,6 +136,10 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
     public convertDateToString(pDate: IDateTime): string {
         if(!pDate) return '';
         return `${this.selectTime.date}/${this.selectTime.month}/${this.selectTime.year}`
+    }
+
+    public override validate(control: AbstractControl): ValidationErrors | null {
+        return null
     }
 }
 

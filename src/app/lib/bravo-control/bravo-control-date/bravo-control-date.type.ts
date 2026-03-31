@@ -11,3 +11,7 @@ export interface IDateTime {
     year: number;
 }
 
+export interface IMonthTime {
+    month: number;
+    year: number;
+}

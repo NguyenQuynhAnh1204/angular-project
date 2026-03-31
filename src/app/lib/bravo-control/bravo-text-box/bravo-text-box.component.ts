@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, forwardRef } from '@angular/core';
-import { FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AbstractControl, FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors } from '@angular/forms';
 import { BravoControlBaseComponent } from '../bravo-control-base';
 import { BravoControlDirective } from '../bravo-control-directive';
 
@@ -34,4 +34,5 @@ export class BravoTextBoxComponent extends  BravoControlBaseComponent{
         const value  = input.value;
         this.updateValue(value);
     }
+
 }

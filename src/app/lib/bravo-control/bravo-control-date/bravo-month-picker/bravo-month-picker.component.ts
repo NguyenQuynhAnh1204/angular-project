@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, QueryList, ViewChildren } from '@angular/core';
 import { debounceTime, distinctUntilChanged, fromEvent, Subject, takeUntil } from 'rxjs';
+import { IMonthTime } from '../bravo-control-date.type';
 
 const MONTH = [1,2,3,4,5,6,7,8,9,10,11,12]
 
@@ -19,7 +20,7 @@ export class BravoMonthPickerComponent implements AfterViewInit, OnDestroy {
         return this._current.getFullYear()
     }
     public get currentMonth() {
-        return this._current.getMonth() +1;
+        return this._current.getMonth() + 1;
     }
 
     private _selectMonth = this.currentMonth;
@@ -36,6 +37,17 @@ export class BravoMonthPickerComponent implements AfterViewInit, OnDestroy {
     }
     public set selectYear(pVal) {
         this._selectYear = pVal;
+    }
+
+    private _selectedTime: IMonthTime = {
+        month: -1,
+        year: -1,
+    }
+    public get selectedTime() {
+        return this._selectedTime;
+    }
+    public set selectedTime(pTime) {
+        this._selectedTime = pTime;
     }
 
     @ViewChildren('monthItemRef')
@@ -70,10 +82,13 @@ export class BravoMonthPickerComponent implements AfterViewInit, OnDestroy {
 
     public onSelectMonth(pMonth: number) {
         this.selectMonth = pMonth;
-        console.log(this.selectYear, this.selectMonth);
+        this.selectedTime = {
+            year: this.selectYear,
+            month: this.selectMonth,
+        }
     }
 
-    public onChangeMonth(pEvent: Event) {
+    public onChangeYear(pEvent: Event) {
         const input = pEvent.target as HTMLInputElement;
         const value = Number(input.value);
         this.selectYear = value;
