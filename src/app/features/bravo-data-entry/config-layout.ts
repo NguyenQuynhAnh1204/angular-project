@@ -1,4 +1,4 @@
-import { EControlType, ETypeValidation } from "src/app/lib";
+import { EControlType, ESelectDateTime, ETypeValidation } from "src/app/lib";
 import { EGridSizeType, ITablePanel } from "src/app/lib/bravo-panel/bravo-panel.type";
 
 
@@ -42,7 +42,8 @@ export const PANEL_CONFIG: ITablePanel[] = [
                                 row: 1,
                                 label: "Ngày",
                                 name: "ngay",
-                                type: EControlType.TEXTBOX,
+                                type: EControlType.DATE,
+                                selectDate: ESelectDateTime.DATE,
                                 validator:{type: ETypeValidation.REQUIRED, message: "Field is required"},
                             }
                         }, 
@@ -130,8 +131,9 @@ export const PANEL_CONFIG: ITablePanel[] = [
                 control: {
                     column: 1,
                     row: 2,
-                    label: "Thời gian",
+                    label: "Năm",
                     type: EControlType.DATE,
+                    selectDate: ESelectDateTime.YEAR,
                     name: "date"
                 }
             }

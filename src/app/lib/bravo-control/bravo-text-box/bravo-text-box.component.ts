@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, forwardRef } from '@angular/core';
 import { FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BravoControlBaseComponent } from '../bravo-control-base';
-import { BravoControlNameDirective } from '../bravo-control-directive';
+import { BravoControlDirective } from '../bravo-control-directive';
 
 @Component({
     selector: 'br-text-box',
@@ -22,8 +22,8 @@ import { BravoControlNameDirective } from '../bravo-control-directive';
         }
     ],
     hostDirectives: [{
-        directive: BravoControlNameDirective,
-        inputs: ["formControlName"]
+        directive: BravoControlDirective,
+        inputs: ["formControl"]
     }]
 })
 

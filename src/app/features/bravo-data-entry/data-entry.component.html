@@ -3,12 +3,18 @@
 <div class="dropdown-box">
     <label for="layout">Layout config: </label>
     <select class="dropdown" id="layout" [(ngModel)]="layout">
-        <option [ngValue]="i"
-            *ngFor="let i of configLayout; let ind = index"
-        >Layout {{ind+1}}</option>
+        @for (item of configLayout; track $index) {
+            <option [ngValue]="item"
+            >Layout {{$index+1}}</option>
+        }
     </select>
 </div>
 <form (ngSubmit)="onSubmit()" [formGroup]="formContainer">
     <bravo-panel class="panel" [form]="formContainer" [config]="layout" />
-    <button type="submit" class="btn-submit" [class.disabled]="formContainer.invalid">Submit</button>
+    <button type="submit" class="btn-submit" [class.disabled]="invalid">Submit</button>
 </form>
+
+<!-- hiển thị value -->
+<pre>
+    {{formContainer.value | json}}
+</pre>

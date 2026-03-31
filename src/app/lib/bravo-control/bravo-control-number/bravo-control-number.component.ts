@@ -1,7 +1,7 @@
 import { Component, forwardRef } from '@angular/core';
-import { BravoControlBaseComponent } from '../bravo-control-base';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { BravoControlNameDirective } from '../bravo-control-directive';
+import { BravoControlBaseComponent } from '../bravo-control-base';
+import { BravoControlDirective } from '../bravo-control-directive';
 
 @Component({
     standalone: true,
@@ -21,8 +21,8 @@ import { BravoControlNameDirective } from '../bravo-control-directive';
         }
     ],
     hostDirectives: [{
-        directive: BravoControlNameDirective,
-        inputs: ["formControlName"]
+        directive: BravoControlDirective,
+        inputs: ["formControl"]
     }]
 })
 

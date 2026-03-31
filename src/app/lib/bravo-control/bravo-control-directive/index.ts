@@ -1,1 +1,1 @@
-export * from "./bravo-control-name.directive";
+export * from "./bravo-control.directive";

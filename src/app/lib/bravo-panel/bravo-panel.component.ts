@@ -62,9 +62,11 @@ export class BravoPanelComponent  {
             if(!item.child) {
                 const controlType = selectControl(item.control.type);
                 const panelItem = pContainerRef.createComponent(controlType);
-                panelItem.setInput("formControlName", toCamelCase(item.control.label))
+                const control = this.forms.controls[toCamelCase(item.control.label)]
+                panelItem.setInput("formControl", control)
                 
                 panelItem.instance.label = item.control.label;
+                panelItem.instance.timeType = item.control?.selectDate;
                 Object.assign(panelItem.instance, item.control.style);
 
                 panelItem.location.nativeElement.style.gridArea = `${rowPart} / ${colPart}`; 

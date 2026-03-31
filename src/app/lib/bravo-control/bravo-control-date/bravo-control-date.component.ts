@@ -1,17 +1,19 @@
+import { AfterViewInit, Component, ElementRef, forwardRef, inject, Injector, Type, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Overlay, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, forwardRef, inject, Injector, ViewChild } from '@angular/core';
 import { OVERLAY_POSITION_MAP } from '../../shared';
-import { DATE_TIME, IDate } from './bravo-control-date.type';
+import { BravoControlBaseComponent, ESelectDateTime } from '../bravo-control-base';
+import { BravoControlDirective } from '../bravo-control-directive';
+import { DATE_TIME, IDateTime } from './bravo-control-date.type';
 import { BravoDatePickerComponent } from './bravo-date-picker';
-import { BravoControlBaseComponent } from '../bravo-control-base';
-import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { BravoControlNameDirective } from '../bravo-control-directive';
 import { BravoMonthPickerComponent } from './bravo-month-picker';
 import { BravoYearPickerComponent } from './bravo-year-picker';
 
-
+const REGEX_DATE = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[012])\/\d{4}$/;   // regex kiểm tra định dạng ngày/tháng/năm
+const REGEX_MONTH = /^(0?[1-9]|1[0-2])\/\d{4}$/;                             // regex kiểm tra định dạng tháng/năm
+const REGEX_YEAR = /^\d{4}$/;                                                // regex kiểm tra định dạng năm
 
 @Component({
     selector: 'br-control-date',
@@ -31,14 +33,23 @@ import { BravoYearPickerComponent } from './bravo-year-picker';
         }
     ],
     hostDirectives: [{
-        directive: BravoControlNameDirective,
-        inputs: ["formControlName"]
+        directive: BravoControlDirective,
+        inputs: ["formControl"]
     }]
 })
 
 export class BravoControlDateComponent extends BravoControlBaseComponent implements AfterViewInit {
     private _overlay = inject(Overlay);
     private _scrollOPt = inject(ScrollStrategyOptions);
+
+    private _timeType!: ESelectDateTime;
+    public get timeType() {
+        return this._timeType;
+    }
+    public set timeType(pVal) {
+        this._timeType = pVal;
+    }
+    
 
     private _dateRef!: ElementRef;
     @ViewChild("dateBox", {static: true})
@@ -49,6 +60,14 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
         this._dateRef = pRef;
     }
 
+    private _modalComponent!: Type<any>;
+    public get modalComponent() {
+        return this._modalComponent;
+    }
+    public set modalComponent(pCompo) {
+        this._modalComponent = pCompo;
+    }
+
     private _overlayRef!: OverlayRef;
     public get overlayRef() {
         return this._overlayRef;
@@ -57,7 +76,7 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
         this._overlayRef = pOver;
     }
 
-    private _selectTime!: IDate;
+    private _selectTime!: IDateTime;
     public get selectTime() {
         return this._selectTime;
     }
@@ -71,15 +90,13 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
                 this.textValue = this.convertDateToString(this.selectTime);
             });
         }
+        this.modalComponent = selectComponent(this.timeType);
     }
 
     public handleOnChange(pEvent: Event) {
         const input = pEvent.target as HTMLInputElement;
         const value  = input.value;
-        const regex = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[012])\/\d{4}$/;  // regex kiểm tra định dạng ngày/tháng/năm
-        if(regex.test(value)) {
-            this.updateValue(value);
-        }
+        this.updateValue(value);
     }
 
     override handleFocus() {
@@ -110,13 +127,31 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
             ]
         })
         // tạo modal
-        const componentPortal = new ComponentPortal(BravoDatePickerComponent, null, injector);
+        const componentPortal = new ComponentPortal(this.modalComponent, null, injector);
         this.overlayRef.attach(componentPortal); // gắn modal vào overlay
-        this.overlayRef.backdropClick().subscribe(() => this.overlayRef.detach());
+        this.overlayRef.backdropClick().subscribe(() => this.overlayRef.detach()); 
     }
 
-    public convertDateToString(pDate: IDate): string {
+    private _isValidDate() {
+
+    }
+
+    public convertDateToString(pDate: IDateTime): string {
         if(!pDate) return '';
         return `${this.selectTime.date}/${this.selectTime.month}/${this.selectTime.year}`
+    }
+}
+
+
+function selectComponent(pType: ESelectDateTime) {
+    switch(pType) {
+        case ESelectDateTime.DATE:
+            return BravoDatePickerComponent;
+        case ESelectDateTime.MONTH:
+            return BravoMonthPickerComponent;
+        case ESelectDateTime.YEAR:
+            return BravoYearPickerComponent;
+        default:
+            return BravoDatePickerComponent;
     }
 }

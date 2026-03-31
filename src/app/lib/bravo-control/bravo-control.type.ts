@@ -12,6 +12,12 @@ export enum EControlType {
     TEXTAREA
 }
 
+export enum ESelectDateTime {
+    DATE = 1,
+    MONTH,
+    YEAR,
+}
+
 export enum ETypeValidation {
     REQUIRED = 1,
     NUMBER,
@@ -38,16 +44,15 @@ export interface IValidation {
 
 export interface IControlBase {
     column: number,
-    columnsSpan?: number,
     row: number, 
+    columnsSpan?: number,
     rowsSpan?: number,
+
     type?: EControlType,
     name?: string,
     label: string,
-    value?: any,
-    placeholder?: string,
-    required?: boolean,
-    disabled?: boolean,
+    selectDate?: ESelectDateTime,
+    
     validator?: IValidation[] |IValidation
     style?: {
         margin?: string,

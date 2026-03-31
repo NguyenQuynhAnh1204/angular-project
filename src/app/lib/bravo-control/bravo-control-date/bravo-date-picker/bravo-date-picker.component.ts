@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, inject, OnDestroy, QueryList, Vie
 import { debounceTime, distinctUntilChanged, fromEvent, Subject, takeUntil } from 'rxjs';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
-import { DATE_TIME, IDate } from '../bravo-control-date.type';
+import { DATE_TIME, IDateTime } from '../bravo-control-date.type';
 
 @Component({
     selector: 'date-picker',
@@ -76,7 +76,7 @@ export class BravoDatePickerComponent implements AfterViewInit, OnDestroy{
         this._selectedDay = pDay;
     }
 
-    private _selectTime: IDate = {
+    private _selectTime: IDateTime = {
         day: -1,
         date: -1,
         month: -1,
@@ -96,7 +96,7 @@ export class BravoDatePickerComponent implements AfterViewInit, OnDestroy{
     }
 
     // tất cả các ngày trong tháng
-    private _dateOfCurrentMonth!: IDate[];
+    private _dateOfCurrentMonth!: IDateTime[];
     public get dateOfCurrentMonth() {
         return this._dateOfCurrentMonth;
     }
@@ -191,7 +191,7 @@ export class BravoDatePickerComponent implements AfterViewInit, OnDestroy{
     // hàm trả về các ngày trong tháng
     public getAllDayOfMonth() {
         const daysInMonth = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
-        this.dateOfCurrentMonth = Array.from({ length: daysInMonth }, (_, i): IDate => {
+        this.dateOfCurrentMonth = Array.from({ length: daysInMonth }, (_, i): IDateTime => {
             const dateValue = i + 1;
             const d = new Date(this.selectedYear, this.selectedMonth - 1, dateValue);
 
@@ -207,7 +207,7 @@ export class BravoDatePickerComponent implements AfterViewInit, OnDestroy{
     }
 
     // hàm chọn Thời gian
-    public onSelectDate(pDate: IDate) {
+    public onSelectDate(pDate: IDateTime) {
         this.selectTime = pDate;
     }
 }

@@ -49,6 +49,7 @@ export class DataEntryComponent {
     }
     public set layout(pLayout) {
         this._layout = pLayout;
+        this.formContainer = this._buildForm(pLayout);
     }
 
     // labels
@@ -65,7 +66,14 @@ export class DataEntryComponent {
         if(this.configLayout.length > 0) {
             this.layout = this.configLayout[0];
         }
-        this.formContainer = this._buildForm(this.layout);
+        this.formContainer.statusChanges.subscribe((pVal) => {
+            if(pVal != 'INVALID') {
+                this.invalid = false;
+                return;
+            };
+            this.invalid = true
+        })
+        
     }
 
     private _buildForm(pConfig: ITablePanel) {
@@ -81,27 +89,13 @@ export class DataEntryComponent {
         return new FormGroup(group);
     }
 
-
-    // private _buildForm(pConfig: ITablePanel) {
-    //     const group: { [key: string]: any } = {}
-    //     pConfig.controls.forEach((item) => {
-    //         const controlName = toCamelCase(item.control.label);
-    //         if(!item.child) {
-    //             group[controlName] = new FormControl('', { nonNullable: true });
-    //         } else {
-    //             group[controlName] = this._buildForm(item.child);    
-    //         }
-    //     })
-    //     return new FormGroup(group);
-    // }
-
     public onSubmit() {
         this.formContainer.markAllAsTouched();
         if(this.formContainer.invalid) {
             console.log(this.formContainer.status)
             return;
         }
-        console.log(this.formContainer.value);
+        console.log(this.formContainer.value)
         this.formContainer.reset();
     }
 }
