@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BravoPanelComponent, toCamelCase } from 'src/app/lib';
 import { ITablePanel } from 'src/app/lib/bravo-panel/bravo-panel.type';
 import { PANEL_CONFIG } from './config-layout';
@@ -17,12 +17,12 @@ import { PANEL_CONFIG } from './config-layout';
 
 export class DataEntryComponent {
 
-    private _forms = new FormGroup({})
-    public get forms() {
-        return this._forms;
+    private _formContainer = new FormGroup({})
+    public get formContainer() {
+        return this._formContainer;
     }
-    public set forms(pForm) {
-        this._forms = pForm;
+    public set formContainer(pForm) {
+        this._formContainer = pForm;
     }
 
     private _invalid = true;
@@ -65,28 +65,43 @@ export class DataEntryComponent {
         if(this.configLayout.length > 0) {
             this.layout = this.configLayout[0];
         }
-        this.forms = this._handleBuildForm(this.layout);
+        this.formContainer = this._buildForm(this.layout);
     }
 
-    private _handleBuildForm(pConfig: ITablePanel) {
+    private _buildForm(pConfig: ITablePanel) {
         const group: { [key: string]: any } = {}
         pConfig.controls.forEach((item) => {
             if(!item.child) {
                 const controlName = toCamelCase(item.control.label);
                 group[controlName] = new FormControl('', { nonNullable: true });
             } else {
-                Object.assign(group, this._handleBuildForm(item.child).controls);
+                Object.assign(group, this._buildForm(item.child).controls);
             }
         })
         return new FormGroup(group);
     }
 
+
+    // private _buildForm(pConfig: ITablePanel) {
+    //     const group: { [key: string]: any } = {}
+    //     pConfig.controls.forEach((item) => {
+    //         const controlName = toCamelCase(item.control.label);
+    //         if(!item.child) {
+    //             group[controlName] = new FormControl('', { nonNullable: true });
+    //         } else {
+    //             group[controlName] = this._buildForm(item.child);    
+    //         }
+    //     })
+    //     return new FormGroup(group);
+    // }
+
     public onSubmit() {
-        this.forms.markAllAsTouched();
-        if(this.forms.invalid) {
-            console.log(this.forms.status)
+        this.formContainer.markAllAsTouched();
+        if(this.formContainer.invalid) {
+            console.log(this.formContainer.status)
             return;
         }
-        this.forms.reset();
+        console.log(this.formContainer.value);
+        this.formContainer.reset();
     }
 }

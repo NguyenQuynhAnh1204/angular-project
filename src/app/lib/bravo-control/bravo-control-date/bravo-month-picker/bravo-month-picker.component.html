@@ -1,0 +1,21 @@
+<div class="year-switcher">
+    <span class="material-symbols-outlined calender-chevron" (click)="previousYear()">chevron_left</span>
+
+    <input type="number" class="input-month"
+        [value]="selectYear"
+        (input)="onChangeMonth($event)"
+    >
+
+    <span class="material-symbols-outlined calender-chevron" (click)="nextYear()">chevron_right</span>
+</div>
+
+<div class="full-months">
+   @for (item of fullMonth; track $index) {
+        <button #monthItemRef
+            class="btn-month"
+            [class.selected]="item==selectMonth"
+            (click)="onSelectMonth(item)"
+        >Tháng {{item}}</button>
+   }
+</div>
+

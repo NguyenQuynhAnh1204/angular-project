@@ -11,7 +11,7 @@ import { DATE_TIME, IDate } from '../bravo-control-date.type';
     imports: [CommonModule]
 })
 
-export class DatePickerComponent implements AfterViewInit, OnDestroy{
+export class BravoDatePickerComponent implements AfterViewInit, OnDestroy{
     private _overlay = inject(OverlayRef);
     private _dateTimePro = inject(DATE_TIME);
     private destroy$ = new Subject<void>();

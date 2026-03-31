@@ -9,44 +9,45 @@
     <span class="material-symbols-outlined calender-chevron" (click)="nextMonth()">chevron_right</span>
 </div>
 
-<div class="">
-    <div class="days">
-        <span>CN</span>
-        <span>T2</span>
-        <span>T3</span>
-        <span>T4</span>
-        <span>T5</span>
-        <span>T6</span>
-        <span>T7</span>
-    </div>
 
-    <div class="dates">
-        <!-- tháng trước -->
-        <ng-container *ngFor="let item of lastOfPrevMonth">
-            <button 
-                [class.disabled]='true'
-            >
-                {{item}}
-            </button>
-        </ng-container>
-        <!-- tháng hiện tại -->
-        <ng-container *ngFor="let item of dateOfCurrentMonth">
-            <button 
-                #dateItemBox
-                (click)="onSelectDate(item)"
-                [class.today]="item.date==currentDate && item.month==currentMonth && item.year==currentYear"
-                [class.selected]='item.date==selectTime.date && item.month==selectTime.month && item.year==selectTime.year'
-                >
-                {{item.date}}
-            </button>
-        </ng-container>
-        <!-- tháng sau -->
-        <ng-container *ngFor="let item of firstOfNextMonth">
-            <button 
+<div class="days">
+    <span>CN</span>
+    <span>T2</span>
+    <span>T3</span>
+    <span>T4</span>
+    <span>T5</span>
+    <span>T6</span>
+    <span>T7</span>
+</div>
+
+<div class="dates">
+    <!-- tháng trước -->
+    <ng-container *ngFor="let item of lastOfPrevMonth">
+        <button 
             [class.disabled]='true'
-            >
+        >
             {{item}}
         </button>
     </ng-container>
-</div>
+
+    <!-- tháng hiện tại -->
+    <ng-container *ngFor="let item of dateOfCurrentMonth">
+        <button 
+            #dateItemBox
+            (click)="onSelectDate(item)"
+            [class.today]="item.date==currentDate && item.month==currentMonth && item.year==currentYear"
+            [class.selected]='item.date==selectTime.date && item.month==selectTime.month && item.year==selectTime.year'
+            >
+            {{item.date}}
+        </button>
+    </ng-container>
+    
+    <!-- tháng sau -->
+    <ng-container *ngFor="let item of firstOfNextMonth">
+        <button 
+        [class.disabled]='true'
+        >
+        {{item}}
+    </button>
+</ng-container>
 </div>

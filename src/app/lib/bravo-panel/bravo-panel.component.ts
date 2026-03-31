@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, inject, Input, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { toCamelCase } from '../shared';
+
+import { selectControl } from '../bravo-control';
 import { ITablePanel } from './bravo-panel.type';
 import { ColumnType, RowType } from './bravo-panel.until';
-import { BravoWrapperComponent } from '../bravo-control';
+import { toCamelCase } from '../shared';
+
 
 @Component({
     selector: 'bravo-panel',
@@ -58,14 +60,14 @@ export class BravoPanelComponent  {
             const colPart = columnsSpan ? `span ${columnsSpan}` : column;
 
             if(!item.child) {
-                const panelItem = pContainerRef.createComponent(BravoWrapperComponent);
-                panelItem.location.nativeElement.style.gridArea = `${rowPart} / ${colPart}`; 
-                panelItem.instance.config = item.control;
+                const controlType = selectControl(item.control.type);
+                const panelItem = pContainerRef.createComponent(controlType);
+                panelItem.setInput("formControlName", toCamelCase(item.control.label))
                 
-                const formControl = this.forms?.get(toCamelCase(item.control.label));
-                if(formControl) {
-                    panelItem.instance.formControl = formControl;
-                }
+                panelItem.instance.label = item.control.label;
+                Object.assign(panelItem.instance, item.control.style);
+
+                panelItem.location.nativeElement.style.gridArea = `${rowPart} / ${colPart}`; 
             }
             else {
                 const panel = pContainerRef.createComponent(BravoPanelComponent);

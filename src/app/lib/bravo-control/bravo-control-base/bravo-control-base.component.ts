@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { booleanAttribute, Component, ElementRef, HostBinding, inject, Input, OnDestroy } from '@angular/core';
-import { AbstractControl, ControlValueAccessor } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { booleanAttribute, Component, ElementRef, HostBinding, inject, Input } from '@angular/core';
+import { AbstractControl, ControlValueAccessor, ValidationErrors, Validator } from '@angular/forms';
 import { HostColor, HostDimension, HostFont, HostPadding, HostSize } from '../../shared';
 import { IFont, ISize } from '../bravo-control.type';
-import { colorAttribute, fontAttribute, paddingAttribute, singleDimension, sizeAttribute } from '../bravo-control.until';
+import { colorAttribute, fontAttribute, paddingAttribute, singleDimension, sizeAttribute } from '../bravo-control-attribute.extension';
 
 @Component({
     selector: 'bravo-control-base',
@@ -12,26 +11,10 @@ import { colorAttribute, fontAttribute, paddingAttribute, singleDimension, sizeA
     imports: [CommonModule]
 })
 
-export class BravoControlBaseComponent implements ControlValueAccessor, OnDestroy {
-    private destroy$ = new Subject<void>();
+export class BravoControlBaseComponent implements ControlValueAccessor, Validator {
     private el = inject(ElementRef);
 
-    public ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
-    private _formControl!: AbstractControl;
-    public get formControl() {
-        return this._formControl;
-    }
-    public set formControl(pControl) {
-        this._formControl = pControl;
-    }
-
-    public get errors() {
-        return this.formControl.errors;
-    }
+    constructor() {}
     
     private _text = '';
     public get textValue() {
@@ -310,6 +293,10 @@ export class BravoControlBaseComponent implements ControlValueAccessor, OnDestro
         this.onTouched = pOnTouched;
     }
 
+    public validate(control: AbstractControl): ValidationErrors | null {
+        return null;
+    } 
+
     public updateValue(pVal: string) {
         this.textValue = pVal;
         this.onChange(this.textValue);
@@ -322,6 +309,7 @@ export class BravoControlBaseComponent implements ControlValueAccessor, OnDestro
             this.touched = true;
         }
     }
+
     
 }
 

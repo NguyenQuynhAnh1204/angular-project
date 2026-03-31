@@ -8,7 +8,7 @@
         >Layout {{ind+1}}</option>
     </select>
 </div>
-<form (ngSubmit)="onSubmit()" [formGroup]="forms">
-    <bravo-panel class="panel" [form]="forms" [config]="layout" />
-    <button type="submit" class="btn-submit" [class.disabled]="forms.invalid">Submit</button>
+<form (ngSubmit)="onSubmit()" [formGroup]="formContainer">
+    <bravo-panel class="panel" [form]="formContainer" [config]="layout" />
+    <button type="submit" class="btn-submit" [class.disabled]="formContainer.invalid">Submit</button>
 </form>

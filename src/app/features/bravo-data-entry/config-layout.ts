@@ -23,7 +23,7 @@ export const PANEL_CONFIG: ITablePanel[] = [
                 control: {
                     row: 1,
                     column: 1,
-                    label: ""
+                    label: "Thời gian và tiền tệ"
                 },
                 child: {
                     columns: [
@@ -92,7 +92,7 @@ export const PANEL_CONFIG: ITablePanel[] = [
                 control: {
                     row: 1,
                     column: 2,
-                    label: "",
+                    label: "Báo giá",
                 },
                 child: {
                     rows: [{index: 1, value: 'auto'}],
@@ -130,7 +130,7 @@ export const PANEL_CONFIG: ITablePanel[] = [
                 control: {
                     column: 1,
                     row: 2,
-                    label: "",
+                    label: "Thời gian",
                     type: EControlType.DATE,
                     name: "date"
                 }
