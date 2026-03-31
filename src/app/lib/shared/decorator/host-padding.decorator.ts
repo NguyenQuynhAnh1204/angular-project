@@ -1,4 +1,3 @@
-import { BravoPadding } from "../geometry";
 import { getAttribute } from "./untils";
 
 export function HostPadding(option?: {transform?: (value: any) => any}) {

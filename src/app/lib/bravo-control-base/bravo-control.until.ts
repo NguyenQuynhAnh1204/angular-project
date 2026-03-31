@@ -1,8 +1,8 @@
 import { Type } from "@angular/core";
-import { BravoControlDateComponent } from "./bravo-control-date";
-import { BravoControlNumberComponent } from "./bravo-control-number";
 import { EControlType } from "./bravo-control.type";
-import { BravoTextBoxComponent } from "./bravo-text-box";
+import { BravoTextBoxComponent } from "../bravo-text-box";
+import { BravoControlDateComponent } from "../bravo-date-box";
+import { BravoControlNumberComponent } from "../bravo-number-box";
 
 export const CONTROL_MAP:Partial<Record<EControlType, Type<any>>> = {
     [EControlType.TEXTBOX]: BravoTextBoxComponent,

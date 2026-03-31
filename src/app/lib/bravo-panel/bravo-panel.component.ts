@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, inject, Input, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-
-import { selectControl } from '../bravo-control';
 import { ITablePanel } from './bravo-panel.type';
 import { ColumnType, RowType } from './bravo-panel.until';
 import { toCamelCase } from '../shared';
+import { selectControl } from '../bravo-control-base';
 
 
 @Component({
@@ -66,7 +65,6 @@ export class BravoPanelComponent  {
                 panelItem.setInput("formControl", control)
                 
                 panelItem.instance.label = item.control.label;
-                panelItem.instance.timeType = item.control?.selectDate;
                 Object.assign(panelItem.instance, item.control.style);
 
                 panelItem.location.nativeElement.style.gridArea = `${rowPart} / ${colPart}`; 

@@ -1,7 +1,7 @@
 import { OverlayRef } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, inject, QueryList, ViewChildren } from '@angular/core';
-import { IDateTime, SELECT_TIME } from '../bravo-control-date.type';
+import { IDateTime, SELECT_TIME } from '../../bravo-control-date.type';
 
 @Component({
     selector: 'date-picker',

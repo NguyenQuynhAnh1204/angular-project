@@ -1,6 +1,6 @@
 import { OverlayRef } from '@angular/cdk/overlay';
 import { Component, EventEmitter, inject } from '@angular/core';
-import { IDateTime, SELECT_TIME } from '../bravo-control-date.type';
+import { IDateTime, SELECT_TIME } from '../../bravo-control-date.type';
 
 @Component({
     selector: 'br-year-picker',
@@ -48,12 +48,12 @@ export class BravoYearPickerComponent {
         this.rangeYear()
     }
     
-    private _yearRange!: number[]
-    public get yearRange() {
-        return this._yearRange;
+    private _years!: number[]
+    public get years() {
+        return this._years;
     }
-    public set yearRange(pYearRange) {
-        this._yearRange = pYearRange;
+    public set years(pYearRange) {
+        this._years = pYearRange;
     }
     
     constructor() {
@@ -94,7 +94,7 @@ export class BravoYearPickerComponent {
     }
 
     public rangeYear() {
-        this.yearRange = Array.from({ length: this.endYear - this.startYear + 1 },(_, i) => this.startYear + i);
+        this.years = Array.from({ length: this.endYear - this.startYear + 1 },(_, i) => this.startYear + i);
     }
 
     public parseFlexibleDate(pDateStr: string): Pick<IDateTime, 'year'> {

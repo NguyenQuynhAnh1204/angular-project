@@ -1,16 +1,14 @@
 import { Overlay, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, inject, Injector, OnDestroy, Type, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, forwardRef, inject, Injector, OnDestroy, Type, ViewChild } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { OVERLAY_POSITION_MAP } from '../../shared';
-import { BravoControlBaseComponent, ESelectDateTime } from '../bravo-control-base';
-import { BravoControlDirective } from '../bravo-control-directive';
-import { IDateTime, SELECT_TIME } from './bravo-control-date.type';
-import { BravoDatePickerComponent } from './bravo-date-picker';
-import { BravoMonthPickerComponent } from './bravo-month-picker';
-import { BravoYearPickerComponent } from './bravo-year-picker';
 import { Subject, takeUntil } from 'rxjs';
+import { OVERLAY_POSITION_MAP } from '../shared';
+import { BravoControlBaseComponent, BravoControlDirective } from '../bravo-control-base';
+import { SELECT_TIME } from './bravo-control-date.type';
+import { BravoDatePickerComponent } from './component';
+
 @Component({
     selector: 'br-control-date',
     templateUrl: './bravo-control-date.component.html',
@@ -36,16 +34,8 @@ import { Subject, takeUntil } from 'rxjs';
 
 export class BravoControlDateComponent extends BravoControlBaseComponent implements AfterViewInit, OnDestroy {
     private _overlay = inject(Overlay);
-    private _scrollOPt = inject(ScrollStrategyOptions);
+    private _scrollOpt = inject(ScrollStrategyOptions);
     private _destroy$ = new Subject<void>();
-
-    private _timeType!: ESelectDateTime;
-    public get timeType() {
-        return this._timeType;
-    }
-    public set timeType(pVal) {
-        this._timeType = pVal;
-    }
 
     private _selectTime!:string;
     public get selectTime() {
@@ -64,14 +54,6 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
         this._dateRef = pRef;
     }
 
-    private _modalComponent!: Type<any>;
-    public get datePickerComponent() {
-        return this._modalComponent;
-    }
-    public set datePickerComponent(pCompo) {
-        this._modalComponent = pCompo;
-    }
-
     private _overlayRef!: OverlayRef;
     public get overlayRef() {
         return this._overlayRef;
@@ -81,7 +63,6 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
     }
 
     public ngAfterViewInit() {
-        this.datePickerComponent = selectComponent(this.timeType);
     }
 
     public ngOnDestroy(): void {
@@ -107,7 +88,7 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
                 .position()
                 .flexibleConnectedTo(this.dateRef)
                 .withPositions([OVERLAY_POSITION_MAP['bottomLeft']]),
-            scrollStrategy: this._scrollOPt.reposition(),
+            scrollStrategy: this._scrollOpt.reposition(),
         } 
         this.overlayRef = this._overlay.create(configOverlay);
         // injector 
@@ -124,7 +105,7 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
             ]
         })
         // tạo date picker
-        const componentPortal = new ComponentPortal(this.datePickerComponent, null, injector);
+        const componentPortal = new ComponentPortal(BravoDatePickerComponent, null, injector);
         const componentRef = this.overlayRef.attach(componentPortal); // gắn datePicker vào overlay
         componentRef.instance.select$
             .pipe(takeUntil(this._destroy$))
@@ -137,16 +118,3 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
 
 }
 
-
-function selectComponent(pType: ESelectDateTime) {
-    switch(pType) {
-        case ESelectDateTime.DATE:
-            return BravoDatePickerComponent;
-        case ESelectDateTime.MONTH:
-            return BravoMonthPickerComponent;
-        case ESelectDateTime.YEAR:
-            return BravoYearPickerComponent;
-        default:
-            return BravoDatePickerComponent;
-    }
-}

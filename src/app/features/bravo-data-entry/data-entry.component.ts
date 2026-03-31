@@ -79,8 +79,8 @@ export class DataEntryComponent {
     private _buildForm(pConfig: ITablePanel) {
         const group: { [key: string]: any } = {}
         pConfig.controls.forEach((item) => {
+            const controlName = toCamelCase(item.control.label);
             if(!item.child) {
-                const controlName = toCamelCase(item.control.label);
                 group[controlName] = new FormControl('', { nonNullable: true });
             } else {
                 Object.assign(group, this._buildForm(item.child).controls);

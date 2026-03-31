@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { booleanAttribute, Component, ElementRef, HostBinding, inject, Input } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, ValidationErrors, Validator } from '@angular/forms';
-import { HostColor, HostDimension, HostFont, HostPadding, HostSize } from '../../shared';
-import { IFont, ISize } from '../bravo-control.type';
-import { colorAttribute, fontAttribute, paddingAttribute, singleDimension, sizeAttribute } from '../bravo-control-attribute.extension';
+import { HostColor, HostDimension, HostFont, HostPadding, HostSize } from '../shared';
+import { IFont, ISize } from './bravo-control.type';
+import { colorAttribute, fontAttribute, paddingAttribute, singleDimension, sizeAttribute } from './bravo-control-attribute.extension';
 
 @Component({
     selector: 'bravo-control-base',

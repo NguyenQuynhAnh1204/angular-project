@@ -1,4 +1,3 @@
-import { BravoColor } from "../geometry";
 import { getAttribute } from "./untils";
 
 

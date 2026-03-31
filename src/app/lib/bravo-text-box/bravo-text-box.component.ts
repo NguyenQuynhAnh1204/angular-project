@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, forwardRef } from '@angular/core';
-import { AbstractControl, FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors } from '@angular/forms';
-import { BravoControlBaseComponent } from '../bravo-control-base';
-import { BravoControlDirective } from '../bravo-control-directive';
+import { FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { BravoControlBaseComponent, BravoControlDirective } from '../bravo-control-base';
+
 
 @Component({
     selector: 'br-text-box',

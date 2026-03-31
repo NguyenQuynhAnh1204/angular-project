@@ -1,4 +1,3 @@
-import { BravoFont } from "../geometry";
 
 export function HostFont(option?: {transform?: (value: any) => any}) {
 
