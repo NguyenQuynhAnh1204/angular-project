@@ -1,10 +1,6 @@
-import { EventEmitter, InjectionToken } from "@angular/core";
 
-export interface IDateTime {
-    day: number;
-    date: number;
-    month: number;
-    year: number
+export enum EViewPicker {
+    PICKER_DATE = 1,
+    PICKER_MONTH,
+    PICKER_YEAR
 }
-
-export const SELECT_TIME = new InjectionToken<string>("");

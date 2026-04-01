@@ -5,9 +5,10 @@
 >
     {{label || 'Date'}}: 
 </p>
-<span class="material-symbols-outlined calendar-icon" [class.select-date]="focus">calendar_month</span>
+<span class="material-symbols-outlined calendar-icon" [class.select-date]="focus" (click)="openCalendar()">calendar_month</span>
 <input type="text" #dateBox
     class="input-under-line date-box"
+    [class.is-focus]="focus"
     [readOnly]="readOnly"
     [value]="textValue"
     (input)="handleOnChange($event)"

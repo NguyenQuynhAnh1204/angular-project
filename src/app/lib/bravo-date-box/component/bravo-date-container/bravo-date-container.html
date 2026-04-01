@@ -1,0 +1,20 @@
+<div class="view-switch">
+    <span class="material-symbols-outlined calender-chevron" (click)="previousSwitch()">chevron_left</span>
+    <div (click)="switchView()">
+        {{getLabel()}}
+    </div>
+    <span class="material-symbols-outlined calender-chevron" (click)="nextSwitch()">chevron_right</span>
+</div>
+
+
+@switch (service.view) {
+    @case (1) {
+        <br-date-picker/>
+    }
+    @case (2) {
+        <br-month-picker/>
+    }
+    @case (3) {
+        <br-year-picker/>
+    }
+}

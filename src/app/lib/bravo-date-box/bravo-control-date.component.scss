@@ -10,10 +10,11 @@
 }
 
 .calendar-icon {
+    cursor: pointer;
     position: absolute;
     right: 0;
     font-size: 1.2em;
-    transition: color 0.3s ease-in-out;
+    transition: color 0.3s ease-out;
 }
 
 .select-date {
@@ -21,32 +22,11 @@
 }
 
 .label {
-    padding: 6px 0;
-    position: absolute;
-    transition: all 0.5s ease-in-out;
-}
-
-.no-text {
-    transform: translateY(-20%);
-}
-
-.have-text {
-    transform: translateY(-80%);
-    color: inherit;
-    opacity: 0.6;
-    font-size: 0.8em;
+    @include label-control;
 }
 
 .date-box {
     @include input-control;
-}
-
-.error {
-    position: absolute;
-    top: 100%;
-    margin: 4px 0;
-    color: red;
-    font-size: 1.2rem;
 }
 
 

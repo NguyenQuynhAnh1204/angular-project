@@ -112,10 +112,25 @@
     width: 100%;
     border-bottom: 2px solid #ccc;
     background: none;
-    transition: border-color 0.5s ease-out;
+    transition: border-color 0.3s ease;
     color: inherit;
     font-size: inherit;
-    &:focus {
+    &.is-focus {
         border-bottom: 2px solid #3545ff;
+    }
+}
+
+@mixin label-control {
+    padding: 6px 0;
+    position: absolute;
+    transition: all 0.25s ease-out;
+    &.no-text {
+        transform: translateY(-20%);
+    }
+    &.have-text {
+        transform: translateY(-80%);
+        color: inherit;
+        opacity: 0.6;
+        font-size: 0.8em;
     }
 }

@@ -1,37 +1,5 @@
 @use 'styles/mixin' as *;
 
-:host {
-    margin: 2px 0;
-    padding: 20px;
-    display: block;
-    max-width: fit-content;
-    background-color: #fff;
-    color: #000;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    font-size: 1.4rem;
-}
-
-.year-switcher {
-    @include df-center;
-    gap: 20px;
-    .calender-chevron {
-        cursor: pointer;
-        color: #3545ff;
-        font-size: 2em;
-        &:hover {
-            background-color: #f4f4f4;
-        }
-        &:active {
-            color: #030953;
-        }
-    }
-}
-
-.input-year {
-    outline: none;
-    border: none;
-    text-align: center;
-}
 
 .full-months {
     display: grid;

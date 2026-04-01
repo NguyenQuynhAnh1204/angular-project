@@ -1,13 +1,13 @@
 import { Overlay, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, forwardRef, inject, Injector, OnDestroy, Type, ViewChild } from '@angular/core';
+import { Component, ElementRef, forwardRef, inject, Injector, OnDestroy, ViewChild } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
-import { OVERLAY_POSITION_MAP } from '../shared';
+import { Subject } from 'rxjs';
 import { BravoControlBaseComponent, BravoControlDirective } from '../bravo-control-base';
-import { SELECT_TIME } from './bravo-control-date.type';
-import { BravoDatePickerComponent } from './component';
+import { OVERLAY_POSITION_MAP } from '../shared';
+import { BravoDateContainerComponent } from './component';
+import { BravoDateService } from './service';
 
 @Component({
     selector: 'br-control-date',
@@ -24,7 +24,8 @@ import { BravoDatePickerComponent } from './component';
             provide: NG_VALIDATORS,
             useExisting: forwardRef(() => BravoControlDateComponent),
             multi: true
-        }
+        },
+        BravoDateService,
     ],
     hostDirectives: [{
         directive: BravoControlDirective,
@@ -32,17 +33,17 @@ import { BravoDatePickerComponent } from './component';
     }]
 })
 
-export class BravoControlDateComponent extends BravoControlBaseComponent implements AfterViewInit, OnDestroy {
+export class BravoControlDateComponent extends BravoControlBaseComponent implements OnDestroy {
+    private _destroy$ = new Subject<void>();
+    private _injector = inject(Injector);
     private _overlay = inject(Overlay);
     private _scrollOpt = inject(ScrollStrategyOptions);
-    private _destroy$ = new Subject<void>();
-
-    private _selectTime!:string;
-    public get selectTime() {
-        return this._selectTime;
+    private _service = inject(BravoDateService);
+    public get service() {
+        return this._service;
     }
-    public set selectTime(pTime) {
-        this._selectTime = pTime;
+    public get moment() {
+        return this.service.moment;
     }
     
     private _dateRef!: ElementRef;
@@ -62,9 +63,6 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
         this._overlayRef = pOver;
     }
 
-    public ngAfterViewInit() {
-    }
-
     public ngOnDestroy(): void {
         this._destroy$.next();
         this._destroy$.complete();
@@ -74,7 +72,6 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
         const input = pEvent.target as HTMLInputElement;
         const value  = input.value;
         this.updateValue(value);
-        this.selectTime = value;
     }
 
     override handleFocus() {
@@ -97,23 +94,21 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
                 {
                     provide: OverlayRef,
                     useValue: this.overlayRef
-                },
-                {
-                    provide: SELECT_TIME,
-                    useValue: this.selectTime
                 }
-            ]
+            ],
+            parent: this._injector
         })
         // tạo date picker
-        const componentPortal = new ComponentPortal(BravoDatePickerComponent, null, injector);
-        const componentRef = this.overlayRef.attach(componentPortal); // gắn datePicker vào overlay
-        componentRef.instance.select$
-            .pipe(takeUntil(this._destroy$))
-            .subscribe((val: any) => {
-                this.updateValue(val);
-                this.selectTime = val;
-            });
-        this.overlayRef.backdropClick().subscribe(() => this.overlayRef.detach()); 
+        const componentPortal = new ComponentPortal(BravoDateContainerComponent, null, injector);
+        this.overlayRef.attach(componentPortal); // gắn datePicker vào overlay
+        this.overlayRef.backdropClick().subscribe(() => {
+            this.overlayRef.detach()
+            this.focus = false;
+        }); 
+    }
+
+    public openCalendar() {
+        this.handleFocus();
     }
 
 }

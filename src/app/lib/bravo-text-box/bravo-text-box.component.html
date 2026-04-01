@@ -7,6 +7,7 @@
 </p>
 <input type="text" 
     class="input-under-line text-box"
+    [class.is-focus]="focus"
     [readOnly]="readOnly"
     [value]="textValue" 
     (change)="handleOnChange($event)"
