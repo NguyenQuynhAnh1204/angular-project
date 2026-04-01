@@ -42,26 +42,52 @@ export class BravoDateContainerComponent {
     }
 
     public getLabel() {
+        const month = this.moment.getMonth()+1;
+        const year = this.moment.getFullYear();
         if(this.service.view == 1) {
-            return `Tháng ${this.moment.getMonth()+1} năm ${this.moment.getFullYear()}`
+            return `Tháng ${month} năm ${year}`
         }
         else if(this.service.view == 2) {
-            return `Năm ${this.moment.getFullYear()}`
+            return `Năm ${year}`
         }
         else if(this.service.view == 3) {
-            return 'Khoảng năm'
+            const startYear = year - 14
+            const endYear = startYear + 25
+            return `${startYear} - ${endYear}`
         }
         return ''
     }
 
 
     public previousSwitch() {
-        if(this.service.view == 1) {
-            this.service.moment = BravoMoment.set(this.moment.toDate(), {month: this.moment.getMonth()})
-        }
+        this._switch(-1)
     }
 
     public nextSwitch() {
-        
+        this._switch(1)
+    }
+
+    private _switch(pNumber: number) {
+        const date = this.moment.toDate();
+        const month = this.moment.getMonth();
+        const year = this.moment.getFullYear();
+        if (this.service.view === 1) {
+            this.service.moment =
+                BravoMoment.set(date, {
+                    month: month + pNumber
+                });
+        }
+        else if (this.service.view === 2) {
+            this.service.moment =
+                BravoMoment.set(date, {
+                    year: year + pNumber
+                });
+        }
+        else if (this.service.view === 3) {
+            this.service.moment =
+                BravoMoment.set(date, {
+                    year: year + pNumber * 25
+                });
+        }
     }
 }

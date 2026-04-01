@@ -21,16 +21,6 @@ export class BravoDatePickerComponent {
         return this.service.moment;
     }
 
-    private _dateBoxRef !: QueryList<ElementRef>;
-    @ViewChildren('dateItemBox')
-    public get dateBoxRef() {
-        return this._dateBoxRef;
-    }
-    public set dateBoxRef(pRef) {
-        this._dateBoxRef = pRef;
-    }
-
-
     public selectedDate = this.moment.toDate();
 
     public dates: BravoMoment[][] = [];
@@ -38,15 +28,14 @@ export class BravoDatePickerComponent {
     public days: string[] = []
 
     public constructor() {
-        console.log(this.selectedDate);
         this.dates = this.service.moment.getWeeks();
         this.days = this.moment.getDays();
+        console.log(this.selectedDate);
     }
 
     public onSelectDate(pDate: Date) {
         this.selectedDate = pDate;
         this.service.moment = BravoMoment.set(this.moment.toDate(), {date: pDate.getDate()});
-        console.log(this.selectedDate);
         this._overlay.detach();
     }
 }
