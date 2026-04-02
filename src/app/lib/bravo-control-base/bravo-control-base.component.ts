@@ -275,7 +275,10 @@ export class BravoControlBaseComponent implements ControlValueAccessor, Validato
     }
 
     public handleFocus() {
-        this.focus = !this.focus;
+        this.focus = true;
+    }
+    public handleBlur() {
+        this.focus = false;
     }
 
     public onChange = (pText: string) => {}

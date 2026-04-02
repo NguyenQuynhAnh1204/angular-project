@@ -2,6 +2,7 @@
     display: block;
     padding: 20px;
     font-size: 1.6rem;
+    color: #000;
 }
 
 .dropdown-box {
@@ -28,7 +29,7 @@
     background-color: #e11515;
     color: #fff;
     transition: background-color 0.2s ease-in-out;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     &:not(.disabled):hover {
         background-color: #7a0606;
     }

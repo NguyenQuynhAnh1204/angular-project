@@ -1,7 +1,7 @@
-import { OverlayRef } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { BravoMoment } from '../../bravo-control-date.until';
+import { Component, inject, OnDestroy } from '@angular/core';
+import { BravoMoment } from '@bravo-infra/core/utils/dates';
+import { Subject, takeUntil } from 'rxjs';
 import { BravoDateService } from '../../service';
 
 @Component({
@@ -10,33 +10,46 @@ import { BravoDateService } from '../../service';
   styleUrls: ['./bravo-date-picker.component.scss'],
   imports: [CommonModule],
 })
-export class BravoDatePickerComponent {
-  private _overlay = inject(OverlayRef);
+export class BravoDatePickerComponent implements OnDestroy {
+  private _destroy$ = new Subject<void>();
   private _service = inject(BravoDateService);
   public get service() {
     return this._service;
   }
   public get moment() {
-    return this.service.moment;
+    return this.service.moment$;
   }
 
-  public selectedDate = this.moment.toDate();
-
+  public selectedDate!: BravoMoment; 
   public dates: BravoMoment[][] = [];
 
   public days: string[] = [];
 
   public constructor() {
-    this.dates = this.service.moment.getWeeks();
+    this.selectedDate = this.service.selectDate;
+    this.service.momentChange$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe(() => {
+        this.dates = this.service.moment$.getWeeks();
+      });
     this.days = this.moment.getDays();
-    console.log(this.selectedDate);
   }
 
-  public onSelectDate(pDate: Date) {
+  ngOnDestroy(): void {
+      this._destroy$.next();
+      this._destroy$.complete();
+  }
+  
+  public onSelectDate(pDate: BravoMoment) {
     this.selectedDate = pDate;
-    this.service.moment = BravoMoment.set(this.moment.toDate(), {
+    this.service.selectDate = BravoMoment.set(this.service.moment$.getDate(), {
+      date: this.selectedDate.getDate(),
+      month: this.selectedDate.getMonth(),
+      year: this.selectedDate.getFullYear()
+    });
+    this.service.moment$ = BravoMoment.set(this.moment.toDate(), {
       date: pDate.getDate(),
     });
-    this._overlay.detach();
+    this.service.hideDatePicker();
   }
 }

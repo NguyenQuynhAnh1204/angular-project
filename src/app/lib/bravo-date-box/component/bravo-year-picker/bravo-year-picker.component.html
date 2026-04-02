@@ -4,10 +4,10 @@
       <button
         #monthItemRef
         class="btn-month"
-        [class.selected]="item == selectedYear"
+        [class.selected]="item.getFullYear() == selectedYear"
         (click)="onSelectYear(item)"
       >
-        {{ item }}
+        {{ item.getFullYear() }}
       </button>
     }
   }

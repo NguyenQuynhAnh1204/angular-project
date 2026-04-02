@@ -5,13 +5,26 @@
 >
     {{label || 'Date'}}: 
 </p>
-<span class="material-symbols-outlined calendar-icon" [class.select-date]="focus" (click)="openCalendar()">calendar_month</span>
 <input type="text" #dateBox
-    class="input-under-line date-box"
-    [class.is-focus]="focus"
-    [readOnly]="readOnly"
-    [value]="textValue"
-    (input)="handleOnChange($event)"
-    (focus)="handleFocus()"
-    (blur)="handleFocus()"
+class="input-under-line date-box"
+[class.is-focus]="focus"
+[readOnly]="readOnly"
+[value]="textValue"
+(input)="handleOnChange($event)"
+(focus)="handleFocus()"
+(blur)="handleBlur()"
+brDropdownAnchor
 >
+<br-dropdown-base class="calendar" [visible]="isOpenDate" [isManualHandleOutsideClick]="true" (onOverlayOutsideClick)="hideDatePicker()">
+    <span class="material-symbols-outlined calendar-icon"
+        [class.select-date]="focus" 
+        (click)="showDatePicker()"
+        >
+        calendar_month
+    </span>
+    <div brDropdown>
+        <br-date-container></br-date-container>
+    </div>
+</br-dropdown-base>
+
+

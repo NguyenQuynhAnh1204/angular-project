@@ -9,12 +9,17 @@
     position: relative;
 }
 
-.calendar-icon {
-    cursor: pointer;
+.calendar {
     position: absolute;
     right: 0;
+}
+.calendar-icon {
+    cursor: pointer;
     font-size: 1.2em;
-    transition: color 0.3s ease-out;
+    transition: color 0.2s ease-out;
+    &:hover {
+        color: #3545ff;
+    }
 }
 
 .select-date {

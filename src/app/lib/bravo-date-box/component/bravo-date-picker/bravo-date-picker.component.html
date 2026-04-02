@@ -12,8 +12,8 @@
                 [class.disabled]="item.toDate().getMonth()!=moment.getMonth()"
                 [class.today]="item.isToday()"
                 [class.sunday]="item.isSunday()"
-                [class.selected]="item.toDate().getDate() == selectedDate.getDate()"
-                (click)="onSelectDate(item.toDate())"
+                [class.selected]="item.toDate().getDate() == selectedDate.toDate().getDate() && item.toDate().getMonth() == selectedDate.toDate().getMonth()"
+                (click)="onSelectDate(item)"
             >
                 {{ item.toDate().getDate() }}
             </button>

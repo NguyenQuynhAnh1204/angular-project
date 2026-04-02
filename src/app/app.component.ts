@@ -6,19 +6,18 @@ import {
   BravoColorManagerService,
   BravoFontManagerService,
 } from '@bravo-infra/ui/cdk/services';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  imports: [BravoDropdownBaseModule, BravoDateBox],
+  imports: [BravoDropdownBaseModule, BravoDateBox, RouterOutlet],
 })
 export class AppComponent {
   readonly colorService = inject(BravoColorManagerService);
   readonly fontService = inject(BravoFontManagerService);
   constructor() {
     const moment = new BravoMoment();
-    console.warn(moment.getMonths('MMM', 3));
-    console.warn(moment.getYears(10, 5)[0][0].getYear());
   }
 }

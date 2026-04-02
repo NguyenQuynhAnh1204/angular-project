@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { BravoMoment } from '../../bravo-control-date.until';
 import { BravoDateService } from '../../service';
 import { BravoDatePickerComponent } from '../bravo-date-picker';
 import { BravoMonthPickerComponent } from '../bravo-month-picker';
 import { BravoYearPickerComponent } from '../bravo-year-picker';
+import { BravoMoment } from '@bravo-infra/core/utils/dates';
 
 @Component({
     selector: 'br-date-container',
@@ -21,11 +21,7 @@ export class BravoDateContainerComponent {
         return this._service;
     }
     public get moment() {
-        return this.service.moment;
-    }
-
-    constructor() {
-        this.service.view = 1;
+        return this.service.moment$;
     }
 
     public switchView() {
@@ -34,29 +30,33 @@ export class BravoDateContainerComponent {
         } else if (this._service.view == 2) {
             this._service.view = 1
         } else if (this._service.view == 3) {
-            this._service.view = 2
+            this._service.view = 1
         }
         else {
             this._service.view = 1
         }
     }
-
-    public getLabel() {
-        const month = this.moment.getMonth()+1;
-        const year = this.moment.getFullYear();
-        if(this.service.view == 1) {
-            return `Tháng ${month} năm ${year}`
-        }
-        else if(this.service.view == 2) {
-            return `Năm ${year}`
-        }
-        else if(this.service.view == 3) {
-            const startYear = year - 14
-            const endYear = startYear + 25
-            return `${startYear} - ${endYear}`
-        }
-        return ''
-    }
+    
+    // public getLabel() {
+    //     const month = this.moment.getMonth()+1;
+    //     const year = this.moment.getFullYear();
+    //     if(this.service.view == 1) {
+    //         this.label = `Tháng ${month} năm ${year}`
+    //         return;
+    //     }
+    //     else if(this.service.view == 2) {
+    //         this.label = `Năm ${year}`
+    //         return;
+    //     }
+    //     else if(this.service.view == 3) {
+    //         const startYear = this.moment.getYears(5,5)[0][0]
+    //         const endYear = startYear.getFullYear() + 24;
+    //         console.log(endYear);
+    //         this.label =  `${startYear.getFullYear()} - ${endYear}`
+    //         return;
+    //     }
+    //     return ''
+    // }
 
 
     public previousSwitch() {
@@ -72,22 +72,22 @@ export class BravoDateContainerComponent {
         const month = this.moment.getMonth();
         const year = this.moment.getFullYear();
         if (this.service.view === 1) {
-            this.service.moment =
-                BravoMoment.set(date, {
-                    month: month + pNumber
-                });
+            this.service.moment$ =
+            BravoMoment.set(date, {
+                month: month + pNumber
+            });
         }
         else if (this.service.view === 2) {
-            this.service.moment =
-                BravoMoment.set(date, {
-                    year: year + pNumber
+            this.service.moment$ =
+            BravoMoment.set(date, {
+                year: year + pNumber
                 });
-        }
+            }
         else if (this.service.view === 3) {
-            this.service.moment =
-                BravoMoment.set(date, {
-                    year: year + pNumber * 25
-                });
+            this.service.moment$ =
+            BravoMoment.set(date, {
+                year: year + pNumber * 25
+            });
         }
     }
 }

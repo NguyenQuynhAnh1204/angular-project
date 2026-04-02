@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { BravoDateService } from '../../service';
-import { BravoMoment } from '../../bravo-control-date.until';
+import { BravoMoment } from '@bravo-infra/core/utils/dates';
 
 @Component({
     selector: 'br-month-picker',
@@ -14,20 +14,20 @@ export class BravoMonthPickerComponent {
         return this._service;
     }
     public get moment() {
-        return this.service.moment;
+        return this.service.moment$;
     }
 
     public selectedMonth = this.moment.getMonth() + 1;
 
-    public months: number[][] = [];
+    public months: BravoMoment[][] = [];
 
     constructor() {
       this.months = this.moment.getMonths('MMM',3);
     }
 
-    public onSelectMonth(pMonth: number) {
-        this.selectedMonth = pMonth;
-        this.service.moment = BravoMoment.set(this.moment.toDate(), {month: this.selectedMonth - 1 });
+    public onSelectMonth(pMonth: BravoMoment) {
+        this.selectedMonth = pMonth.getMonth();
+        this.service.moment$ = BravoMoment.set(this.moment.toDate(), {month: pMonth.getMonth() });
         this.service.switchView(1);
     }
 }

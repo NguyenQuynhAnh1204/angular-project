@@ -3,10 +3,10 @@
     @for (item of rows; track $index) {
       <button
         class="btn-month"
-        [class.selected]="item == selectedMonth"
+        [class.selected]="item.getMonth() == selectedMonth"
         (click)="onSelectMonth(item)"
       >
-        Tháng {{ item }}
+        Tháng {{ item.getMonth() + 1 }}
       </button>
     }
   }

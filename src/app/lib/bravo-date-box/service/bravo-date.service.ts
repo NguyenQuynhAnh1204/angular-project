@@ -1,23 +1,38 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { EViewPicker } from '../bravo-control-date.type';
-import { BravoMoment } from '../bravo-control-date.until';
-import { OverlayRef } from '@angular/cdk/overlay';
+import { BravoMoment } from '@bravo-infra/core/utils/dates';
 
 @Injectable()
 export class BravoDateService {
-  readonly #overlayRef = inject(OverlayRef);
 
-  #isOpen = false;
-  public get isOpen() {
-    return this.#isOpen;
+  private _isOpenDatePicker$ = new BehaviorSubject<boolean>(false);
+  public readonly isOpenDatePickerChange$ = this._isOpenDatePicker$.asObservable();
+  public get isOpenDatePicker$() {
+    return this._isOpenDatePicker$.value;
+  }
+  public set isOpenDatePicker$(pStatus) {
+    if(this.isOpenDatePicker$ == pStatus) return; 
+    this._isOpenDatePicker$.next(pStatus);
   }
 
-  public _moment = new BravoMoment();
-  public get moment() {
-    return this._moment;
+  private _moment$ = new BehaviorSubject<BravoMoment>(new BravoMoment()); // luôn phát ra giá trị đầu tiên là thời điểm hiện tại
+  public readonly momentChange$ = this._moment$.asObservable();  // 
+  public get moment$() {
+    return this._moment$.value;
   }
-  public set moment(pVal) {
-    this._moment = pVal;
+  public set moment$(pVal: BravoMoment) {
+    if(this.moment$ == pVal) return;
+    this._moment$.next(pVal);
+  }
+
+  private _selectDate = this.moment$;
+  public get selectDate() {
+    return this._selectDate;
+  }
+  public set selectDate(pVal) {
+    if(this.selectDate == pVal) return;
+    this._selectDate = pVal;
   }
 
   private _view = EViewPicker.PICKER_DATE;
@@ -33,7 +48,11 @@ export class BravoDateService {
     this.view = pView;
   }
 
-  public show() {}
+  public showDatePicker() {
+    this._isOpenDatePicker$.next(true);
+  }
 
-  public hide() {}
+  public hideDatePicker() {
+    this._isOpenDatePicker$.next(false);
+  }
 }
