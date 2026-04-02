@@ -6,6 +6,11 @@
     align-items: start;
     flex-direction: column;
     position: relative;
+    &:hover {
+        .text-box {
+            border-bottom: 1px solid #3545ff;
+        }
+    }
 }
 
 .label {

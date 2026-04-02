@@ -20,36 +20,37 @@ export class BravoDatePickerComponent implements OnDestroy {
     return this.service.moment$;
   }
 
-  public selectedDate!: BravoMoment; 
   public dates: BravoMoment[][] = [];
 
   public days: string[] = [];
 
   public constructor() {
-    this.selectedDate = this.service.selectDate;
     this.service.momentChange$
       .pipe(takeUntil(this._destroy$))
-      .subscribe(() => {
-        this.dates = this.service.moment$.getWeeks();
+      .subscribe((pVal) => {
+        this.dates = pVal.getWeeks();
+        console.log(this.isSelected(pVal))
       });
     this.days = this.moment.getDays();
+
   }
 
   ngOnDestroy(): void {
       this._destroy$.next();
       this._destroy$.complete();
   }
+
+  public isSelected(pDate: BravoMoment) {
+    return this.service.selectDate.getDate() == pDate.getDate() && this.service.selectDate.getMonth() == pDate.getMonth();
+  }
+
+  public isDayInMonth(pDate: BravoMoment) {
+    return this.moment.isSameMonth(pDate);
+  }
   
   public onSelectDate(pDate: BravoMoment) {
-    this.selectedDate = pDate;
-    this.service.selectDate = BravoMoment.set(this.service.moment$.getDate(), {
-      date: this.selectedDate.getDate(),
-      month: this.selectedDate.getMonth(),
-      year: this.selectedDate.getFullYear()
-    });
-    this.service.moment$ = BravoMoment.set(this.moment.toDate(), {
-      date: pDate.getDate(),
-    });
+    this.service.selectDate = new BravoMoment(pDate)
+    this.service.moment$ = new BravoMoment(pDate);
     this.service.hideDatePicker();
   }
 }

@@ -7,6 +7,11 @@
     align-items: start;
     flex-direction: column;
     position: relative;
+    &:hover {
+        .date-box {
+            border-bottom: 1px solid #3545ff;
+        }
+    }
 }
 
 .calendar {
@@ -15,10 +20,11 @@
 }
 .calendar-icon {
     cursor: pointer;
-    font-size: 1.2em;
+    font-size: 1.3em;
     transition: color 0.2s ease-out;
+    color: #3545ff;
     &:hover {
-        color: #3545ff;
+        opacity: 0.8;
     }
 }
 

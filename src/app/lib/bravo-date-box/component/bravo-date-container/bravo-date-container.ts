@@ -26,37 +26,16 @@ export class BravoDateContainerComponent {
 
     public switchView() {
         if(this._service.view == 1) {
-            this._service.view = 3
+            this.service.switchView(3);
         } else if (this._service.view == 2) {
-            this._service.view = 1
+            this.service.switchView(1);
         } else if (this._service.view == 3) {
-            this._service.view = 1
+            this.service.switchView(1);
         }
         else {
-            this._service.view = 1
+            this.service.switchView(1);
         }
     }
-    
-    // public getLabel() {
-    //     const month = this.moment.getMonth()+1;
-    //     const year = this.moment.getFullYear();
-    //     if(this.service.view == 1) {
-    //         this.label = `Tháng ${month} năm ${year}`
-    //         return;
-    //     }
-    //     else if(this.service.view == 2) {
-    //         this.label = `Năm ${year}`
-    //         return;
-    //     }
-    //     else if(this.service.view == 3) {
-    //         const startYear = this.moment.getYears(5,5)[0][0]
-    //         const endYear = startYear.getFullYear() + 24;
-    //         console.log(endYear);
-    //         this.label =  `${startYear.getFullYear()} - ${endYear}`
-    //         return;
-    //     }
-    //     return ''
-    // }
 
 
     public previousSwitch() {

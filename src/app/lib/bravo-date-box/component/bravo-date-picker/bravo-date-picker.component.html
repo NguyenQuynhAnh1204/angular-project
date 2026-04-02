@@ -9,10 +9,10 @@
         @for (item of rows; track $index) {
             <button
                 class="btn-month"
-                [class.disabled]="item.toDate().getMonth()!=moment.getMonth()"
+                [class.disabled]="!isDayInMonth(item)"
                 [class.today]="item.isToday()"
                 [class.sunday]="item.isSunday()"
-                [class.selected]="item.toDate().getDate() == selectedDate.toDate().getDate() && item.toDate().getMonth() == selectedDate.toDate().getMonth()"
+                [class.selected]="isSelected(item)"
                 (click)="onSelectDate(item)"
             >
                 {{ item.toDate().getDate() }}

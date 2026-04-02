@@ -6,6 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { BravoControlBaseComponent, BravoControlDirective } from '../bravo-control-base';
 import { BravoDateContainerComponent } from "./component";
 import { BravoDateService } from './service';
+import { BravoMoment } from '@bravo-infra/core/utils/dates';
 
 @Component({
     selector: 'br-control-date',
@@ -46,6 +47,11 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
         return this._isOpenDate;
     }
     public set isOpenDate(pOpen) {
+        if(pOpen == true) {
+            this.handleFocus()
+        } else {
+            this.handleBlur()
+        }
         this._isOpenDate = pOpen;
     }
     
@@ -56,7 +62,6 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
             .subscribe((pVal) => {
                 this.isOpenDate = pVal;
                 this.updateValue(this.service?.selectDate?.format())
-                
             })
     }
 
@@ -66,18 +71,28 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
     }
 
     public handleOnChange(pEvent: Event) {
+        const regexDate = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[0-2])\/\d{4}$/; // dd/mm/yyyy
         const input = pEvent.target as HTMLInputElement;
         const value  = input.value;
-        this.updateValue(value);
+        this.textValue = value;
+        if(regexDate.test(this.textValue)) {
+            this.updateValue(this.textValue);
+            this.service.selectDate = new BravoMoment(BravoMoment.parseDate(value, 'dd/MM/yyyy'));
+            this.service.moment$ = new BravoMoment(BravoMoment.parseDate(value, 'dd/MM/yyyy'));
+        } else {
+            this.updateValue('');
+        }
     }
-
+    
+    override handleBlur() {
+        this.focus = false;
+    }
+    
     public showDatePicker() {
-        this.handleFocus()
         this.service.showDatePicker();
     }
 
     public hideDatePicker() {
-        this.handleBlur()
         this.service.hideDatePicker();
     }
 
