@@ -101,7 +101,6 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
     }
 
     public hideDatePicker() {
-        if(this.focus == true) return; 
         this.service.hideDatePicker();
     }
 
