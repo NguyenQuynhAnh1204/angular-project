@@ -29,7 +29,6 @@ export class BravoDatePickerComponent implements OnDestroy {
       .pipe(takeUntil(this._destroy$))
       .subscribe((pVal) => {
         this.dates = pVal.getWeeks();
-        console.log(this.isSelected(pVal))
       });
     this.days = this.moment.getDays();
 

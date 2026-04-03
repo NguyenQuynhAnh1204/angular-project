@@ -43,7 +43,7 @@ export const PANEL_CONFIG: ITablePanel[] = [
                                 row: 1,
                                 label: "Ngày",
                                 name: "ngay",
-                                type: EControlType.TEXTBOX,
+                                type: EControlType.DATE,
                                 validator:{type: ETypeValidation.REQUIRED, message: "Field is required"},
                             }
                         }, 

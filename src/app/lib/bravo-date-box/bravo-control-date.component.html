@@ -1,27 +1,33 @@
-<p
-    class="label"
-    [class.have-text]="focus || textValue"
-    [class.no-text]="textValue=='' && !focus"
->
-    {{label || 'Date'}}: 
-</p>
-<input type="text" #dateBox
-class="input-under-line date-box"
-[class.is-focus]="focus"
-[readOnly]="readOnly"
-[value]="textValue"
-(input)="handleOnChange($event)"
-(focus)="handleFocus()"
-(blur)="handleBlur()"
-brDropdownAnchor
->
-<br-dropdown-base class="calendar" [visible]="isOpenDate" [isManualHandleOutsideClick]="true" (onOverlayOutsideClick)="hideDatePicker()">
-    <span class="material-symbols-outlined calendar-icon"
-        [class.select-date]="focus" 
-        (click)="showDatePicker()"
+<br-dropdown-base [visible]="isOpenDate" [isManualHandleOutsideClick]="true" (onOverlayOutsideClick)="hideDatePicker()">
+    <div class="date-input-container" brDropdownAnchor>
+        <p
+            class="label"
+            [class.have-text]="focus || textValue"
+            [class.no-text]="textValue=='' && !focus"
         >
-        calendar_month
-    </span>
+            {{label || 'Date'}}: 
+        </p>
+        <input type="text" #dateBox
+            class="input-under-line date-box"
+            [readOnly]="isOpenDate"
+            [value]="textValue"
+            (input)="handleOnChange($event)"
+            (focus)="handleFocus()"
+            (blur)="handleBlur()"
+        >
+        <div class="date-icon-container">
+            <span class="material-symbols-outlined close-icon" 
+            [class.show-icon]='textValue'
+            (click)="handleOnClear()"
+            >close</span>
+            <span class="material-symbols-outlined calendar-icon"
+                [class.select-date]="focus" 
+                (click)="showDatePicker()"
+                >
+                calendar_month
+            </span>
+        </div>
+    </div>
     <div brDropdown>
         <br-date-container></br-date-container>
     </div>

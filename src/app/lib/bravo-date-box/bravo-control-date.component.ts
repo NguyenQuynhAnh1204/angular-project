@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, forwardRef, inject, OnDestroy } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
+import { BravoMoment } from '@bravo-infra/core/utils/dates';
+import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
 import { Subject, takeUntil } from 'rxjs';
 import { BravoControlBaseComponent, BravoControlDirective } from '../bravo-control-base';
 import { BravoDateContainerComponent } from "./component";
 import { BravoDateService } from './service';
-import { BravoMoment } from '@bravo-infra/core/utils/dates';
 
 @Component({
     selector: 'br-control-date',
@@ -29,7 +29,9 @@ import { BravoMoment } from '@bravo-infra/core/utils/dates';
     hostDirectives: [{
         directive: BravoControlDirective,
         inputs: ["formControl"]
-    }]
+    },{
+        directive: BravoDropdownAnchorDirective
+    }],
 })
 
 export class BravoControlDateComponent extends BravoControlBaseComponent implements OnDestroy {
@@ -84,16 +86,30 @@ export class BravoControlDateComponent extends BravoControlBaseComponent impleme
         }
     }
     
+    override handleFocus() {
+        this.textValue = this.service.selectDate.format()
+        this.focus = true;
+    }
+    
     override handleBlur() {
         this.focus = false;
     }
+
     
     public showDatePicker() {
         this.service.showDatePicker();
     }
 
     public hideDatePicker() {
+        if(this.focus == true) return; 
         this.service.hideDatePicker();
+    }
+
+    public handleOnClear() {
+        this.updateValue('');
+        this.service.moment$ = new BravoMoment();
+        this.service.selectDate = new BravoMoment();
+        console.log('text',this.textValue);
     }
 
 }

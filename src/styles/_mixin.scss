@@ -105,24 +105,33 @@
     
 }
 
+
+@mixin control-box {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    transition: border-color 0.3s ease;
+    &:hover, &.is-focus {
+        border-bottom: 1px solid #3545ff;
+    }
+}
+
 @mixin input-control {
     outline: none;
     border: none;
-    padding: 4px 0;
+    padding: 8px 0;
     width: 100%;
-    border-bottom: 1px solid #ccc;
     background: none;
-    transition: border-color 0.3s ease;
     color: inherit;
     font-size: inherit;
-    &:focus {
-        border-bottom: 1px solid #3545ff;
-    }
 }
 
 @mixin label-control {
     padding: 6px 0;
     position: absolute;
+    left: 0;
     transition: all 0.25s ease-out;
     &.no-text {
         transform: translateY(-20%);

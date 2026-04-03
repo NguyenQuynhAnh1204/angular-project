@@ -11,8 +11,8 @@ import { BravoMoment } from '@bravo-infra/core/utils/dates';
     templateUrl: './bravo-date-container.html',
     styleUrls: ["./bravo-date-container.scss"],
     imports: [CommonModule, BravoDatePickerComponent, 
-        BravoMonthPickerComponent, BravoYearPickerComponent],
-    
+        BravoMonthPickerComponent, BravoYearPickerComponent
+    ]
 })
 
 export class BravoDateContainerComponent {

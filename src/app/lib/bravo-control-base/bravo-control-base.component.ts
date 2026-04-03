@@ -8,7 +8,10 @@ import { colorAttribute, fontAttribute, paddingAttribute, singleDimension, sizeA
 @Component({
     selector: 'bravo-control-base',
     template: '',
-    imports: [CommonModule]
+    imports: [CommonModule],
+    host: {
+        '[class.is-focus]': 'focus'
+    }
 })
 
 export class BravoControlBaseComponent implements ControlValueAccessor, Validator {
