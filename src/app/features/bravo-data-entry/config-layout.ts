@@ -131,8 +131,8 @@ export const PANEL_CONFIG: ITablePanel[] = [
                 control: {
                     column: 1,
                     row: 2,
-                    label: "Tháng",
-                    type: EControlType.DATE,
+                    label: "",
+                    type: EControlType.DATE_RANGE,
                     name: "date"
                 }
             }

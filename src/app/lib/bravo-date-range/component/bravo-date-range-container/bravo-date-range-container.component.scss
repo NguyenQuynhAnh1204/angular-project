@@ -1,0 +1,10 @@
+@use "styles/mixin" as *;
+
+:host {
+    @include df-center;
+    gap: 20px;
+}
+
+.date-switch {
+    @include df-center;
+}

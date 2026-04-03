@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { EViewPicker } from '../bravo-control-date.type';
 @Injectable()
-export class BravoDateService {
+export class BravoDateSingleService {
 
   private _isOpenDatePicker$ = new BehaviorSubject<boolean>(false);
   public readonly isOpenDatePickerChange$ = this._isOpenDatePicker$.asObservable();

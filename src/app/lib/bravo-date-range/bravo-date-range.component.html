@@ -1,0 +1,50 @@
+<br-dropdown-base >
+    <div class="date-input-container" brDropdownAnchor (click)="focusOnDateRange()">
+        <p
+            class="label"
+            [class.have-text]="focus || textValue"
+            [class.no-text]="textValue=='' && !focus"
+        >
+            {{label || 'Date range'}}: 
+        </p>
+        <input type="text" #startDate
+            class="input-under-line date-range"
+            [class.show-input]="focus"
+            placeholder="Start date"
+            [readOnly]="readOnly"
+            [value]="textValue"
+            (focus)="handleFocus()"
+            (blur)="handleBlur()"
+        >
+        <span class="material-symbols-outlined arrow-icon close-icon"
+            [class.show-icon]="focus"
+        >
+            east
+        </span>
+       <input type="text" #endDate
+        class="input-under-line date-range"
+        [class.show-input]="focus"
+        placeholder="End date"
+        [readOnly]="readOnly"
+        [value]="textValue"
+        (focus)="handleFocus()"
+        (blur)="handleBlur()"
+       >
+        <div class="date-icon-container">
+            <span class="material-symbols-outlined close-icon"
+                [class.show-icon]="focus" 
+            >close</span>
+            <span class="material-symbols-outlined calendar-icon"
+                [class.select-date]="focus" 
+                brDropdownToggle
+                >
+                calendar_month
+            </span>
+        </div>
+    </div>
+    <div brDropdown>
+        <br-date-range-container/>
+    </div>
+</br-dropdown-base>
+
+

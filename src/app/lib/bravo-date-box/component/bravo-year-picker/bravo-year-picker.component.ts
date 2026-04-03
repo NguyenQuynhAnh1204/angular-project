@@ -1,7 +1,7 @@
 import { Component, inject, OnDestroy } from '@angular/core';
-import { BravoDateService } from '../../service';
 import { Subject, takeUntil } from 'rxjs';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
+import { BravoDateSingleService } from '../../service';
 
 @Component({
     selector: 'br-year-picker',
@@ -11,7 +11,7 @@ import { BravoMoment } from '@bravo-infra/core/utils/dates';
 
 export class BravoYearPickerComponent implements OnDestroy {
     private _destroy$ = new Subject<void>();
-    private _service = inject(BravoDateService);
+    private _service = inject(BravoDateSingleService);
     public get service() {
         return this._service;
     }

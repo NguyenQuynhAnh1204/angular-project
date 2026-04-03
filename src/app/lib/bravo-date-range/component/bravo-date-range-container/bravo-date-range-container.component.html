@@ -1,0 +1,60 @@
+<div class="start-date">
+    <div class="start-date-switch date-switch">
+        <span class="material-symbols-outlined calender-chevron">chevron_left</span>
+
+        @switch(viewStartDate) {
+            @case (1) {
+                <ng-container *ngTemplateOutlet='datePicker'></ng-container>
+            }
+            @case (2) {
+                <ng-container *ngTemplateOutlet='monthPicker'></ng-container>
+            }
+            @case (3) {
+                <ng-container *ngTemplateOutlet='yearPicker'></ng-container>
+            }
+        }
+
+    </div>
+    
+    <div>
+
+        date
+    </div>
+</div>
+
+<div class="end-date">
+    <div class="start-date-switch date-switch">
+        @switch(viewEndDate) {
+            @case (1) {
+                <ng-container *ngTemplateOutlet='datePicker'></ng-container>
+            }
+            @case (2) {
+                <ng-container *ngTemplateOutlet='monthPicker'></ng-container>
+            }
+            @case (3) {
+                <ng-container *ngTemplateOutlet='yearPicker'></ng-container>
+            }
+        }
+
+        <span class="material-symbols-outlined calender-chevron">chevron_right</span>
+    </div>
+    <div>
+        date
+    </div>
+</div>
+
+
+<ng-template #datePicker>
+    Date picker
+</ng-template>
+
+<ng-template #monthPicker>
+    Month Picker
+</ng-template>
+
+<ng-template #yearPicker>
+    Year Picker
+</ng-template>
+
+
+

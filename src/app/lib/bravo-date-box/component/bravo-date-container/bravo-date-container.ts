@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { BravoDateService } from '../../service';
 import { BravoDatePickerComponent } from '../bravo-date-picker';
 import { BravoMonthPickerComponent } from '../bravo-month-picker';
 import { BravoYearPickerComponent } from '../bravo-year-picker';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
+import { BravoDateSingleService } from '../../service';
 
 @Component({
     selector: 'br-date-container',
@@ -16,7 +16,7 @@ import { BravoMoment } from '@bravo-infra/core/utils/dates';
 })
 
 export class BravoDateContainerComponent {
-    private _service = inject(BravoDateService);
+    private _service = inject(BravoDateSingleService);
     public get service() {
         return this._service;
     }

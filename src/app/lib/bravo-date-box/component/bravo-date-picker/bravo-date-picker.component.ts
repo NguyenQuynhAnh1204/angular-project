@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
-import { BravoDateService } from '../../service';
+import { BravoDateSingleService } from '../../service';
+
 
 @Component({
   selector: 'br-date-picker',
@@ -12,7 +13,7 @@ import { BravoDateService } from '../../service';
 })
 export class BravoDatePickerComponent implements OnDestroy {
   private _destroy$ = new Subject<void>();
-  private _service = inject(BravoDateService);
+  private _service = inject(BravoDateSingleService);
   public get service() {
     return this._service;
   }
@@ -40,7 +41,7 @@ export class BravoDatePickerComponent implements OnDestroy {
   }
 
   public isSelected(pDate: BravoMoment) {
-    return this.service.selectDate.getDate() == pDate.getDate() && this.service.selectDate.getMonth() == pDate.getMonth();
+    return this.service.selectDate.getDate() == pDate.getDate() && this.service.selectDate.getMonth() == pDate.getMonth() && this.service.selectDate.getFullYear() == pDate.getFullYear();
   }
 
   public isDayInMonth(pDate: BravoMoment) {

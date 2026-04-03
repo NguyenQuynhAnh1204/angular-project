@@ -28,7 +28,7 @@ export class BravoControlBaseComponent implements ControlValueAccessor, Validato
     }
 
     public touched = false;
-    private _focus!: boolean;
+    private _focus = false;
     public get focus() {
         return this._focus;
     }

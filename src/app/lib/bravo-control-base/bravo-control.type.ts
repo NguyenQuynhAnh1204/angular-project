@@ -9,6 +9,7 @@ export enum EControlType {
     CHECKBOX,
     RADIO,
     DATE,
+    DATE_RANGE,
     TEXTAREA
 }
 
