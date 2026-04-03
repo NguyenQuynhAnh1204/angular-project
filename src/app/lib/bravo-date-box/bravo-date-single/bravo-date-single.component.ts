@@ -4,24 +4,24 @@ import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
 import { Subject, takeUntil } from 'rxjs';
-import { BravoControlBaseComponent, BravoControlDirective } from '../bravo-control-base';
-import { BravoDateContainerComponent } from "./component";
-import { BravoDateService } from './service';
+import { BravoControlBaseComponent, BravoControlDirective } from '../../bravo-control-base';
+import { BravoDateContainerComponent } from '../component';
+import { BravoDateService } from '../service';
 
 @Component({
-    selector: 'br-control-date',
-    templateUrl: './bravo-control-date.component.html',
-    styleUrls: ["./bravo-control-date.component.scss"],
+    selector: 'br-date-single',
+    templateUrl: './bravo-date-single.component.html',
+    styleUrls: ["./bravo-date-single.component.scss"],
     imports: [CommonModule, BravoDropdownBaseModule, BravoDateContainerComponent],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => BravoControlDateComponent),
+            useExisting: forwardRef(() => BravoDateSingleComponent),
             multi: true
         },
         {
             provide: NG_VALIDATORS,
-            useExisting: forwardRef(() => BravoControlDateComponent),
+            useExisting: forwardRef(() => BravoDateSingleComponent),
             multi: true
         },
         BravoDateService,
@@ -34,7 +34,7 @@ import { BravoDateService } from './service';
     }],
 })
 
-export class BravoControlDateComponent extends BravoControlBaseComponent implements OnDestroy {
+export class BravoDateSingleComponent extends BravoControlBaseComponent implements OnDestroy {
     private _destroy$ = new Subject<void>();
     private _service = inject(BravoDateService);
     public get service() {

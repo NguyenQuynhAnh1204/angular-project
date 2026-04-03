@@ -1,13 +1,13 @@
 import { Type } from "@angular/core";
-import { EControlType } from "./bravo-control.type";
-import { BravoTextBoxComponent } from "../bravo-text-box";
-import { BravoControlDateComponent } from "../bravo-date-box";
+import { BravoDateSingleComponent } from "../bravo-date-box";
 import { BravoControlNumberComponent } from "../bravo-number-box";
+import { BravoTextBoxComponent } from "../bravo-text-box";
+import { EControlType } from "./bravo-control.type";
 
 export const CONTROL_MAP:Partial<Record<EControlType, Type<any>>> = {
     [EControlType.TEXTBOX]: BravoTextBoxComponent,
     [EControlType.NUMBER]: BravoControlNumberComponent,
-    [EControlType.DATE]: BravoControlDateComponent,
+    [EControlType.DATE]: BravoDateSingleComponent,
 };
 
 export function selectControl(type?: EControlType): Type<any> {

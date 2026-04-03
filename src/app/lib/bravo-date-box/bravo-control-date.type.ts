@@ -4,3 +4,8 @@ export enum EViewPicker {
     PICKER_MONTH,
     PICKER_YEAR
 }
+
+export enum EDateMode { 
+    Single = 1, 
+    Range 
+}

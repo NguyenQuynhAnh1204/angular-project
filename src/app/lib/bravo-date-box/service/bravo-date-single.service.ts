@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { EViewPicker } from '../bravo-control-date.type';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
-
+import { EViewPicker } from '../bravo-control-date.type';
 @Injectable()
 export class BravoDateService {
 
@@ -49,6 +48,7 @@ export class BravoDateService {
   }
 
   public showDatePicker() {
+    this.switchView(1);
     this._isOpenDatePicker$.next(true);
   }
 
