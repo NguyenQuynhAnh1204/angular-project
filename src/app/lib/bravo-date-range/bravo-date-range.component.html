@@ -1,4 +1,4 @@
-<br-dropdown-base >
+<br-dropdown-base [visible]="isOpenPicker" [isManualHandleOutsideClick]="true" (onOverlayOutsideClick)="hideDatePicker()">
     <div class="date-input-container" brDropdownAnchor (click)="focusOnDateRange()">
         <p
             class="label"
@@ -36,7 +36,7 @@
             >close</span>
             <span class="material-symbols-outlined calendar-icon"
                 [class.select-date]="focus" 
-                brDropdownToggle
+                (click)="showDatePicker()"
                 >
                 calendar_month
             </span>

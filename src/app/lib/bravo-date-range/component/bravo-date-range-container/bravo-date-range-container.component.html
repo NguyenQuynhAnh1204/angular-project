@@ -1,60 +1,56 @@
-<div class="start-date">
+<div class="start-date date-box">
     <div class="start-date-switch date-switch">
-        <span class="material-symbols-outlined calender-chevron">chevron_left</span>
+        <span class="material-symbols-outlined calender-chevron" (click)="previousSwitch('start')">chevron_left</span>
 
-        @switch(viewStartDate) {
-            @case (1) {
-                <ng-container *ngTemplateOutlet='datePicker'></ng-container>
-            }
-            @case (2) {
-                <ng-container *ngTemplateOutlet='monthPicker'></ng-container>
-            }
-            @case (3) {
-                <ng-container *ngTemplateOutlet='yearPicker'></ng-container>
-            }
-        }
+        <div class="title-calender" (click)="switchView('start')">
+            {{titleStartDate}}
+        </div>
 
+        <span class="material-symbols-outlined calender-chevron" 
+            [class.hide-icon]="viewStartDate==1"
+            (click)="nextSwitch('start')"
+        >chevron_right</span>
     </div>
     
-    <div>
-
-        date
-    </div>
-</div>
-
-<div class="end-date">
-    <div class="start-date-switch date-switch">
-        @switch(viewEndDate) {
-            @case (1) {
-                <ng-container *ngTemplateOutlet='datePicker'></ng-container>
+    <div #startDate>
+        @switch(viewStartDate) {
+            @case(1) {
+                <br-date-picker-range [time]="'start'"/>
             }
             @case (2) {
-                <ng-container *ngTemplateOutlet='monthPicker'></ng-container>
+                <br-month-picker-range [time]="'start'"/>
             }
             @case (3) {
-                <ng-container *ngTemplateOutlet='yearPicker'></ng-container>
+                <br-year-picker-range [time]="'start'"/>
             }
         }
-
-        <span class="material-symbols-outlined calender-chevron">chevron_right</span>
-    </div>
-    <div>
-        date
     </div>
 </div>
 
+<div class="end-date date-box">
+    <div class="start-date-switch date-switch">
+        <span class="material-symbols-outlined calender-chevron" 
+            [class.hide-icon]="viewEndDate==1"
+            (click)="previousSwitch('end')"
+        >chevron_left</span>
 
-<ng-template #datePicker>
-    Date picker
-</ng-template>
+        <div class="title-calender" (click)="switchView('end')">
+            {{titleEndDate}}
+        </div>
 
-<ng-template #monthPicker>
-    Month Picker
-</ng-template>
-
-<ng-template #yearPicker>
-    Year Picker
-</ng-template>
-
-
-
+        <span class="material-symbols-outlined calender-chevron" (click)="nextSwitch('end')">chevron_right</span>
+    </div>
+    <div #endDate>
+        @switch(viewEndDate) {
+            @case(1) {
+                <br-date-picker-range [time]="'end'"/>
+            }
+            @case (2) {
+                <br-month-picker-range [time]="'end'"/>
+            }
+            @case (3) {
+                <br-year-picker-range [time]="'end'"/>
+            }
+        }
+    </div>
+</div>

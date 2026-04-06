@@ -1,0 +1,22 @@
+<div class="days">
+    @for (item of days; track $index) {
+        <span>{{item}}</span>
+    }
+</div>
+
+<div class="dates">
+    @for (rows of dates; track $index) {
+        @for (item of rows; track $index) {
+            <button #dateItem
+                class="btn-month"
+                [class.not-month]="!moment.isSameMonth(item)"
+                [class.today]="item.isToday()"
+                [class.sunday]="item.isSunday()"
+                [class.selected]="isSelected(item)"
+                (click)="selectDate(item)"
+            >
+                {{ item.toDate().getDate() }}
+            </button>
+        }
+    }
+</div>

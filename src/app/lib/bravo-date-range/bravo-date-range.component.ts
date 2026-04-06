@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, forwardRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, forwardRef, OnDestroy, ViewChild } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
 import { BravoControlBaseComponent, BravoControlDirective } from '../bravo-control-base';
 import { BravoDateRangeContainerComponent } from './component';
+import { BravoDateRangeService } from './bravo-date-range.service';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -22,6 +24,7 @@ import { BravoDateRangeContainerComponent } from './component';
             useExisting: forwardRef(() => BravoDateRangeComponent),
             multi: true
         },
+        BravoDateRangeService
         
     ],
     hostDirectives: [
@@ -35,7 +38,13 @@ import { BravoDateRangeContainerComponent } from './component';
     ]
 })
 
-export class BravoDateRangeComponent extends BravoControlBaseComponent {
+export class BravoDateRangeComponent extends BravoControlBaseComponent implements OnDestroy {
+    private _destroy$ = new Subject<void>();
+    private _service = new BravoDateRangeService();
+
+
+    public isOpenPicker = false;
+
     private _startDateEl!: ElementRef<HTMLInputElement>;
     @ViewChild('startDate', {static: true})
     public get startDateEl() {
@@ -56,13 +65,29 @@ export class BravoDateRangeComponent extends BravoControlBaseComponent {
 
     constructor() {
         super();
+        this._service.isOpenDatePickerChange$
+            .subscribe((pVal) => {
+                this.isOpenPicker = pVal;
+            })
+    }
+
+    public ngOnDestroy() {
+        this._destroy$.next();
+        this._destroy$.complete();
     }
 
     public focusOnDateRange() {
-        console.log(this.focus)
         if(this.focus == false) {
             this.startDateEl.nativeElement.focus();
         }
     }
 
+
+    public showDatePicker() {
+        this._service.showDatePicker();
+    }
+
+    public hideDatePicker() {
+        this._service.hideDatePicker();
+    }
 }

@@ -16,7 +16,7 @@ export class BravoYearPickerComponent implements OnDestroy {
         return this._service;
     }
     public get moment() {
-        return this.service.moment$;
+        return this.service.moment;
     }
 
     private _years!: BravoMoment[][]
@@ -44,7 +44,7 @@ export class BravoYearPickerComponent implements OnDestroy {
 
     public onSelectYear(pYear: BravoMoment) {
         this.selectedYear = pYear.getFullYear();
-        this.service.moment$ = BravoMoment.set(this.moment.toDate(), {year: this.selectedYear});
+        this.service.moment = BravoMoment.set(this.moment.toDate(), {year: this.selectedYear});
         this.service.switchView(2)
     }
     

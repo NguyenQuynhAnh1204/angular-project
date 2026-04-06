@@ -18,7 +18,7 @@ export class BravoDatePickerComponent implements OnDestroy {
     return this._service;
   }
   public get moment() {
-    return this.service.moment$;
+    return this.service.moment;
   }
 
   public dates: BravoMoment[][] = [];
@@ -50,7 +50,7 @@ export class BravoDatePickerComponent implements OnDestroy {
   
   public onSelectDate(pDate: BravoMoment) {
     this.service.selectDate = new BravoMoment(pDate)
-    this.service.moment$ = new BravoMoment(pDate);
+    this.service.moment = new BravoMoment(pDate);
     this.service.hideDatePicker();
   }
 }

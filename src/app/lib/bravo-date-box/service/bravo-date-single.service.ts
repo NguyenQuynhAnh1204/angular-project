@@ -4,28 +4,39 @@ import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { EViewPicker } from '../bravo-control-date.type';
 @Injectable()
 export class BravoDateSingleService {
-
+  // flag open picker
   private _isOpenDatePicker$ = new BehaviorSubject<boolean>(false);
   public readonly isOpenDatePickerChange$ = this._isOpenDatePicker$.asObservable();
-  public get isOpenDatePicker$() {
+  public get isOpenDatePicker() {
     return this._isOpenDatePicker$.value;
   }
-  public set isOpenDatePicker$(pStatus) {
-    if(this.isOpenDatePicker$ == pStatus) return; 
+  public set isOpenDatePicker(pStatus) {
+    if(this.isOpenDatePicker == pStatus) return; 
     this._isOpenDatePicker$.next(pStatus);
   }
 
+  // moment change
   private _moment$ = new BehaviorSubject<BravoMoment>(new BravoMoment()); // luôn phát ra giá trị đầu tiên là thời điểm hiện tại
   public readonly momentChange$ = this._moment$.asObservable();  // 
-  public get moment$() {
+  public get moment() {
     return this._moment$.value;
   }
-  public set moment$(pVal: BravoMoment) {
-    if(this.moment$ == pVal) return;
+  public set moment(pVal: BravoMoment) {
+    if(this.moment == pVal) return;
     this._moment$.next(pVal);
   }
 
-  private _selectDate = this.moment$;
+  // view change
+  private _view$ = new BehaviorSubject<EViewPicker>(1);
+  public readonly viewChange$ = this._view$.asObservable(); 
+  public get view() {
+    return this._view$.value;
+  }
+  public set view(pValue) {
+    this._view$.next(pValue);
+  }
+  
+  private _selectDate = this.moment;
   public get selectDate() {
     return this._selectDate;
   }
@@ -33,26 +44,22 @@ export class BravoDateSingleService {
     if(this.selectDate == pVal) return;
     this._selectDate = pVal;
   }
-
-  private _view = EViewPicker.PICKER_DATE;
-  public get view() {
-    return this._view;
-  }
-  public set view(pValue) {
-    this._view = pValue;
-  }
-
-  // đổi picker
+  
+  // hàm đổi view
   public switchView(pView: EViewPicker) {
     this.view = pView;
   }
 
+  // hàm mở picker
   public showDatePicker() {
     this.switchView(1);
     this._isOpenDatePicker$.next(true);
+    this._moment$.next(this.selectDate);
   }
 
+  // hàm đóng picker
   public hideDatePicker() {
     this._isOpenDatePicker$.next(false);
   }
+
 }

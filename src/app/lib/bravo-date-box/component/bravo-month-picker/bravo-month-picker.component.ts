@@ -14,7 +14,7 @@ export class BravoMonthPickerComponent {
         return this._service;
     }
     public get moment() {
-        return this.service.moment$;
+        return this.service.moment;
     }
 
     public selectedMonth = this.moment.getMonth() + 1;
@@ -27,7 +27,7 @@ export class BravoMonthPickerComponent {
 
     public onSelectMonth(pMonth: BravoMoment) {
         this.selectedMonth = pMonth.getMonth();
-        this.service.moment$ = BravoMoment.set(this.moment.toDate(), {month: pMonth.getMonth() });
+        this.service.moment = BravoMoment.set(this.moment.toDate(), {month: pMonth.getMonth() });
         this.service.switchView(1);
     }
 }

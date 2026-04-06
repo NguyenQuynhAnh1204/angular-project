@@ -42,7 +42,7 @@ export class BravoDateSingleComponent extends BravoControlBaseComponent implemen
         return this._service;
     }
     public get moment() {
-        return this.service.moment$;
+        return this.service.moment;
     }
 
     private _isOpenDate = false;
@@ -81,7 +81,7 @@ export class BravoDateSingleComponent extends BravoControlBaseComponent implemen
         if (regexDate.test(this.textValue)) {
             this.updateValue(this.textValue);
             this.service.selectDate = new BravoMoment(BravoMoment.parseDate(value, 'dd/MM/yyyy'));
-            this.service.moment$ = new BravoMoment(BravoMoment.parseDate(value, 'dd/MM/yyyy'));
+            this.service.moment = new BravoMoment(BravoMoment.parseDate(value, 'dd/MM/yyyy'));
         } else {
             this.updateValue('');
         }
@@ -107,7 +107,7 @@ export class BravoDateSingleComponent extends BravoControlBaseComponent implemen
 
     public handleOnClear() {
         this.updateValue('');
-        this.service.moment$ = new BravoMoment();
+        this.service.moment = new BravoMoment();
         this.service.selectDate = new BravoMoment();
     }
 

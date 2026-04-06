@@ -1,23 +1,13 @@
 <div class="view-switch">
     <span class="material-symbols-outlined calender-chevron" (click)="previousSwitch()">chevron_left</span>
     <div (click)="switchView()">
-        @switch (service.view) {
-            @case (1) {
-                Tháng {{moment.getMonth() + 1}} năm {{moment.getFullYear()}}
-            }
-            @case (2) {
-                Năm {{moment.getFullYear()}}
-            }
-            @case (3) {
-                    {{moment.getYears(5, 5)[0][0].getFullYear()}} - {{moment.getYears(5, 5)[0][0].getFullYear()+25}}
-            }
-        }
+        {{title}}
     </div>
     <span class="material-symbols-outlined calender-chevron" (click)="nextSwitch()">chevron_right</span>
 </div>
 
 
-@switch (service.view) {
+@switch (view) {
     @case (1) {
         <br-date-picker/>
     }
