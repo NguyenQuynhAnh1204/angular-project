@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, forwardRef, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, forwardRef, inject, OnDestroy, ViewChild } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
 import { BravoControlBaseComponent, BravoControlDirective } from '../bravo-control-base';
 import { BravoDateRangeContainerComponent } from './component';
 import { BravoDateRangeService } from './bravo-date-range.service';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 
 @Component({
@@ -40,34 +40,39 @@ import { Subject } from 'rxjs';
 
 export class BravoDateRangeComponent extends BravoControlBaseComponent implements OnDestroy {
     private _destroy$ = new Subject<void>();
-    private _service = new BravoDateRangeService();
-
+    private _service = inject(BravoDateRangeService);
 
     public isOpenPicker = false;
 
-    private _startDateEl!: ElementRef<HTMLInputElement>;
-    @ViewChild('startDate', {static: true})
-    public get startDateEl() {
-        return this._startDateEl;
-    }
-    public set startDateEl(pEl) {
-        this._startDateEl = pEl;
-    }
-    
-    private _endDateEl!: ElementRef<HTMLInputElement>;
-    @ViewChild('endDate', {static: true})
-    public get endDateEl() {
-        return this._endDateEl;
-    }
-    public set endDateEl(pEl) {
-        this._endDateEl = pEl;
-    }
+    public startDate = '';
+    public endDate = '';
+
+    @ViewChild('startDateInput', {static: true})
+    public startDateEl!: ElementRef<HTMLInputElement>;
+
+    @ViewChild('endDateInput', {static: true})
+    public endDateEl!: ElementRef<HTMLInputElement>;
 
     constructor() {
         super();
         this._service.isOpenDatePickerChange$
             .subscribe((pVal) => {
                 this.isOpenPicker = pVal;
+            })
+        
+        this._service.selectedStartDateChange$
+            .pipe(takeUntil(this._destroy$))
+            .subscribe((pVal) => {
+                if(!pVal) return;
+                this.startDate = pVal.format();
+                this.updateValue(`${this.startDate}${this.endDate}`)
+            })
+        this._service.selectedEndDateChange$
+            .pipe(takeUntil(this._destroy$))
+            .subscribe((pVal) => {
+                if(!pVal) return;
+                this.endDate = pVal.format();
+                this.updateValue(`${this.startDate}${this.endDate}`)
             })
     }
 
@@ -76,18 +81,14 @@ export class BravoDateRangeComponent extends BravoControlBaseComponent implement
         this._destroy$.complete();
     }
 
-    public focusOnDateRange() {
-        if(this.focus == false) {
-            this.startDateEl.nativeElement.focus();
-        }
-    }
-
 
     public showDatePicker() {
+        this.focus = true;
         this._service.showDatePicker();
     }
 
     public hideDatePicker() {
+        this.focus = false;
         this._service.hideDatePicker();
     }
 }

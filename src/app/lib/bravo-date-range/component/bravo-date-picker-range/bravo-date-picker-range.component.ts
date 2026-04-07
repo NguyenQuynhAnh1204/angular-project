@@ -63,17 +63,6 @@ export class BravoDatePickerRangeComponent implements AfterViewInit, OnInit, OnD
     }
 
     public ngAfterViewInit() {
-        this.dateItem.forEach((pEl) => {
-            fromEvent(pEl.nativeElement, 'mouseover')
-            .subscribe(() => {
-                console.log('vo')
-                pEl.nativeElement.classList.add("is-select");
-            })
-            fromEvent(pEl.nativeElement, 'mouseleave')
-            .subscribe(() => {
-                pEl.nativeElement.classList.remove("is-select");
-            })
-        })
     }
 
     public ngOnDestroy() {
