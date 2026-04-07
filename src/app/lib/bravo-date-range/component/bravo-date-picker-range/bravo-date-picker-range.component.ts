@@ -77,6 +77,7 @@ export class BravoDatePickerRangeComponent implements AfterViewInit, OnInit, OnD
         } 
         if(!this._service.selectedEndDate) {
             this._service.selectedEndDate = pDate;
+            this._service.hideDatePicker()
             return;
         }
         
@@ -91,8 +92,4 @@ export class BravoDatePickerRangeComponent implements AfterViewInit, OnInit, OnD
         this._service.selectedEndDate?.getFullYear() == pDate.getFullYear());
     }
 
-    // trả về date lớn hơn 
-    private _compareDate(pDate: BravoMoment, pOtherDate: BravoMoment) {
-        return pDate.getTime() - pOtherDate.getTime();
-    }
 }

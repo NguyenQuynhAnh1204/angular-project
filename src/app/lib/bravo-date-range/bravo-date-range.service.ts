@@ -113,5 +113,7 @@ export class BravoDateRangeService {
     public clear() {
         this._selectedStartDate$.next(undefined);
         this._selectedEndDate$.next(undefined);
+        this.momentStart = new BravoMoment();
+        this.momentEnd = new BravoMoment().addMonths(1);
     }
 }

@@ -63,15 +63,13 @@ export class BravoDateRangeComponent extends BravoControlBaseComponent implement
         this._service.selectedStartDateChange$
             .pipe(takeUntil(this._destroy$))
             .subscribe((pVal) => {
-                if(!pVal) return;
-                this.startDate = pVal.format();
+                this.startDate = pVal?.format() ?? '';
                 this.updateValue(`${this.startDate}${this.endDate}`)
             })
         this._service.selectedEndDateChange$
             .pipe(takeUntil(this._destroy$))
             .subscribe((pVal) => {
-                if(!pVal) return;
-                this.endDate = pVal.format();
+                this.endDate = pVal?.format() ?? '';
                 this.updateValue(`${this.startDate}${this.endDate}`)
             })
     }
@@ -90,5 +88,11 @@ export class BravoDateRangeComponent extends BravoControlBaseComponent implement
     public hideDatePicker() {
         this.focus = false;
         this._service.hideDatePicker();
+    }
+
+    public clear() {
+        this.updateValue('')
+        this.focus = false;
+        this._service.clear();
     }
 }
