@@ -138,5 +138,4 @@ export class BravoDatePickerRangeComponent implements AfterViewInit, OnInit, OnD
         this._service.selectedEndDate?.getMonth() == pDate.getMonth() && 
         this._service.selectedEndDate?.getFullYear() == pDate.getFullYear());
     }
-
 }
