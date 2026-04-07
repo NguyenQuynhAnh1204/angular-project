@@ -60,20 +60,31 @@ export class BravoDateRangeService {
     }
 
     // lưu thời gian bắt đầu
-    private _selectedStartDate!: BravoMoment;
+    private _selectedStartDate$ = new BehaviorSubject<BravoMoment | undefined>(undefined);
+    public readonly selectedStartDateChange$ = this._selectedStartDate$.asObservable();
     public get selectedStartDate() {
-        return this._selectedStartDate
+        return this._selectedStartDate$.value;
     }
     public set selectedStartDate(pMoment) {
-        this._selectedStartDate = pMoment;
+        this._selectedStartDate$.next(pMoment);
     }
     // lưu thời gian kết thức
-    private _selectedEndDate!: BravoMoment;
+    private _selectedEndDate$ = new BehaviorSubject<BravoMoment | undefined>(undefined);
+    public readonly selectedEndDateChange$ = this._selectedEndDate$.asObservable();
     public get selectedEndDate() {
-        return this._selectedEndDate
+        return this._selectedEndDate$.value;
     }
     public set selectedEndDate(pMoment) {
-        this._selectedEndDate = pMoment;
+        this._selectedEndDate$.next(pMoment);
+    }
+
+    private _editDate$ = new BehaviorSubject<'start'|'end'>('start');
+    public readonly editDateChange$ = this._editDate$.asObservable();
+    public get editDate() {
+        return this._editDate$.value;
+    }
+    public set editDate(pEdit) {
+        this._editDate$.next(pEdit)
     }
 
     public switchView(pType: 'start' | 'end', pView: EViewPicker) {
@@ -86,14 +97,21 @@ export class BravoDateRangeService {
 
     // hàm mở picker
     public showDatePicker() {
-        // this.switchView(pTime, 1);
+        this.switchView('start', 1);
+        this.switchView('end', 1);
         this._isOpenDatePicker$.next(true);
-        // this._moment$.next(this.selectDate);
     }
 
     // hàm đóng picker
     public hideDatePicker() {
         this._isOpenDatePicker$.next(false);
+        if(!this._selectedEndDate$ || !this._selectedStartDate$) {
+            this.clear();
+        }
     }
     
+    public clear() {
+        this._selectedStartDate$.next(undefined);
+        this._selectedEndDate$.next(undefined);
+    }
 }
