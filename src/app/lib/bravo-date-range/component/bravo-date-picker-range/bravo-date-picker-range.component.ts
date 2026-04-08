@@ -70,65 +70,41 @@ export class BravoDatePickerRangeComponent implements AfterViewInit, OnInit, OnD
         this._destroy$.complete();
     }
 
-    // public selectDate(pDate: BravoMoment) {
-    //     if(!this._service.selectedStartDate) {
-    //         this._service.selectedStartDate = pDate;
-    //         return;
-    //     } 
-    //     if(!this._service.selectedEndDate) {
-    //         const end = pDate;
-    //         const start = this._service.selectedStartDate;
-    //         if(end.isBefore(start)) {
-    //             this._service.selectedStartDate = pDate;
-    //             this._service.selectedEndDate = start;
-    //         }
-    //         this._service.hideDatePicker()
-    //         return;
-    //     }
-    //     const start = pDate;
-    //     const end = this._service.selectedEndDate;
-    //     if(end.isBefore(start)) {
-    //         this._service.selectedStartDate = pDate;
-    //         this._service.selectedEndDate = start;
-    //     } else {
-    //         this._service.selectedEndDate = pDate;
-    //     }
-    // }
-
     public selectDate(pDate: BravoMoment) { 
-        if(!this._service.selectedStartDate) { 
-            this._service.selectedStartDate = new BravoMoment(pDate);
-            this._service.editDate = 'end'; 
-        } 
-        else if(!this._service.selectedEndDate) { 
-            this._service.selectedEndDate = new BravoMoment(pDate); 
-            this._service.editDate = 'start'; 
-            this._service.hideDatePicker(); 
-        } 
-        else { 
-            if (this._service.editDate === 'start') { 
-                const start = new BravoMoment(pDate); 
-                const end = this._service.selectedEndDate; 
-                if(start.isAfter(end)) { 
-                    this._service.selectedStartDate = end 
-                    this._service.selectedEndDate = start; 
-                } else { 
-                    this._service.selectedStartDate = start; 
-                } 
-                this._service.editDate = 'end'; 
-            } else { 
-                const start = this._service.selectedStartDate!; 
-                const end = new BravoMoment(pDate); 
-                if (end.isBefore(start)) { 
-                    this._service.selectedStartDate = end; 
-                    this._service.selectedEndDate = start; 
-                } else { 
-                    this._service.selectedEndDate = end; 
-                } 
-                this._service.editDate = 'start'; 
-                this._service.hideDatePicker(); 
-            } 
-        }
+        // if(!this._service.selectedStartDate) { 
+        //     this._service.selectedStartDate = new BravoMoment(pDate);
+        //     this._service.editDate = 'end'; 
+        // } 
+        // else if(!this._service.selectedEndDate) { 
+        //     this._service.selectedEndDate = new BravoMoment(pDate); 
+        //     this._service.editDate = 'start'; 
+        //     this._service.hideDatePicker(); 
+        // } 
+        // else { 
+        //     if (this._service.editDate === 'start') { 
+        //         const start = new BravoMoment(pDate); 
+        //         const end = this._service.selectedEndDate; 
+        //         if(start.isAfter(end)) { 
+        //             this._service.selectedStartDate = end 
+        //             this._service.selectedEndDate = start; 
+        //         } else { 
+        //             this._service.selectedStartDate = start; 
+        //         } 
+        //         this._service.editDate = 'end'; 
+        //     } else { 
+        //         const start = this._service.selectedStartDate!; 
+        //         const end = new BravoMoment(pDate); 
+        //         if (end.isBefore(start)) { 
+        //             this._service.selectedStartDate = end; 
+        //             this._service.selectedEndDate = start; 
+        //         } else { 
+        //             this._service.selectedEndDate = end; 
+        //         } 
+        //         this._service.editDate = 'start'; 
+        //         this._service.hideDatePicker(); 
+        //     } 
+        // }
+        this._service.selectDate(pDate);
     }
     public isSelected(pDate: BravoMoment) {
         return (this._service.selectedStartDate?.getDate() == pDate.getDate() && 

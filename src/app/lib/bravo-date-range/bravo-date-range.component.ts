@@ -72,6 +72,10 @@ export class BravoDateRangeComponent extends BravoControlBaseComponent implement
                 this.endDate = pVal?.format() ?? '';
                 this.updateValue(`${this.startDate}${this.endDate}`)
             })
+        this._service.editDateChange$
+            .subscribe((pVal) => {
+            
+            })
     }
 
     public ngOnDestroy() {
