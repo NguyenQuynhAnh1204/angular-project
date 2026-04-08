@@ -4,7 +4,8 @@
 (onOverlayOutsideClick)="hideDatePicker()"
 >
     <div class="date-input-container" brDropdownAnchor>
-        <p
+       <div class="date-input-content">
+         <p
             class="label"
             [class.have-text]="focus || textValue"
             [class.no-text]="textValue=='' && !focus"
@@ -17,19 +18,26 @@
             placeholder="Start date"
             [readOnly]="readOnly"
             [value]="startDate"
+            (input)="handleOnChange($event)"
+            (focus)="handleOnFocusInput('start', startDateInput)"
+            (blur)="handleOnBlurInput('start', startDateInput)"
         >
         <span class="material-symbols-outlined arrow-icon close-icon"
             [class.show-icon]="focus || textValue"
         >
             east
         </span>
-       <input type="text" #endDateInput
-        class="input-under-line date-range"
-        [class.show-input]="focus || textValue"
-        placeholder="End date"
-        [readOnly]="readOnly"
-        [value]="endDate"
-       >
+        <input type="text" #endDateInput
+            class="input-under-line date-range"
+            [class.show-input]="focus || textValue"
+            placeholder="End date"
+            [readOnly]="readOnly"
+            [value]="endDate"
+            (input)="handleOnChange($event)"
+            (focus)="handleOnFocusInput('end', endDateInput)"
+            (blur)="handleOnBlurInput('end', endDateInput)"
+        >
+        </div>
         <div class="date-icon-container">
             <span class="material-symbols-outlined close-icon"
                 [class.show-icon]="focus || textValue" 

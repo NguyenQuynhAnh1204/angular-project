@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, forwardRef, inject, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, forwardRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
-import { BravoControlBaseComponent, BravoControlDirective } from '../bravo-control-base';
-import { BravoDateRangeContainerComponent } from './component';
-import { BravoDateRangeService } from './bravo-date-range.service';
 import { Subject, takeUntil } from 'rxjs';
+import { BravoControlBaseComponent, BravoControlDirective } from '../bravo-control-base';
+import { BravoDateRangeService } from './bravo-date-range.service';
+import { BravoDateRangeContainerComponent } from './component';
+import { BravoMoment } from '@bravo-infra/core/utils/dates';
 
 
 @Component({
@@ -38,11 +39,16 @@ import { Subject, takeUntil } from 'rxjs';
     ]
 })
 
-export class BravoDateRangeComponent extends BravoControlBaseComponent implements OnDestroy {
+export class BravoDateRangeComponent extends BravoControlBaseComponent implements OnInit, OnDestroy {
     private _destroy$ = new Subject<void>();
     private _service = inject(BravoDateRangeService);
 
-    public isOpenPicker = false;
+    public get isOpenPicker() {
+        return this._service.isOpenDatePicker;
+    }
+    public get editDate() {
+        return this._service.editDate;
+    }
 
     public startDate = '';
     public endDate = '';
@@ -53,13 +59,7 @@ export class BravoDateRangeComponent extends BravoControlBaseComponent implement
     @ViewChild('endDateInput', {static: true})
     public endDateEl!: ElementRef<HTMLInputElement>;
 
-    constructor() {
-        super();
-        this._service.isOpenDatePickerChange$
-            .subscribe((pVal) => {
-                this.isOpenPicker = pVal;
-            })
-        
+    public ngOnInit() {        
         this._service.selectedStartDateChange$
             .pipe(takeUntil(this._destroy$))
             .subscribe((pVal) => {
@@ -72,10 +72,6 @@ export class BravoDateRangeComponent extends BravoControlBaseComponent implement
                 this.endDate = pVal?.format() ?? '';
                 this.updateValue(`${this.startDate}${this.endDate}`)
             })
-        this._service.editDateChange$
-            .subscribe((pVal) => {
-            
-            })
     }
 
     public ngOnDestroy() {
@@ -83,6 +79,33 @@ export class BravoDateRangeComponent extends BravoControlBaseComponent implement
         this._destroy$.complete();
     }
 
+    public handleOnChange(pEvent: Event) {
+        const regexDate = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[0-2])\/\d{4}$/; // dd/mm/yyyy
+        const input = pEvent.target as HTMLInputElement;
+        const value = input.value;
+        this.textValue = value;
+        if(regexDate.test(value)) {
+            this._service.selectDate(new BravoMoment(BravoMoment.parseDate(value, 'dd/MM/yyyy')))
+        } else {
+            this.updateValue('')
+        }
+    }
+
+    public handleOnFocusInput(pTime: 'start'|'end', pEl: HTMLInputElement) {
+        pEl.focus();
+        this.focus = true;
+        this._service.editDate = pTime;
+    }
+    
+    public handleOnBlurInput(pTime: 'start'|'end', pEL: HTMLInputElement) {
+        pEL.blur();
+        this.focus = false;
+        if(pTime == "start") {
+            this._service.editDate = 'end';
+        } else {
+            this._service.editDate = 'start';
+        }
+    }
 
     public showDatePicker() {
         this.focus = true;

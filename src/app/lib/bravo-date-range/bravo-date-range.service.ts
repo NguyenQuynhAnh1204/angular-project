@@ -105,13 +105,18 @@ export class BravoDateRangeService {
     // chọn ngày 
     public selectDate(pDate: BravoMoment) {
         // chọn lần đầu
-        if (!this.selectedStartDate) {
-            this.selectedStartDate = pDate;
+        if (!this.selectedStartDate && this.editDate == 'start') {
+            if (this.selectedEndDate && pDate.isAfter(this.selectedEndDate)) {
+                this.selectedStartDate = this.selectedEndDate;
+                this.selectedEndDate = pDate;
+            } else {
+                this.selectedStartDate = pDate;
+            }
             this.editDate = 'end';
             return;
         }
-        if (!this.selectedEndDate) {
-            if (pDate.isBefore(this.selectedStartDate)) {
+        if (!this.selectedEndDate && this.editDate == "end") {
+            if (this.selectedStartDate && pDate.isBefore(this.selectedStartDate)) {
                 this.selectedEndDate = this.selectedStartDate;
                 this.selectedStartDate = pDate;
             } else {
@@ -132,6 +137,7 @@ export class BravoDateRangeService {
             this.hideDatePicker();
         }
     }
+
     // chọn tháng
     public selectMonth(pType: 'start' | 'end',pDate: BravoMoment) {
         const month = pDate.getMonth();
@@ -223,6 +229,13 @@ export class BravoDateRangeService {
         this.switchView('start', 1);
         this.switchView('end', 1);
         this.isOpenDatePicker = true;
+        if(this.selectedStartDate) {
+            this.momentStart = this.selectedStartDate;
+            this.momentEnd = new BravoMoment(this.selectedStartDate).addMonths(1);
+        } else if(this.selectedEndDate) {
+            this.momentEnd = this.selectedEndDate;
+            this.momentStart = new BravoMoment(this.selectedEndDate).subMonths(1);
+        }
     }
 
     // hàm đóng picker

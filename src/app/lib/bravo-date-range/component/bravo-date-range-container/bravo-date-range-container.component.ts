@@ -67,7 +67,6 @@ export class BravoDateRangeContainerComponent implements OnInit, OnDestroy {
 
     private _buildTitle(moment: BravoMoment,view:EViewPicker){
         switch(view){
-
             case EViewPicker.PICKER_DATE:
                 return `Tháng ${moment.getMonth()+1} năm ${moment.getFullYear()}`;
 

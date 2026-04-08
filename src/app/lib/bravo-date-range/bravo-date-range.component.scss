@@ -20,6 +20,10 @@
     gap: 10px;
 }
 
+.date-input-content {
+    @include df-center;
+}
+
 
 .material-symbols-outlined {
     cursor: pointer;
