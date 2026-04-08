@@ -62,14 +62,39 @@ export class BravoDatePickerRangeComponent implements OnInit, OnDestroy {
     public handleOnHover(pDate: BravoMoment) {
         if(!this._service.selectedStartDate) return;
         if(this._service.selectedEndDate) return;
-        this._service.hoverDate = pDate;
+       
+        // console.log(pDate);
     }
 
     public handleOnLeave() {
-        this._service.hoverDate = undefined;
+        
     }
-    
-    public isSelected(pDate: BravoMoment) {
-        return (this._service.selectedStartDate?.isSameDay(pDate) || this._service.selectedEndDate?.isSameDay(pDate));
+
+    public isStartDate(pDate: BravoMoment) {
+        return this._service.selectedStartDate?.isSameDay(pDate)
+    }
+
+    public isEndDate(pDate: BravoMoment) {
+        return this._service.selectedEndDate?.isSameDay(pDate)
+    }
+
+    public isRange(pDate: BravoMoment) {
+        const start = this._service.selectedStartDate;
+        const end = this._service.selectedEndDate;
+        if(!start || !end) return false;
+        const startTime = start.getTime();
+        const endTime = end.getTime();
+        const dateTime = pDate.getTime();
+        return dateTime > startTime && dateTime < endTime;
+    }
+
+    public isHoverRange(pDate: BravoMoment) {
+        const start = this._service.selectedStartDate;
+        const end = this._service.selectedEndDate;
+        if(!start || !end) return false;
+        const startTime = start.getTime();
+        const endTime = end.getTime();
+        const dateTime = pDate.getTime();
+        return dateTime > startTime && dateTime < endTime;
     }
 }

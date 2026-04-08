@@ -93,15 +93,6 @@ export class BravoDateRangeService {
         this._editDate$.next(pEdit)
     }
 
-    private _hoverDate$ =new BehaviorSubject<BravoMoment | undefined>(undefined);
-    public hoverDateChange$ = this._hoverDate$.asObservable();
-    public get hoverDate() {
-        return this._hoverDate$.value;
-    }
-    public set hoverDate(pDate) {
-        this._hoverDate$.next(pDate);
-    }
-
     // chọn ngày 
     public selectDate(pDate: BravoMoment) {
         // chọn lần đầu
@@ -128,11 +119,20 @@ export class BravoDateRangeService {
         }
         // chọn lại
         if (this.editDate === 'start') {
-            this.selectedStartDate = pDate;
-            this.selectedEndDate = undefined;
+            if (pDate.isAfter(this.selectedEndDate!)) {
+                this.selectedStartDate = this.selectedEndDate;
+                this.selectedEndDate = pDate;
+            } else {
+                this.selectedStartDate = pDate;
+            }
             this.editDate = 'end';
         } else {
-            this.selectedEndDate = pDate;
+            if (pDate.isBefore(this.selectedStartDate!)) {
+                this.selectedEndDate = this.selectedStartDate;
+                this.selectedStartDate = pDate;
+            } else {
+                this.selectedEndDate = pDate;
+            }
             this.editDate = 'start';
             this.hideDatePicker();
         }
@@ -248,7 +248,6 @@ export class BravoDateRangeService {
         this.selectedStartDate = undefined;
         this.selectedEndDate = undefined;
         this.editDate = 'start';
-        this.hoverDate = undefined;
         this.momentStart = new BravoMoment();
         this.momentEnd = new BravoMoment().addMonths(1);
         this.switchView('start',1);

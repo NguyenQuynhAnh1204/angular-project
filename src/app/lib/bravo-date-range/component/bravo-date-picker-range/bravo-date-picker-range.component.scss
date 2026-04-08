@@ -37,13 +37,19 @@
     &:hover {
         border: 1px solid #3545ff;
     }
-    &:not(.not-month).selected {
-        background-color: #3545ff;
-        color: #fff;
-    }
     &.is-select {
         border: none;
         border-top: 1px dotted #3545ff;
         border-bottom: 1px dotted #3545ff;
+    }
+    &:not(.not-month).selected {
+        background-color: #3545ff;
+        color: #fff;
+    }
+    &:not(.not-month).range {
+        background-color:#d3e7ff;
+    }
+    &:not(.not-month).hover-range {
+        background-color: #c6dffd;
     }
 }
