@@ -35,22 +35,13 @@ export class BravoYearPickerRangeComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit() {
-        if(this.time == 'start') {
-            this._service.momentStartChange$
-                .pipe(takeUntil(this._destroy$))
-                .subscribe((pMoment) => {
-                    this.moment = pMoment;
-                    this.years = pMoment.getYears(5, 5);
-                })
-        }
-        if(this.time == 'end') {
-            this._service.momentEndChange$
-                .pipe(takeUntil(this._destroy$))
-                .subscribe((pMoment) => {
-                    this.moment = pMoment;
-                    this.years = pMoment.getYears(5, 5);
-                })
-        }
+        const momentChange$ = this.time == 'start' ? this._service.momentStartChange$ : this._service.momentEndChange$;
+        momentChange$
+            .pipe(takeUntil(this._destroy$))
+            .subscribe((pMoment) => {
+                this.moment = pMoment;
+                this.years = pMoment.getYears(5, 5);
+            })
         this.selectedYear = this.moment.getFullYear();
     }
 
@@ -59,16 +50,7 @@ export class BravoYearPickerRangeComponent implements OnInit, OnDestroy {
         this._destroy$.complete();
     }
 
-    public selectYear(pSelect: BravoMoment) {
-        this.selectedYear = pSelect.getFullYear();
-        this._service.momentStart = BravoMoment.set(this.moment.toDate(), {
-            year: pSelect.getFullYear(),
-        })
-        this._service.momentEnd = BravoMoment.set(this.moment.toDate(),  {
-            month: pSelect.getMonth() + 1,
-            year: pSelect.getFullYear(),
-        })
-        this._service.switchView(this.time, 2);
+    public selectYear(pDate: BravoMoment) {
+        this._service.selectYear(this.time, pDate);
     }
-
 }

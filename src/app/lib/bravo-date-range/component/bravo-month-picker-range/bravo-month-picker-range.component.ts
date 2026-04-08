@@ -35,22 +35,13 @@ export class BravoMonthPickerRangeComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit() {
-        if(this.time == 'start') {
-            this._service.momentStartChange$
-                .pipe(takeUntil(this._destroy$))
-                .subscribe((pMoment) => {
-                    this.moment = pMoment;
-                    this.months = pMoment.getMonths('MMM', 3);
-                })
-        }
-        if(this.time == 'end') {
-            this._service.momentEndChange$
-                .pipe(takeUntil(this._destroy$))
-                .subscribe((pMoment) => {
-                    this.moment = pMoment;
-                    this.months = pMoment.getMonths('MMM', 3);
-                })
-        }
+        const momentChange$ = this.time == 'start' ? this._service.momentStartChange$ : this._service.momentEndChange$;
+        momentChange$
+            .pipe(takeUntil(this._destroy$))
+            .subscribe((pMoment) => {
+                this.moment = pMoment;
+                this.months = pMoment.getMonths('MMM', 3);
+            })
         this.selectedMonth = this.moment.getMonth();
     }
 
@@ -59,23 +50,7 @@ export class BravoMonthPickerRangeComponent implements OnInit, OnDestroy {
         this._destroy$.complete();
     }
 
-    public selectMonth(pSelect: BravoMoment) {
-        this.selectedMonth = pSelect.getMonth();
-        if(this.time == 'start') {
-            this._service.momentStart = BravoMoment.set(this.moment.toDate(), {
-                month: pSelect.getMonth(),
-            })
-            this._service.momentEnd = BravoMoment.set(this.moment.toDate(), {
-                month: pSelect.getMonth() + 1
-            })
-        } else if(this.time == 'end') {
-            this._service.momentStart = BravoMoment.set(this.moment.toDate(), {
-                month: pSelect.getMonth() - 1,
-            })
-            this._service.momentEnd = BravoMoment.set(this.moment.toDate(), {
-                month: pSelect.getMonth()
-            })
-        }
-        this._service.switchView(this.time, 1);
+    public selectMonth(pDate: BravoMoment) {
+        this._service.selectMonth(this.time, pDate);
     }
 }

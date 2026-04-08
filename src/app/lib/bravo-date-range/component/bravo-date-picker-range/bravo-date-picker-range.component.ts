@@ -1,6 +1,9 @@
-import { AfterViewInit, Component, ElementRef, inject, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import {
+    Component, ElementRef, inject,
+    Input, OnDestroy, OnInit, QueryList, ViewChildren
+} from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
-import { fromEvent, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { BravoDateRangeService } from '../../bravo-date-range.service';
 
 @Component({
@@ -9,7 +12,7 @@ import { BravoDateRangeService } from '../../bravo-date-range.service';
     styleUrls: ["./bravo-date-picker-range.component.scss"]
 })
 
-export class BravoDatePickerRangeComponent implements AfterViewInit, OnInit, OnDestroy {
+export class BravoDatePickerRangeComponent implements OnInit, OnDestroy {
     private _destroy$ = new Subject<void>();
     private _service = inject(BravoDateRangeService);  
     
@@ -33,36 +36,18 @@ export class BravoDatePickerRangeComponent implements AfterViewInit, OnInit, OnD
         this._time = pTime;
     }
 
-    private _dateItem!: QueryList<ElementRef>
     @ViewChildren('dateItem')
-    public get dateItem() {
-        return this._dateItem;
-    }
-    public set dateItem(pDateItem) {
-        this._dateItem = pDateItem;
-    }
+    public dateItem!: QueryList<ElementRef>
 
     public ngOnInit() {
-        if(this.time == 'start') {
-            this._service.momentStartChange$
-                .pipe(takeUntil(this._destroy$))
-                .subscribe((pMoment) => {
-                    this.moment = pMoment;
-                    this.dates = pMoment.getWeeks();
-                })
-        }
-        if(this.time == "end") {
-            this._service.momentEndChange$
+        const momentChange$ = this.time == 'start' ? this._service.momentStartChange$ : this._service.momentEndChange$;
+        momentChange$
             .pipe(takeUntil(this._destroy$))
             .subscribe((pMoment) => {
                 this.moment = pMoment;
                 this.dates = pMoment.getWeeks();
             })
-        }
         this.days = this.moment.getDays();
-    }
-
-    public ngAfterViewInit() {
     }
 
     public ngOnDestroy() {
@@ -71,41 +56,19 @@ export class BravoDatePickerRangeComponent implements AfterViewInit, OnInit, OnD
     }
 
     public selectDate(pDate: BravoMoment) { 
-        // if(!this._service.selectedStartDate) { 
-        //     this._service.selectedStartDate = new BravoMoment(pDate);
-        //     this._service.editDate = 'end'; 
-        // } 
-        // else if(!this._service.selectedEndDate) { 
-        //     this._service.selectedEndDate = new BravoMoment(pDate); 
-        //     this._service.editDate = 'start'; 
-        //     this._service.hideDatePicker(); 
-        // } 
-        // else { 
-        //     if (this._service.editDate === 'start') { 
-        //         const start = new BravoMoment(pDate); 
-        //         const end = this._service.selectedEndDate; 
-        //         if(start.isAfter(end)) { 
-        //             this._service.selectedStartDate = end 
-        //             this._service.selectedEndDate = start; 
-        //         } else { 
-        //             this._service.selectedStartDate = start; 
-        //         } 
-        //         this._service.editDate = 'end'; 
-        //     } else { 
-        //         const start = this._service.selectedStartDate!; 
-        //         const end = new BravoMoment(pDate); 
-        //         if (end.isBefore(start)) { 
-        //             this._service.selectedStartDate = end; 
-        //             this._service.selectedEndDate = start; 
-        //         } else { 
-        //             this._service.selectedEndDate = end; 
-        //         } 
-        //         this._service.editDate = 'start'; 
-        //         this._service.hideDatePicker(); 
-        //     } 
-        // }
         this._service.selectDate(pDate);
     }
+
+    public handleOnHover(pDate: BravoMoment) {
+        if(!this._service.selectedStartDate) return;
+        if(this._service.selectedEndDate) return;
+        this._service.hoverDate = pDate;
+    }
+
+    public handleOnLeave() {
+        this._service.hoverDate = undefined;
+    }
+    
     public isSelected(pDate: BravoMoment) {
         return (this._service.selectedStartDate?.getDate() == pDate.getDate() && 
         this._service.selectedStartDate?.getMonth() == pDate.getMonth() && 

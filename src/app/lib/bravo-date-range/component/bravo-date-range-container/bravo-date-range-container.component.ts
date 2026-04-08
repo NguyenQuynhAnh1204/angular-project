@@ -58,14 +58,6 @@ export class BravoDateRangeContainerComponent implements OnInit, OnDestroy {
             .subscribe((pViewEnd) => {
                 this.viewEndDate = pViewEnd;
             })
-        this._service.momentStartChange$
-            .pipe(takeUntil(this._destroy$))
-            .subscribe(() => {
-            })
-        this._service.momentEndChange$
-            .pipe(takeUntil(this._destroy$))
-            .subscribe(() => {
-            })
     }
 
     public ngOnDestroy() {
@@ -97,13 +89,11 @@ export class BravoDateRangeContainerComponent implements OnInit, OnDestroy {
 
     // previous time
     public previousSwitch(pType: 'start' | 'end') {
-        // this._switch(pType, -1);
         this._service.moveCalendar(pType,-1);
     }
     
     // next time
     public nextSwitch(pType: 'start' | 'end') {
-        // this._switch(pType, 1);
         this._service.moveCalendar(pType,1);
     }
 }
