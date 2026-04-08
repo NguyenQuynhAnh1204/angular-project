@@ -112,10 +112,11 @@ export class BravoDateRangeService {
         }
         if (!this.selectedEndDate) {
             if (pDate.isBefore(this.selectedStartDate)) {
+                this.selectedEndDate = this.selectedStartDate;
                 this.selectedStartDate = pDate;
-                return;
+            } else {
+                this.selectedEndDate = pDate;
             }
-            this.selectedEndDate = pDate;
             this.editDate = 'start';
             this.hideDatePicker();
             return;
@@ -131,7 +132,7 @@ export class BravoDateRangeService {
             this.hideDatePicker();
         }
     }
-
+    // chọn tháng
     public selectMonth(pType: 'start' | 'end',pDate: BravoMoment) {
         const month = pDate.getMonth();
         if (pType === 'start') {
@@ -149,7 +150,7 @@ export class BravoDateRangeService {
         }
         this.switchView(pType, EViewPicker.PICKER_DATE);
     }
-    
+    // chọn năm
     public selectYear(pTime: 'start' | 'end', pDate: BravoMoment) {
         const month = pDate.getMonth();
         const year = pDate.getFullYear();

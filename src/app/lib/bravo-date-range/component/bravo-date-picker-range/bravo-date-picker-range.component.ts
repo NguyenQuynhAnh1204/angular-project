@@ -70,11 +70,6 @@ export class BravoDatePickerRangeComponent implements OnInit, OnDestroy {
     }
     
     public isSelected(pDate: BravoMoment) {
-        return (this._service.selectedStartDate?.getDate() == pDate.getDate() && 
-        this._service.selectedStartDate?.getMonth() == pDate.getMonth() && 
-        this._service.selectedStartDate?.getFullYear() == pDate.getFullYear()) ||
-        (this._service.selectedEndDate?.getDate() == pDate.getDate() && 
-        this._service.selectedEndDate?.getMonth() == pDate.getMonth() && 
-        this._service.selectedEndDate?.getFullYear() == pDate.getFullYear());
+        return (this._service.selectedStartDate?.isSameDay(pDate) || this._service.selectedEndDate?.isSameDay(pDate));
     }
 }
