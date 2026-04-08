@@ -41,17 +41,8 @@ export class BravoDateSingleComponent extends BravoControlBaseComponent implemen
         return this._service.moment;
     }
 
-    private _isOpenDate = false;
     public get isOpenDate() {
-        return this._isOpenDate;
-    }
-    public set isOpenDate(pOpen) {
-        if (pOpen == true) {
-            this.handleFocus()
-        } else {
-            this.handleBlur()
-        }
-        this._isOpenDate = pOpen;
+        return this._service.isOpenDatePicker;
     }
 
     constructor() {
@@ -59,7 +50,11 @@ export class BravoDateSingleComponent extends BravoControlBaseComponent implemen
         this._service.isOpenDatePickerChange$
             .pipe(takeUntil(this._destroy$))
             .subscribe((pVal) => {
-                this.isOpenDate = pVal;
+                if(pVal == true) {
+                    this.handleFocus()
+                } else {
+                    this.handleBlur()
+                }
                 this.updateValue(this._service?.selectDate?.format())
             })
     }
@@ -70,28 +65,26 @@ export class BravoDateSingleComponent extends BravoControlBaseComponent implemen
     }
 
     public handleOnChange(pEvent: Event) {
-        const regexDate = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[0-2])\/\d{4}$/; // dd/mm/yyyy
         const input = pEvent.target as HTMLInputElement;
         const value = input.value;
         this.textValue = value;
-        if (regexDate.test(this.textValue)) {
+        if (this._validateInputDate(value)) {
             this.updateValue(this.textValue);
             this._service.selectDate = new BravoMoment(BravoMoment.parseDate(value, 'dd/MM/yyyy'));
-            this._service.moment = new BravoMoment(BravoMoment.parseDate(value, 'dd/MM/yyyy'));
         } else {
             this.updateValue('');
         }
     }
 
+    private _validateInputDate(pValue: string) {
+        const regexDate = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[0-2])\/\d{4}$/; // dd/mm/yyyy
+        return regexDate.test(pValue)
+    }
+
     override handleFocus() {
-        this.updateValue(this._service?.selectDate?.format())
+        this.updateValue(this._service.selectDate.format())
         this.focus = true;
     }
-
-    override handleBlur() {
-        this.focus = false;
-    }
-
 
     public showDatePicker() {
         this._service.showDatePicker();
@@ -103,8 +96,7 @@ export class BravoDateSingleComponent extends BravoControlBaseComponent implemen
 
     public handleOnClear() {
         this.updateValue('');
-        this._service.moment = new BravoMoment();
-        this._service.selectDate = new BravoMoment();
+        this._service.clearSelectDate();
     }
 }
 

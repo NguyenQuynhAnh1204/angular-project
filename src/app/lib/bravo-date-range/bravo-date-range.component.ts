@@ -108,6 +108,7 @@ export class BravoDateRangeComponent extends BravoControlBaseComponent implement
 
     public showDatePicker() {
         this.focus = true;
+        this._service.editDate = 'start'
         this._service.showDatePicker();
     }
 

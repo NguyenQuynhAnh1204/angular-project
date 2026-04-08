@@ -16,8 +16,8 @@ export class BravoDateSingleService {
   }
 
   // moment change
-  private _moment$ = new BehaviorSubject<BravoMoment>(new BravoMoment()); // luôn phát ra giá trị đầu tiên là thời điểm hiện tại
-  public readonly momentChange$ = this._moment$.asObservable();  // 
+  private _moment$ = new BehaviorSubject<BravoMoment>(new BravoMoment());
+  public readonly momentChange$ = this._moment$.asObservable();
   public get moment() {
     return this._moment$.value;
   }
@@ -85,5 +85,10 @@ export class BravoDateSingleService {
   // hàm đóng picker
   public hideDatePicker() {
     this._isOpenDatePicker$.next(false);
+  }
+
+  public clearSelectDate() {
+    this.moment = new BravoMoment();
+    this.selectDate = new BravoMoment();
   }
 }

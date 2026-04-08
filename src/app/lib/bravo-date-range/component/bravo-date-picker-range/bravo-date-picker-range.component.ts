@@ -85,13 +85,5 @@ export class BravoDatePickerRangeComponent implements OnInit, OnDestroy {
         return dateTime > startTime && dateTime < endTime;
     }
 
-    public isHoverRange(pDate: BravoMoment) {
-        const start = this._service.selectedStartDate;
-        const end = this._service.selectedEndDate;
-        if(!start || !end) return false;
-        const startTime = start.getTime();
-        const endTime = end.getTime();
-        const dateTime = pDate.getTime();
-        return dateTime > startTime && dateTime < endTime;
-    }
+    public isHoverRange(pDate: BravoMoment) {}
 }
