@@ -10,11 +10,8 @@ import { BravoDateSingleService } from '../../service';
 
 export class BravoMonthPickerComponent {
     private _service = inject(BravoDateSingleService);
-    public get service() {
-        return this._service;
-    }
     public get moment() {
-        return this.service.moment;
+        return this._service.moment;
     }
 
     public selectedMonth = this.moment.getMonth() + 1;
@@ -27,7 +24,7 @@ export class BravoMonthPickerComponent {
 
     public onSelectMonth(pMonth: BravoMoment) {
         this.selectedMonth = pMonth.getMonth();
-        this.service.moment = BravoMoment.set(this.moment.toDate(), {month: pMonth.getMonth() });
-        this.service.switchView(1);
+        this._service.moment = BravoMoment.set(this.moment.toDate(), {month: pMonth.getMonth() });
+        this._service.switchView(1);
     }
 }

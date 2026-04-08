@@ -38,7 +38,6 @@ import { BravoMoment } from '@bravo-infra/core/utils/dates';
         }
     ]
 })
-
 export class BravoDateRangeComponent extends BravoControlBaseComponent implements OnInit, OnDestroy {
     private _destroy$ = new Subject<void>();
     private _service = inject(BravoDateRangeService);

@@ -62,12 +62,9 @@ export class BravoDatePickerRangeComponent implements OnInit, OnDestroy {
     public handleOnHover(pDate: BravoMoment) {
         if(!this._service.selectedStartDate) return;
         if(this._service.selectedEndDate) return;
-       
-        // console.log(pDate);
     }
 
     public handleOnLeave() {
-        
     }
 
     public isStartDate(pDate: BravoMoment) {

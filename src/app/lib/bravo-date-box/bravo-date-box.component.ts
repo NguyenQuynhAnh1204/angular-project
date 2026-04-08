@@ -34,15 +34,11 @@ import { BravoDateSingleService } from './service';
         directive: BravoDropdownAnchorDirective
     }],
 })
-
 export class BravoDateSingleComponent extends BravoControlBaseComponent implements OnDestroy {
     private _destroy$ = new Subject<void>();
     private _service = inject(BravoDateSingleService);
-    public get service() {
-        return this._service;
-    }
     public get moment() {
-        return this.service.moment;
+        return this._service.moment;
     }
 
     private _isOpenDate = false;
@@ -60,11 +56,11 @@ export class BravoDateSingleComponent extends BravoControlBaseComponent implemen
 
     constructor() {
         super();
-        this.service.isOpenDatePickerChange$
+        this._service.isOpenDatePickerChange$
             .pipe(takeUntil(this._destroy$))
             .subscribe((pVal) => {
                 this.isOpenDate = pVal;
-                this.updateValue(this.service?.selectDate?.format())
+                this.updateValue(this._service?.selectDate?.format())
             })
     }
 
@@ -80,15 +76,15 @@ export class BravoDateSingleComponent extends BravoControlBaseComponent implemen
         this.textValue = value;
         if (regexDate.test(this.textValue)) {
             this.updateValue(this.textValue);
-            this.service.selectDate = new BravoMoment(BravoMoment.parseDate(value, 'dd/MM/yyyy'));
-            this.service.moment = new BravoMoment(BravoMoment.parseDate(value, 'dd/MM/yyyy'));
+            this._service.selectDate = new BravoMoment(BravoMoment.parseDate(value, 'dd/MM/yyyy'));
+            this._service.moment = new BravoMoment(BravoMoment.parseDate(value, 'dd/MM/yyyy'));
         } else {
             this.updateValue('');
         }
     }
 
     override handleFocus() {
-        this.updateValue(this.service?.selectDate?.format())
+        this.updateValue(this._service?.selectDate?.format())
         this.focus = true;
     }
 
@@ -98,18 +94,17 @@ export class BravoDateSingleComponent extends BravoControlBaseComponent implemen
 
 
     public showDatePicker() {
-        this.service.showDatePicker();
+        this._service.showDatePicker();
     }
 
     public hideDatePicker() {
-        this.service.hideDatePicker();
+        this._service.hideDatePicker();
     }
 
     public handleOnClear() {
         this.updateValue('');
-        this.service.moment = new BravoMoment();
-        this.service.selectDate = new BravoMoment();
+        this._service.moment = new BravoMoment();
+        this._service.selectDate = new BravoMoment();
     }
-
 }
 

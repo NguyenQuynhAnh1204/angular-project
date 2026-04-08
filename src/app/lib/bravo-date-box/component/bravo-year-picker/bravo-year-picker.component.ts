@@ -12,11 +12,8 @@ import { BravoDateSingleService } from '../../service';
 export class BravoYearPickerComponent implements OnDestroy {
     private _destroy$ = new Subject<void>();
     private _service = inject(BravoDateSingleService);
-    public get service() {
-        return this._service;
-    }
     public get moment() {
-        return this.service.moment;
+        return this._service.moment;
     }
 
     private _years!: BravoMoment[][]
@@ -30,7 +27,7 @@ export class BravoYearPickerComponent implements OnDestroy {
     public selectedYear = this.moment.getFullYear();
    
     constructor() {
-        this.service.momentChange$
+        this._service.momentChange$
             .pipe(takeUntil(this._destroy$))
             .subscribe((pMoment) => {
                 this.years = pMoment.getYears(5,5);
@@ -44,8 +41,8 @@ export class BravoYearPickerComponent implements OnDestroy {
 
     public onSelectYear(pYear: BravoMoment) {
         this.selectedYear = pYear.getFullYear();
-        this.service.moment = BravoMoment.set(this.moment.toDate(), {year: this.selectedYear});
-        this.service.switchView(2)
+        this._service.moment = BravoMoment.set(this.moment.toDate(), {year: this.selectedYear});
+        this._service.switchView(2)
     }
     
 }

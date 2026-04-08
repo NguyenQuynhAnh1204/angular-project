@@ -50,7 +50,32 @@ export class BravoDateSingleService {
     this.view = pView;
   }
 
-  // hàm mở picker
+  // đổi picker
+  public moveCalendar(pNumb: number) {
+    const date = this.moment.toDate();
+        const month = this.moment.getMonth();
+        const year = this.moment.getFullYear();
+        if (this.view === 1) {
+            this.moment =
+            BravoMoment.set(date, {
+                month: month + pNumb
+            });
+        }
+        else if (this.view === 2) {
+            this.moment =
+            BravoMoment.set(date, {
+                year: year + pNumb
+                });
+            }
+        else if (this.view === 3) {
+            this.moment =
+            BravoMoment.set(date, {
+                year: year + pNumb * 25
+            });
+        }
+  } 
+
+   // hàm mở picker
   public showDatePicker() {
     this.switchView(1);
     this._isOpenDatePicker$.next(true);
@@ -61,5 +86,4 @@ export class BravoDateSingleService {
   public hideDatePicker() {
     this._isOpenDatePicker$.next(false);
   }
-
 }

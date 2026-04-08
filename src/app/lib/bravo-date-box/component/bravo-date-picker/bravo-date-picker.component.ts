@@ -14,11 +14,8 @@ import { BravoDateSingleService } from '../../service';
 export class BravoDatePickerComponent implements OnDestroy {
   private _destroy$ = new Subject<void>();
   private _service = inject(BravoDateSingleService);
-  public get service() {
-    return this._service;
-  }
   public get moment() {
-    return this.service.moment;
+    return this._service.moment;
   }
 
   public dates: BravoMoment[][] = [];
@@ -26,7 +23,7 @@ export class BravoDatePickerComponent implements OnDestroy {
   public days: string[] = [];
 
   public constructor() {
-    this.service.momentChange$
+    this._service.momentChange$
       .pipe(takeUntil(this._destroy$))
       .subscribe((pVal) => {
         this.dates = pVal.getWeeks();
@@ -41,7 +38,7 @@ export class BravoDatePickerComponent implements OnDestroy {
   }
 
   public isSelected(pDate: BravoMoment) {
-    return this.service.selectDate.getDate() == pDate.getDate() && this.service.selectDate.getMonth() == pDate.getMonth() && this.service.selectDate.getFullYear() == pDate.getFullYear();
+    return this._service.selectDate.isSameDay(pDate)
   }
 
   public isDayInMonth(pDate: BravoMoment) {
@@ -49,8 +46,8 @@ export class BravoDatePickerComponent implements OnDestroy {
   }
   
   public onSelectDate(pDate: BravoMoment) {
-    this.service.selectDate = new BravoMoment(pDate)
-    this.service.moment = new BravoMoment(pDate);
-    this.service.hideDatePicker();
+    this._service.selectDate = new BravoMoment(pDate)
+    this._service.moment = new BravoMoment(pDate);
+    this._service.hideDatePicker();
   }
 }
