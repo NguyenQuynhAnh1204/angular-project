@@ -37,19 +37,19 @@
     &:hover {
         border: 1px solid #3545ff;
     }
-    &.is-select {
-        border: none;
-        border-top: 1px dotted #3545ff;
-        border-bottom: 1px dotted #3545ff;
-    }
     &:not(.not-month).selected {
         background-color: #3545ff;
         color: #fff;
     }
-    &:not(.not-month).range {
-        background-color:#d3e7ff;
+    &:not(.not-month).range:not(.selected) {
+        background-color:#abd1ff;
     }
-    &:not(.not-month).hover-range {
-        background-color: #c6dffd;
+    &:not(.not-month).hover-range:not(.selected):not(.range) {
+        background-color: #e4f0ff;
+    }
+    &.is-select {
+        border: none;
+        border-top: 1px dotted #3545ff;
+        border-bottom: 1px dotted #3545ff;
     }
 }

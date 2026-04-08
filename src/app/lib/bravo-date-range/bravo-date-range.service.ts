@@ -83,6 +83,15 @@ export class BravoDateRangeService {
         this._selectedEndDate$.next(pMoment);
     }
 
+    private _hoverDate$ = new BehaviorSubject<BravoMoment | null>(null);
+    public readonly hoverDateChange$ = this._hoverDate$.asObservable();
+    public get hoverDate() {
+        return this._hoverDate$.value;
+    }
+    public set hoverDate(date: BravoMoment | null) {
+        this._hoverDate$.next(date);
+    }
+
     private _editDate$ = new BehaviorSubject<'start'|'end'>('start');
     public readonly editDateChange$ = this._editDate$.asObservable();
     public get editDate() {

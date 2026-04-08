@@ -64,12 +64,18 @@ export class BravoDateRangeComponent extends BravoControlBaseComponent implement
             .subscribe((pVal) => {
                 this.startDate = pVal?.format() ?? '';
                 this.updateValue(`${this.startDate}${this.endDate}`)
+                if(pVal && !this._service.selectedEndDate) {
+                    this.endDateEl.nativeElement.focus();
+                }
             })
         this._service.selectedEndDateChange$
             .pipe(takeUntil(this._destroy$))
             .subscribe((pVal) => {
                 this.endDate = pVal?.format() ?? '';
                 this.updateValue(`${this.startDate}${this.endDate}`)
+                if(pVal && !this._service.selectedStartDate) {
+                    this.startDateEl.nativeElement.focus();
+                }
             })
     }
 
@@ -99,17 +105,13 @@ export class BravoDateRangeComponent extends BravoControlBaseComponent implement
     public handleOnBlurInput(pTime: 'start'|'end', pEL: HTMLInputElement) {
         pEL.blur();
         this.focus = false;
-        if(pTime == "start") {
-            this._service.editDate = 'end';
-        } else {
-            this._service.editDate = 'start';
-        }
     }
 
     public showDatePicker() {
         this.focus = true;
         this._service.editDate = 'start'
         this._service.showDatePicker();
+        this.startDateEl.nativeElement.focus()
     }
 
     public hideDatePicker() {
