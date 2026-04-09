@@ -189,7 +189,8 @@ export const PANEL_CONFIG: ITablePanel[] = [
                             control: {
                                 column: 3,
                                 row: 1,
-                                label: "Tiền tệ"
+                                label: "Chọn lịch",
+                                type: EControlType.DATE_RANGE
                             }
                         },{
                             control: {

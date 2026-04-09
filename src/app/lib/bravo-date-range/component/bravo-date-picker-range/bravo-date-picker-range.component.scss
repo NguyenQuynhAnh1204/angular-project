@@ -25,7 +25,7 @@
     border-radius: 5px;
     &.today {
         color: #3545ff;
-        background-color: #e7e9ff;
+        background-color: #f3f3ff;
     }
     &.sunday {
         color: red;
@@ -42,10 +42,10 @@
         color: #fff;
     }
     &:not(.not-month).range:not(.selected) {
-        background-color:#abd1ff;
-    }
-    &:not(.not-month).hover-range:not(.selected):not(.range) {
         background-color: #e4f0ff;
+    }
+    &:not(.not-month).hover-range:not(.selected) {
+        background-color:#abd1ff;
     }
     &.is-select {
         border: none;

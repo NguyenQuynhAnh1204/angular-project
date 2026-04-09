@@ -3,7 +3,10 @@
 [isManualHandleOutsideClick]="true" 
 (onOverlayOutsideClick)="hideDatePicker()"
 >
-    <div class="date-input-container" brDropdownAnchor>
+    <div class="date-input-container"
+        [class.is-focus]="focus"
+        brDropdownAnchor
+    >
        <div class="date-input-content">
          <p
             class="label"

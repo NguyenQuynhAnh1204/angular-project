@@ -1,2 +1,6 @@
 @use "bases" as *;
 @use "abstracts/functions" as *;
+
+body {
+  overflow: auto;
+}
