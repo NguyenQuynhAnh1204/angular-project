@@ -21,7 +21,7 @@
             placeholder="Start date"
             [readOnly]="readOnly"
             [value]="startDate"
-            (input)="handleOnChange($event)"
+            (input)="handleOnChange('start', $event)"
             (focus)="handleOnFocusInput('start', startDateInput)"
             (blur)="handleOnBlurInput('start', startDateInput)"
         >
@@ -36,7 +36,7 @@
             placeholder="End date"
             [readOnly]="readOnly"
             [value]="endDate"
-            (input)="handleOnChange($event)"
+            (input)="handleOnChange('end', $event)"
             (focus)="handleOnFocusInput('end', endDateInput)"
             (blur)="handleOnBlurInput('end', endDateInput)"
         >

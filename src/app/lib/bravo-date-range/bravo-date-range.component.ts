@@ -41,7 +41,6 @@ import { BravoMoment } from '@bravo-infra/core/utils/dates';
 export class BravoDateRangeComponent extends BravoControlBaseComponent implements OnInit, OnDestroy {
     private _destroy$ = new Subject<void>();
     private _service = inject(BravoDateRangeService);
-
     public get isOpenPicker() {
         return this._service.isOpenDatePicker;
     }
@@ -84,7 +83,8 @@ export class BravoDateRangeComponent extends BravoControlBaseComponent implement
         this._destroy$.complete();
     }
 
-    public handleOnChange(pEvent: Event) {
+    public handleOnChange(pTime: 'start' | 'end', pEvent: Event) {
+        this._service.editDate = pTime;
         const regexDate = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[0-2])\/\d{4}$/; // dd/mm/yyyy
         const input = pEvent.target as HTMLInputElement;
         const value = input.value;
@@ -92,7 +92,7 @@ export class BravoDateRangeComponent extends BravoControlBaseComponent implement
         if(regexDate.test(value)) {
             this._service.selectDate(new BravoMoment(BravoMoment.parseDate(value, 'dd/MM/yyyy')))
         } else {
-            this.updateValue('')
+            this._service.selectDate(undefined);
         }
     }
 
@@ -109,9 +109,7 @@ export class BravoDateRangeComponent extends BravoControlBaseComponent implement
 
     public showDatePicker() {
         this.focus = true;
-        this._service.editDate = 'start'
         this._service.showDatePicker();
-        this.startDateEl.nativeElement.focus()
     }
 
     public hideDatePicker() {
@@ -120,7 +118,6 @@ export class BravoDateRangeComponent extends BravoControlBaseComponent implement
     }
 
     public clear() {
-        this.updateValue('')
         this.focus = false;
         this._service.clear();
     }

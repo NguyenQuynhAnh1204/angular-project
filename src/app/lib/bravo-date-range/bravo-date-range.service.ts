@@ -103,10 +103,10 @@ export class BravoDateRangeService {
     }
 
     // chọn ngày 
-    public selectDate(pDate: BravoMoment) {
+    public selectDate(pDate: BravoMoment | undefined) {
         // nếu không có date start
         if (!this.selectedStartDate && this.editDate == 'start') {
-            if (this.selectedEndDate && pDate.isAfter(this.selectedEndDate)) {
+            if (this.selectedEndDate && pDate?.isAfter(this.selectedEndDate)) {
                 this.selectedStartDate = this.selectedEndDate;
                 this.selectedEndDate = pDate;
             } else {
@@ -117,7 +117,7 @@ export class BravoDateRangeService {
         }
         // nếu không có date end
         if (!this.selectedEndDate && this.editDate == "end") {
-            if (this.selectedStartDate && pDate.isBefore(this.selectedStartDate)) {
+            if (this.selectedStartDate && pDate?.isBefore(this.selectedStartDate)) {
                 this.selectedEndDate = this.selectedStartDate;
                 this.selectedStartDate = pDate;
             } else {
@@ -129,7 +129,7 @@ export class BravoDateRangeService {
         }
         // chọn lại
         if (this.editDate === 'start') {
-            if (pDate.isAfter(this.selectedEndDate!)) {
+            if (pDate?.isAfter(this.selectedEndDate!)) {
                 this.selectedStartDate = this.selectedEndDate;
                 this.selectedEndDate = pDate;
             } else {
@@ -137,7 +137,7 @@ export class BravoDateRangeService {
             }
             this.editDate = 'end';
         } else {
-            if (pDate.isBefore(this.selectedStartDate!)) {
+            if (pDate?.isBefore(this.selectedStartDate!)) {
                 this.selectedEndDate = this.selectedStartDate;
                 this.selectedStartDate = pDate;
             } else {
@@ -242,9 +242,15 @@ export class BravoDateRangeService {
         if(this.selectedStartDate) {
             this.momentStart = this.selectedStartDate;
             this.momentEnd = new BravoMoment(this.selectedStartDate).addMonths(1);
+            this.editDate = 'end'
         } else if(this.selectedEndDate) {
             this.momentEnd = this.selectedEndDate;
             this.momentStart = new BravoMoment(this.selectedEndDate).subMonths(1);
+            this.editDate = 'start'
+        } else {
+            this.momentStart = new BravoMoment()
+            this.momentEnd = new BravoMoment().addMonths(1);
+            this.editDate = 'start';
         }
     }
 
@@ -257,10 +263,10 @@ export class BravoDateRangeService {
     public clear() {
         this.selectedStartDate = undefined;
         this.selectedEndDate = undefined;
-        this.editDate = 'start';
         this.momentStart = new BravoMoment();
         this.momentEnd = new BravoMoment().addMonths(1);
         this.switchView('start',1);
         this.switchView('end',1);
+        this.editDate = 'start';
     }
 }

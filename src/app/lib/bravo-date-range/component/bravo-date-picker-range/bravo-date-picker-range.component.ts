@@ -62,7 +62,7 @@ export class BravoDatePickerRangeComponent implements OnInit, OnDestroy {
     }
 
     public handleOnHover(pDate: BravoMoment) {
-        if(!this._service.selectedStartDate) return;
+        if(!this._service.selectedStartDate && !this._service.selectedEndDate) return;
         this._service.hoverDate = pDate;
     }
 
@@ -88,12 +88,14 @@ export class BravoDatePickerRangeComponent implements OnInit, OnDestroy {
         return dateTime > startTime && dateTime < endTime;
     }
 
-    public isHoverDate(pDate: BravoMoment) {
-        const { selectedStartDate, hoverDate } = this._service;
-        if (!selectedStartDate || !hoverDate) return false;
+    public isHoverDate(pDate: BravoMoment): boolean {
+        const { selectedStartDate, selectedEndDate, hoverDate } = this._service;
+        if (!hoverDate) return false;
+        const anchor = selectedStartDate ?? selectedEndDate;
+        if (!anchor) return false;
         const dateTime = pDate.getTime();
-        const startTime = selectedStartDate.getTime();
+        const anchorTime = anchor.getTime();
         const hoverTime = hoverDate.getTime();
-        return dateTime >= Math.min(startTime, hoverTime) && dateTime <= Math.max(startTime, hoverTime);
+        return dateTime >= Math.min(anchorTime, hoverTime) && dateTime <= Math.max(anchorTime, hoverTime);
     }
 }
