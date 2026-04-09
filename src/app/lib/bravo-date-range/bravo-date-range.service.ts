@@ -17,7 +17,7 @@ export class BravoDateRangeService {
         this._isOpenDatePicker$.next(pStatus);
     }
 
-    // lấy thời điểm bắt đầu
+    //thời điểm bắt đầu
     private _momentStart$ = new BehaviorSubject<BravoMoment>(new BravoMoment());
     public readonly momentStartChange$ = this._momentStart$.asObservable();
     public get momentStart() {
@@ -31,7 +31,7 @@ export class BravoDateRangeService {
         }
     }
     
-    // lấy thời điểm kết thúc
+    //thời điểm kết thúc
     private _momentEnd$ = new BehaviorSubject<BravoMoment>(new BravoMoment().addMonths(1));
     public readonly momentEndChange$ = this._momentEnd$.asObservable();
     public get momentEnd() {
@@ -42,7 +42,7 @@ export class BravoDateRangeService {
         this._momentEnd$.next(pMoment);
     }
 
-    // hiển thị view bắt đầu
+    //view bắt đầu
     private _viewStart$ = new BehaviorSubject<EViewPicker>(1);
     public readonly viewStartChange$ = this._viewStart$.asObservable();
     public get viewStart() {
@@ -53,7 +53,7 @@ export class BravoDateRangeService {
         this._viewStart$.next(pViewStart);
     }
 
-    // hiển thị view kết thúc
+    //view kết thúc
     private _viewEnd$ = new BehaviorSubject<EViewPicker>(1);
     public readonly viewEndChange$ = this._viewEnd$.asObservable();
     public get viewEnd() {
@@ -64,7 +64,7 @@ export class BravoDateRangeService {
         this._viewEnd$.next(pViewEnd);
     }
 
-    // lưu thời gian bắt đầu
+    // thời gian bắt đầu
     private _selectedStartDate$ = new BehaviorSubject<BravoMoment | undefined>(undefined);
     public readonly selectedStartDateChange$ = this._selectedStartDate$.asObservable();
     public get selectedStartDate() {
@@ -73,7 +73,7 @@ export class BravoDateRangeService {
     public set selectedStartDate(pMoment) {
         this._selectedStartDate$.next(pMoment);
     }
-    // lưu thời gian kết thức
+    // thời gian kết thúc
     private _selectedEndDate$ = new BehaviorSubject<BravoMoment | undefined>(undefined);
     public readonly selectedEndDateChange$ = this._selectedEndDate$.asObservable();
     public get selectedEndDate() {
@@ -82,7 +82,7 @@ export class BravoDateRangeService {
     public set selectedEndDate(pMoment) {
         this._selectedEndDate$.next(pMoment);
     }
-
+    // hover date
     private _hoverDate$ = new BehaviorSubject<BravoMoment | null>(null);
     public readonly hoverDateChange$ = this._hoverDate$.asObservable();
     public get hoverDate() {
@@ -91,7 +91,7 @@ export class BravoDateRangeService {
     public set hoverDate(date: BravoMoment | null) {
         this._hoverDate$.next(date);
     }
-
+    // edit date
     private _editDate$ = new BehaviorSubject<'start'|'end'>('start');
     public readonly editDateChange$ = this._editDate$.asObservable();
     public get editDate() {
@@ -104,7 +104,7 @@ export class BravoDateRangeService {
 
     // chọn ngày 
     public selectDate(pDate: BravoMoment) {
-        // chọn lần đầu
+        // nếu không có date start
         if (!this.selectedStartDate && this.editDate == 'start') {
             if (this.selectedEndDate && pDate.isAfter(this.selectedEndDate)) {
                 this.selectedStartDate = this.selectedEndDate;
@@ -115,6 +115,7 @@ export class BravoDateRangeService {
             this.editDate = 'end';
             return;
         }
+        // nếu không có date end
         if (!this.selectedEndDate && this.editDate == "end") {
             if (this.selectedStartDate && pDate.isBefore(this.selectedStartDate)) {
                 this.selectedEndDate = this.selectedStartDate;
