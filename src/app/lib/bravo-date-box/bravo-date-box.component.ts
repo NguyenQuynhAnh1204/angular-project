@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, inject, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, forwardRef, inject, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
@@ -7,10 +7,11 @@ import { Subject, takeUntil } from 'rxjs';
 import { BravoControlBaseComponent, BravoControlDirective } from '../bravo-control-base';
 import { BravoDateContainerComponent } from './component';
 import { BravoDateSingleService } from './service';
+import { RangePartType } from './bravo-control-date.type';
 
 
 @Component({
-    selector: 'br-date-single',
+    selector: 'br-date-box',
     templateUrl: './bravo-date-box.component.html',
     styleUrls: ["./bravo-date-box.component.scss"],
     imports: [CommonModule, BravoDropdownBaseModule, BravoDateContainerComponent],
@@ -34,19 +35,31 @@ import { BravoDateSingleService } from './service';
         directive: BravoDropdownAnchorDirective
     }],
 })
-export class BravoDateBoxComponent extends BravoControlBaseComponent implements OnDestroy {
+export class BravoDateBoxComponent extends BravoControlBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     private _destroy$ = new Subject<void>();
     private _service = inject(BravoDateSingleService);
     public get moment() {
         return this._service.moment;
     }
-
     public get isOpenDate() {
         return this._service.isOpenDatePicker;
     }
 
-    constructor() {
-        super();
+    private _isRange!: boolean;
+    // private _isRange = true;
+    public get isRange() {
+        return this._isRange;
+    } 
+    public set isRange(pVal) {
+        this._isRange = pVal;
+    }
+
+    @ViewChild('pickerInput')
+    public pickerInput?: ElementRef<HTMLInputElement>;
+    @ViewChildren('rangePickerInput')
+    public rangePickerInput?: QueryList<ElementRef<HTMLInputElement>>
+
+    ngOnInit() {
         this._service.isOpenDatePickerChange$
             .pipe(takeUntil(this._destroy$))
             .subscribe((pVal) => {
@@ -58,6 +71,14 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
                 this.updateValue(this._service?.selectDate?.format())
             })
     }
+
+    public ngAfterViewInit(): void {
+        this.pickerInput?.nativeElement.addEventListener('focusout', this.onFocusOut.bind(this))
+        this.rangePickerInput?.forEach((item) => {
+            item?.nativeElement.addEventListener('focusout', this.onFocusOut.bind(this))
+        })
+    }
+
 
     ngOnDestroy() {
         this._destroy$.next();
@@ -75,16 +96,47 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
             this.updateValue('');
         }
     }
+    
+    public onClickInputBox(pEvent: MouseEvent) {
+        console.log('click');
+        pEvent.stopPropagation();
+        this.handleFocus();
+    }
+    
+    public onKeyupEnter(pEvent: Event) {
+        this.onInputChange(pEvent);
+    }
+    
+    public onInputChange(pEvent: Event, pEnter?: boolean) {
+        const date = (pEvent.target as HTMLInputElement).value; 
+        const valid = this._validateInputDate(date);
+        if (valid) {
+            this.updateValue(date)
+            this._service.selectDate = new BravoMoment(date);
+        } else {
+            this.updateValue('')
+        }
+    }
+
+    public onFocus(pEvent: FocusEvent, partType?: RangePartType) {
+        pEvent.preventDefault();
+        if(partType) {
+            this._service.inputPart = partType;
+        }
+        // this.updateValue(this._service.selectDate.format())
+    }
+
+    public onFocusOut(pEvent: FocusEvent) {
+        pEvent.preventDefault();
+        this.onTouched();
+        this.focus = false;
+    }
 
     private _validateInputDate(pValue: string) {
-        const regexDate = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[0-2])\/\d{4}$/; // dd/mm/yyyy
-        return regexDate.test(pValue)
+        const date = new BravoMoment(pValue)
+        return date.isValid();
     }
 
-    override handleFocus() {
-        this.updateValue(this._service.selectDate.format())
-        this.focus = true;
-    }
 
     public showDatePicker() {
         this._service.showDatePicker();
@@ -97,6 +149,10 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
     public handleOnClear() {
         this.updateValue('');
         this._service.clearSelectDate();
+    }
+
+    public getPlaceholder(partType?: RangePartType) {
+        return partType ? partType == 'left' ? 'Start date' : 'End date' : 'Date'
     }
 }
 

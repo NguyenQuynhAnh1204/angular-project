@@ -8,22 +8,28 @@
     display: flex;
     justify-content: center;
     gap: 10px;
-    .material-symbols-outlined {
-        cursor: pointer;
+}
+
+.material-symbols-outlined {
+    cursor: pointer;
+    font-size: 2rem;
+    color: #3545ff;
+    &:not(.close-icon):hover {
+        opacity: 0.8;
+    }
+    &.arrow-icon {
         font-size: 2rem;
-        color: #3545ff;
-        &:not(.close-icon):hover {
-            opacity: 0.8;
-        }
+        color: #c8cdfb;
+        margin: 0 10px;
     }
-    .close-icon {
-        cursor: default;
-        opacity: 0;
-    }
-    .show-icon {
-        cursor: pointer;
-        opacity: 1;
-    }
+}
+.close-icon {
+    cursor: default;
+    opacity: 0;
+}
+.show-icon {
+    cursor: pointer;
+    opacity: 1;
 }
 
 .select-date {
@@ -35,8 +41,9 @@
 }
 
 .date-box {
+     opacity: 0;
     @include input-control;
 }
-
-
-
+.show-input {
+    opacity: 1;
+}

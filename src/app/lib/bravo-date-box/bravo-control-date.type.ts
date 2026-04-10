@@ -4,3 +4,5 @@ export enum EViewPicker {
     PICKER_MONTH,
     PICKER_YEAR
 }
+
+export type RangePartType = 'left' | 'right';

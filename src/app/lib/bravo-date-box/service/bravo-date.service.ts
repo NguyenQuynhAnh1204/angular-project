@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
-import { EViewPicker } from '../bravo-control-date.type';
+import { EViewPicker, RangePartType } from '../bravo-control-date.type';
 @Injectable()
 export class BravoDateSingleService {
   // flag open picker
@@ -34,6 +34,15 @@ export class BravoDateSingleService {
   }
   public set view(pValue) {
     this._view$.next(pValue);
+  }
+
+  private _inputPart$ = new BehaviorSubject<RangePartType | null>(null);
+  readonly inputPartChange$ = this._inputPart$.asObservable();
+  public get inputPart() {
+    return this._inputPart$.value;
+  }
+  public set inputPart(pValue) {
+    this._inputPart$.next(pValue);
   }
   
   private _selectDate = this.moment;

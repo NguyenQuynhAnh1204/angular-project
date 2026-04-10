@@ -9,8 +9,8 @@ import { BravoYearPickerComponent } from '../bravo-year-picker';
 
 @Component({
     selector: 'br-date-container',
-    templateUrl: './bravo-date-container.html',
-    styleUrls: ["./bravo-date-container.scss"],
+    templateUrl: './bravo-date-popup.html',
+    styleUrls: ["./bravo-date-popup.scss"],
     imports: [CommonModule, BravoDatePickerComponent, 
         BravoMonthPickerComponent, BravoYearPickerComponent
     ]
@@ -33,7 +33,7 @@ export class BravoDateContainerComponent implements AfterViewInit {
     public isRange!: boolean;
 
     public ngAfterViewInit() {
-        console.log(this.isRange);
+        // console.log(this.isRange);
     }
 
     
