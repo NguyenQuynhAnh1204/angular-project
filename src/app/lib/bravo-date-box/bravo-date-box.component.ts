@@ -17,12 +17,12 @@ import { BravoDateSingleService } from './service';
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => BravoDateSingleComponent),
+            useExisting: forwardRef(() => BravoDateBoxComponent),
             multi: true
         },
         {
             provide: NG_VALIDATORS,
-            useExisting: forwardRef(() => BravoDateSingleComponent),
+            useExisting: forwardRef(() => BravoDateBoxComponent),
             multi: true
         },
         BravoDateSingleService,
@@ -34,7 +34,7 @@ import { BravoDateSingleService } from './service';
         directive: BravoDropdownAnchorDirective
     }],
 })
-export class BravoDateSingleComponent extends BravoControlBaseComponent implements OnDestroy {
+export class BravoDateBoxComponent extends BravoControlBaseComponent implements OnDestroy {
     private _destroy$ = new Subject<void>();
     private _service = inject(BravoDateSingleService);
     public get moment() {

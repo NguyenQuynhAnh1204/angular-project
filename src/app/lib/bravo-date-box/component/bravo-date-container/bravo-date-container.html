@@ -1,20 +1,79 @@
-<div class="view-switch">
-    <span class="material-symbols-outlined calender-chevron" (click)="previousSwitch()">chevron_left</span>
-    <div (click)="switchView()">
-        {{title}}
+@if(!isRange) {
+    <!-- date box -->
+
+    <div class="view-switch">
+        <span class="material-symbols-outlined calender-chevron" (click)="previousSwitch()">chevron_left</span>
+        <div (click)="switchView()">
+            {{title}}
+        </div>
+        <span class="material-symbols-outlined calender-chevron" (click)="nextSwitch()">chevron_right</span>
     </div>
-    <span class="material-symbols-outlined calender-chevron" (click)="nextSwitch()">chevron_right</span>
-</div>
 
 
-@switch (view) {
-    @case (1) {
-        <br-date-picker/>
-    }
-    @case (2) {
-        <br-month-picker/>
-    }
-    @case (3) {
-        <br-year-picker/>
-    }
-} 
+    @switch (view) {
+        @case (1) {
+            <br-date-picker/>
+        }
+        @case (2) {
+            <br-month-picker/>
+        }
+        @case (3) {
+            <br-year-picker/>
+        }
+    } 
+} @else {
+   <div class="start-date date-box">
+        <div class="start-date-switch date-switch">
+            <span class="material-symbols-outlined calender-chevron" (click)="previousSwitch()">chevron_left</span>
+
+            <!-- <div class="title-calender" (click)="switchView('start')">
+                {{titleStartDate}}
+            </div> -->
+
+            <span class="material-symbols-outlined calender-chevron" 
+                (click)="nextSwitch()"
+            >chevron_right</span>
+        </div>
+        
+        <div #startDate>
+            <!-- @switch(viewStartDate) {
+                @case(1) {
+                    <br-date-picker-range [time]="'start'"/>
+                }
+                @case (2) {
+                    <br-month-picker-range [time]="'start'"/>
+                }
+                @case (3) {
+                    <br-year-picker-range [time]="'start'"/>
+                }
+            } -->
+        </div>
+    </div>
+
+    <div class="end-date date-box">
+        <div class="start-date-switch date-switch">
+            <span class="material-symbols-outlined calender-chevron" 
+                (click)="previousSwitch()"
+            >chevron_left</span>
+
+            <!-- <div class="title-calender" (click)="switchView('end')">
+                {{titleEndDate}}
+            </div> -->
+
+            <span class="material-symbols-outlined calender-chevron" (click)="nextSwitch()">chevron_right</span>
+        </div>
+        <div #endDate>
+            <!-- @switch(viewEndDate) {
+                @case(1) {
+                    <br-date-picker-range [time]="'end'"/>
+                }
+                @case (2) {
+                    <br-month-picker-range [time]="'end'"/>
+                }
+                @case (3) {
+                    <br-year-picker-range [time]="'end'"/>
+                }
+            } -->
+        </div>
+    </div>
+}

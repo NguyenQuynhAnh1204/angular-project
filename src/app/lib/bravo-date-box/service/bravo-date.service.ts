@@ -44,6 +44,8 @@ export class BravoDateSingleService {
     if(this.selectDate == pVal) return;
     this._selectDate = pVal;
   }
+
+  public isRange!: boolean;
   
   // hàm đổi view
   public switchView(pView: EViewPicker) {

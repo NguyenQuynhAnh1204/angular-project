@@ -1,1 +1,1 @@
-export * from "./bravo-date-single.service";
+export * from "./bravo-date.service";

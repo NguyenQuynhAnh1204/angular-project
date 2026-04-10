@@ -1,0 +1,52 @@
+@use "styles/mixin" as *;
+
+.date-input-container {
+    @include control-box;
+}
+
+.label {
+    @include label-control;
+}
+
+.date-range {
+    opacity: 0;
+    @include input-control;
+}
+
+
+.date-icon-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.date-input-content {
+    @include df-center;
+    width: 100%;
+}
+
+.material-symbols-outlined {
+    cursor: pointer;
+    font-size: 2rem;
+    color: #3545ff;
+    &:not(.close-icon):hover {
+        opacity: 0.8;
+    }
+    &.arrow-icon {
+        font-size: 2rem;
+        color: #c8cdfb;
+        margin: 0 10px;
+    }
+}
+.close-icon {
+    cursor: default;
+    opacity: 0;
+}
+.show-icon {
+    cursor: pointer;
+    opacity: 1;
+}
+
+.show-input {
+    opacity: 1;
+}

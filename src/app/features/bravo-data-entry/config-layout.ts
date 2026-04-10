@@ -116,7 +116,7 @@ export const PANEL_CONFIG: ITablePanel[] = [
                                 column: 2,
                                 row: 1,
                                 label: "Yêu cầu báo giá",
-                                type: EControlType.TEXTBOX,
+                                type: EControlType.DATE_RANGE_BOX,
                                 name: "yeuCauBaoGia",
                                 validator: [
                                     {type: ETypeValidation.REQUIRED, message: "Field is required"},

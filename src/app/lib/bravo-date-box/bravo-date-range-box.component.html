@@ -1,0 +1,50 @@
+<br-dropdown-base >
+    <div class="date-input-container">
+       <div class="date-input-content">
+            <p
+                class="label"
+                [class.have-text]="focus || textValue"
+                [class.no-text]="textValue=='' && !focus"
+            >
+                {{label || 'Date range'}}: 
+            </p>
+
+            <input type="text" #startDateInput
+                class="input-under-line date-range"
+                [class.show-input]="focus || textValue"
+                placeholder="Start date"
+                [readOnly]="readOnly"
+            >
+
+            <span class="material-symbols-outlined arrow-icon close-icon"
+                [class.show-icon]="focus || textValue"
+            >
+                east
+            </span>
+
+            <input type="text" #endDateInput
+                class="input-under-line date-range"
+                [class.show-input]="focus || textValue"
+                placeholder="End date"
+                [readOnly]="readOnly"
+            >
+        </div>
+
+        <div class="date-icon-container">
+            <span class="material-symbols-outlined close-icon"
+                [class.show-icon]="focus || textValue" 
+                
+            >close</span>
+            <span class="material-symbols-outlined calendar-icon"
+                [class.select-date]="focus || textValue" 
+                >
+                calendar_month
+            </span>
+        </div>
+    </div>
+    <div brDropdown>
+        <br-date-container [isRange]="true"/>
+    </div>
+</br-dropdown-base>
+
+

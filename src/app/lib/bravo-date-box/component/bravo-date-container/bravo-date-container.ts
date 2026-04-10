@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, Input } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { EViewPicker } from '../../bravo-control-date.type';
 import { BravoDateSingleService } from '../../service';
@@ -16,7 +16,7 @@ import { BravoYearPickerComponent } from '../bravo-year-picker';
     ]
 })
 
-export class BravoDateContainerComponent {
+export class BravoDateContainerComponent implements AfterViewInit {
     private _service = inject(BravoDateSingleService);
     public get moment() {
         return this._service.moment;
@@ -28,6 +28,13 @@ export class BravoDateContainerComponent {
     public get title() {
         return this._buildTitle(this.moment, this.view);
     };
+
+    @Input('isRange')
+    public isRange!: boolean;
+
+    public ngAfterViewInit() {
+        console.log(this.isRange);
+    }
 
     
     private _buildTitle(pMoment: BravoMoment, pView: EViewPicker) {
