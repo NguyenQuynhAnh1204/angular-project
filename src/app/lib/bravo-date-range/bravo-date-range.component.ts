@@ -117,7 +117,7 @@ export class BravoDateRangeComponent extends BravoControlBaseComponent implement
         this._service.hideDatePicker();
     }
 
-    public clear() {
+    public clearSelectDate() {
         this.focus = false;
         this._service.clear();
     }

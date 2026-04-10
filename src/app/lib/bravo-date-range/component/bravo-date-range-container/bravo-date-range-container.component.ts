@@ -42,7 +42,6 @@ export class BravoDateRangeContainerComponent implements OnInit, OnDestroy {
     public get titleStartDate() {
         return this._buildTitle(this.momentStart, this.viewStartDate)
     }
-    
     public get titleEndDate() {
         return this._buildTitle(this.momentEnd, this.viewEndDate)
     }
@@ -76,7 +75,6 @@ export class BravoDateRangeContainerComponent implements OnInit, OnDestroy {
             case EViewPicker.PICKER_YEAR:
                 const start =
                     moment.getYears(5,5)[0][0].getFullYear();
-
                 return `${start} - ${start+25}`;
         }
     }
