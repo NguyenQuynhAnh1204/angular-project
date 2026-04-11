@@ -38,15 +38,12 @@ import { RangePartType } from './bravo-control-date.type';
 export class BravoDateBoxComponent extends BravoControlBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     private _destroy$ = new Subject<void>();
     private _service = inject(BravoDateSingleService);
-    public get moment() {
-        return this._service.moment;
-    }
     public get isOpenDate() {
         return this._service.isOpenDatePicker;
     }
 
-    private _isRange!: boolean;
-    // private _isRange = true;
+    // private _isRange!: boolean;
+    private _isRange = true;
     public get isRange() {
         return this._isRange;
     } 
@@ -68,7 +65,7 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
                 } else {
                     this.handleBlur()
                 }
-                this.updateValue(this._service?.selectDate?.format())
+                // this.updateValue(this._service?.selectDate?.format())
             })
     }
 
@@ -85,17 +82,17 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
         this._destroy$.complete();
     }
 
-    public handleOnChange(pEvent: Event) {
-        const input = pEvent.target as HTMLInputElement;
-        const value = input.value;
-        this.textValue = value;
-        if (this._validateInputDate(value)) {
-            this.updateValue(this.textValue);
-            this._service.selectDate = new BravoMoment(BravoMoment.parseDate(value, 'dd/MM/yyyy'));
-        } else {
-            this.updateValue('');
-        }
-    }
+    // public handleOnChange(pEvent: Event) {
+    //     const input = pEvent.target as HTMLInputElement;
+    //     const value = input.value;
+    //     this.textValue = value;
+    //     if (this._validateInputDate(value)) {
+    //         this.updateValue(this.textValue);
+    //         this._service.selectDate = new BravoMoment(BravoMoment.parseDate(value, 'dd/MM/yyyy'));
+    //     } else {
+    //         this.updateValue('');
+    //     }
+    // }
     
     public onClickInputBox(pEvent: MouseEvent) {
         console.log('click');
@@ -112,7 +109,7 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
         const valid = this._validateInputDate(date);
         if (valid) {
             this.updateValue(date)
-            this._service.selectDate = new BravoMoment(date);
+            // this._service.selectDate = new BravoMoment(date);
         } else {
             this.updateValue('')
         }
@@ -121,7 +118,7 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
     public onFocus(pEvent: FocusEvent, partType?: RangePartType) {
         pEvent.preventDefault();
         if(partType) {
-            this._service.inputPart = partType;
+            this._service.inputActive = partType;
         }
         // this.updateValue(this._service.selectDate.format())
     }
@@ -152,7 +149,7 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
     }
 
     public getPlaceholder(partType?: RangePartType) {
-        return partType ? partType == 'left' ? 'Start date' : 'End date' : 'Date'
+        return partType ? partType == 'start' ? 'Start date' : 'End date' : 'Date'
     }
 }
 

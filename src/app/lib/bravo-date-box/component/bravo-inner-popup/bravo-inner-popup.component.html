@@ -1,0 +1,35 @@
+
+<ng-template #templateLabel>
+    <br-date-header
+        [partType]="partType"
+    />
+</ng-template>
+
+
+@switch(mode) {
+@case('date') {
+    <ng-container *ngTemplateOutlet="templateLabel;  context: { mode: 'date' }"></ng-container>
+    <br-date-picker
+        [partType]="partType"
+    />
+}
+@case ('month') {
+    <ng-container *ngTemplateOutlet="templateLabel; context: { mode: 'month' }"></ng-container>
+    <br-month-picker
+       
+    />
+}
+@case ('year') {
+    <ng-container *ngTemplateOutlet="templateLabel; context: { mode: 'year' }"></ng-container>
+    <br-year-picker
+       
+    />
+}
+@default {
+    <ng-container *ngTemplateOutlet="templateLabel; context: { mode: 'date' }"></ng-container>
+    <br-date-picker
+        [partType]="partType"
+    />
+    }
+}
+

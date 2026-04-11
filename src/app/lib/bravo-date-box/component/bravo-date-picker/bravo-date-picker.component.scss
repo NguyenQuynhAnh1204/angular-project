@@ -39,4 +39,7 @@
         background-color: #3545ff;
         color: #fff;
     }
+     &:not(.not-month).in-range:not(.selected) {
+        background-color: #e4f0ff;
+    }
 }

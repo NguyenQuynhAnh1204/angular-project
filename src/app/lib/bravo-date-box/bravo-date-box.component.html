@@ -24,13 +24,13 @@
                 (input)="onInputChange($event)"
             >
         } @else {
-            <ng-container *ngTemplateOutlet="templateRangeInput; context: { partType: 'left' }" />
+            <ng-container *ngTemplateOutlet="templateRangeInput; context: { partType: 'start' }" />
             
             <span class="material-symbols-outlined arrow-icon close-icon" [class.show-icon]="focus || textValue">
                 east
             </span>
 
-            <ng-container *ngTemplateOutlet="templateRangeInput; context: { partType: 'right' }" />
+            <ng-container *ngTemplateOutlet="templateRangeInput; context: { partType: 'end' }" />
         }
         <div class="date-icon-container">
             <span class="material-symbols-outlined close-icon" 
@@ -47,7 +47,7 @@
     </div>
 
     <div brDropdown>
-        <br-date-container 
+        <br-date-popup
             [isRange]="isRange"
         />
     </div>

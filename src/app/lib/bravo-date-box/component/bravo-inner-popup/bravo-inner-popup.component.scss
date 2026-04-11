@@ -1,0 +1,21 @@
+@use "styles/mixin" as *;
+
+.date-label {
+    @include df-center;
+    gap: 10px;
+}
+
+.icon-chevron {
+    cursor: pointer;
+    color: #3545ff;
+    &:hover {
+        opacity: 0.8;
+    }
+    &:active {
+        opacity: 1;
+    }
+}
+
+.label-content {
+    cursor: pointer;
+}

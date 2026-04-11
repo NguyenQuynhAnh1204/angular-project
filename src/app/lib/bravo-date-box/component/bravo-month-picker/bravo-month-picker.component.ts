@@ -1,6 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BravoDateSingleService } from '../../service';
+import { PanelState } from '../../bravo-control-date.type';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'br-month-picker',
@@ -8,23 +10,41 @@ import { BravoDateSingleService } from '../../service';
     styleUrls: ["./bravo-month-picker.component.scss"]
 })
 
-export class BravoMonthPickerComponent {
+export class BravoMonthPickerComponent implements OnInit {
+    private _destroy$ = new Subject<void>();
     private _service = inject(BravoDateSingleService);
-    public get moment() {
-        return this._service.moment;
+    public get partType() {
+        return this._service.inputActive;
+    }
+    public get date() {
+        return this._service.panels[this.partType].date;
     }
 
-    public selectedMonth = this.moment.getMonth() + 1;
+    @Output('modeChange')
+    public modeChange = new EventEmitter<PanelState>();
+
+    public selectedMonth!: number;
 
     public months: BravoMoment[][] = [];
 
-    constructor() {
-      this.months = this.moment.getMonths('MMM',3);
+    public ngOnInit() {
+        this._service.inputActiveChange$
+        .pipe(takeUntil(this._destroy$))
+        .subscribe((pVal) => {
+            this.months = this._service.panels[pVal].date.getMonths('MMM',3);
+        })
+        this.selectedMonth = this.date.getMonth();
     }
 
-    public onSelectMonth(pMonth: BravoMoment) {
-        this.selectedMonth = pMonth.getMonth();
-        this._service.moment = BravoMoment.set(this.moment.toDate(), {month: pMonth.getMonth() });
-        this._service.switchView(1);
+    public onSelectMonth(pDate: BravoMoment) {
+        this.selectedMonth = pDate.getMonth();
+        this._service.panels = {
+            ...this._service.panels,
+            [this.partType]: {mode: 'month', date: pDate}
+        }
+        this.modeChange.emit({
+            mode: 'date',
+            date: pDate
+        });
     }
 }

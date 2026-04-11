@@ -13,6 +13,7 @@
                 [class.today]="item.isToday()"
                 [class.sunday]="item.isSunday()"
                 [class.selected]="isSelected(item)"
+                [class.in-range]="isInRange(item)"
                 (click)="onSelectDate(item)"
             >
                 {{ item.toDate().getDate() }}

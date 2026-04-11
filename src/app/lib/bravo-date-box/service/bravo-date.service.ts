@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
-import { EViewPicker, RangePartType } from '../bravo-control-date.type';
+import { BehaviorSubject } from 'rxjs';
+import { CompatibleDate, DateMode, PanelState, RangeDate, RangePartType } from '../bravo-control-date.type';
 @Injectable()
 export class BravoDateSingleService {
+  public isRange!: boolean;
+
   // flag open picker
   private _isOpenDatePicker$ = new BehaviorSubject<boolean>(false);
   public readonly isOpenDatePickerChange$ = this._isOpenDatePicker$.asObservable();
@@ -15,82 +17,143 @@ export class BravoDateSingleService {
     this._isOpenDatePicker$.next(pStatus);
   }
 
-  // moment change
-  private _moment$ = new BehaviorSubject<BravoMoment>(new BravoMoment());
-  public readonly momentChange$ = this._moment$.asObservable();
-  public get moment() {
-    return this._moment$.value;
+
+  private _inputActive$ = new BehaviorSubject<RangePartType>('start');
+  readonly inputActiveChange$ = this._inputActive$.asObservable();
+  public get inputActive() {
+    return this._inputActive$.value;
   }
-  public set moment(pVal: BravoMoment) {
-    if(this.moment == pVal) return;
-    this._moment$.next(pVal);
+  public set inputActive(pValue) {
+    this._inputActive$.next(pValue);
   }
 
-  // view change
-  private _view$ = new BehaviorSubject<EViewPicker>(1);
-  public readonly viewChange$ = this._view$.asObservable(); 
-  public get view() {
-    return this._view$.value;
+  private _panels$ = new BehaviorSubject<{start: PanelState;end: PanelState;}>({
+      start: {mode: 'date',date: new BravoMoment()},
+      end: {mode: 'date', date: new BravoMoment().addMonths(1)}
+  });
+  public readonly panelsChange$ = this._panels$.asObservable();
+  public get panels() {
+    return this._panels$.value;
   }
-  public set view(pValue) {
-    this._view$.next(pValue);
-  }
-
-  private _inputPart$ = new BehaviorSubject<RangePartType | null>(null);
-  readonly inputPartChange$ = this._inputPart$.asObservable();
-  public get inputPart() {
-    return this._inputPart$.value;
-  }
-  public set inputPart(pValue) {
-    this._inputPart$.next(pValue);
-  }
-  
-  private _selectDate = this.moment;
-  public get selectDate() {
-    return this._selectDate;
-  }
-  public set selectDate(pVal) {
-    if(this.selectDate == pVal) return;
-    this._selectDate = pVal;
+  public set panels(value) {
+    this._panels$.next(value);
   }
 
-  public isRange!: boolean;
-  
-  // hàm đổi view
-  public switchView(pView: EViewPicker) {
-    this.view = pView;
+  private _value$ = new BehaviorSubject<CompatibleDate>(null);
+  public readonly valueChange$ = this._value$.asObservable();
+  public get value() {
+    return this._value$.value;
+  }
+  public set value(pDate) {
+    this._value$.next(pDate)
   }
 
-  // đổi picker
-  public moveCalendar(pNumb: number) {
-    const date = this.moment.toDate();
-        const month = this.moment.getMonth();
-        const year = this.moment.getFullYear();
-        if (this.view === 1) {
-            this.moment =
-            BravoMoment.set(date, {
-                month: month + pNumb
-            });
-        }
-        else if (this.view === 2) {
-            this.moment =
-            BravoMoment.set(date, {
-                year: year + pNumb
-                });
-            }
-        else if (this.view === 3) {
-            this.moment =
-            BravoMoment.set(date, {
-                year: year + pNumb * 25
-            });
-        }
-  } 
+  // hàm chọn date
+  public selectDate(pDate: BravoMoment) {
+    if (!this.isRange) {
+      this.value = pDate;
+      this.hideDatePicker();
+      return;
+    }
 
+    const current = Array.isArray(this.value) ? this.value : [null, null];
+    let [start, end] = current;
+
+    if (!start && !end) {
+      start = pDate;
+      end = null;
+    } else if (start && !end) {
+      if (pDate.getTime() >= start.getTime()) {
+        end = pDate;
+      } else {
+        start = pDate;
+        end = null;
+      }
+    }
+    else {
+      start = pDate;
+      end = null;
+    }
+    this.value = [start, end];
+    if (start && end) {
+      this.hideDatePicker();
+    }
+  }
+
+
+  // move calendar
+  public moveCalendar(pStep: number, pPanel: RangePartType) {
+    const state = this.panels[pPanel]; // để lấy ra mode & date của input active
+    const mode = state.mode; 
+    const date = state.date; 
+    
+    let newDate: BravoMoment;
+    
+    switch(mode) {
+      case 'date':
+        newDate = date.addMonths(pStep);
+        break;
+
+        case 'month':
+          newDate = date.addYears(pStep);
+          break;
+
+      case 'year':
+        newDate = date.addYears(pStep * 25);
+        break;
+    }
+    let newPanels = {...this.panels,
+      [pPanel]: {
+        ...state,
+        date: newDate
+      }
+    };
+    if (this.isRange) {
+      if (pPanel === 'start') {
+        newPanels.end = {
+          ...newPanels.end,
+          date: newDate.clone().addMonths(1)
+        };
+      } else {
+        newPanels.start = {
+          ...newPanels.start,
+          date: newDate.clone().addMonths(-1)
+        };
+      }
+    }
+
+    this._panels$.next(newPanels);
+
+    this.inputActive = pPanel;
+  }
+
+  public changeMode(pPanel: RangePartType) {
+    const panel = this.panels[pPanel];
+    const mode = panel.mode;
+    let newMode: DateMode;
+    switch (mode) {
+      case 'date':
+        newMode = 'year';
+        break;
+
+      case 'month':
+      case 'year':
+      default:
+        newMode = 'date';
+        break;
+    }
+    this._panels$.next({
+      ...this.panels,
+      [pPanel]: {
+        ...panel,
+        mode: newMode
+      }
+    });
+    this.inputActive = pPanel;
+  }
    // hàm mở picker
-  public showDatePicker() {
-    this.switchView(1);
+   public showDatePicker() {
     this._isOpenDatePicker$.next(true);
-    this._moment$.next(this.selectDate);
   }
 
   // hàm đóng picker
@@ -98,8 +161,8 @@ export class BravoDateSingleService {
     this._isOpenDatePicker$.next(false);
   }
 
+  // xoá select
   public clearSelectDate() {
-    this.moment = new BravoMoment();
-    this.selectDate = new BravoMoment();
+     
   }
 }

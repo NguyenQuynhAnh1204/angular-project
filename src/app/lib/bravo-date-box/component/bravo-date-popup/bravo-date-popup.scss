@@ -1,5 +1,9 @@
 @use 'styles/mixin' as *;
 
+.date-range {
+    @include df-center
+}
+
 .view-switch {
     cursor: pointer;
     @include df-center;
