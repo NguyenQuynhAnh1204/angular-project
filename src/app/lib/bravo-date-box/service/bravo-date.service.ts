@@ -80,6 +80,82 @@ export class BravoDateSingleService {
     }
   }
 
+  // hàm chọn month
+  public selectMonth(pdate: BravoMoment, pPart: RangePartType) {
+    const panels = this.panels;
+    // single
+    if (!this.isRange) {
+      this.panels = {
+        ...panels,
+        [pPart]: {
+          date: pdate,
+          mode: 'date'
+        }
+      };
+      return;
+    }
+    // range
+    let startDate = panels.start.date;
+    let startMode = panels.start.mode;
+    let endDate = panels.end.date;
+    let endMode = panels.end.mode;
+    if (pPart === 'start') {
+      startDate = pdate;
+      startMode = "date";
+      endDate = pdate.clone().addMonths(1);
+    }
+    if (pPart === 'end') {
+      endDate = pdate;
+      endMode = "date";
+      startDate = pdate.clone().subMonths(1);
+    }
+    this.panels = {
+      start: {
+        date: startDate,
+        mode: startMode
+      },
+      end: {
+        date: endDate,
+        mode: endMode}
+    };
+  }
+  
+  // hàm chọn year
+  public selectYear(pDate: BravoMoment, pPart: RangePartType) {
+    const panels = this.panels;
+    if (!this.isRange) {
+      this.panels = {
+        ...panels,
+        [pPart]: {
+          date: pDate,
+          mode: 'month'
+        }
+      };
+      return;
+    }
+    let startDate = panels.start.date;
+    let startMode = panels.start.mode;
+    let endDate = panels.end.date;
+    let endMode = panels.end.mode;
+    if (pPart === 'start') {
+      startDate = pDate;
+      startMode = 'month'
+    }
+    if (pPart === 'end') {
+      endDate = pDate;
+      endMode = "month"
+    }
+    this.panels = {
+      start: {
+        date: startDate,
+        mode: startMode
+      },
+      end: {
+        date: endDate,
+        mode: endMode
+      }
+    };
+  }
 
   // move calendar
   public moveCalendar(pStep: number, pPanel: RangePartType) {
@@ -123,7 +199,6 @@ export class BravoDateSingleService {
     }
 
     this._panels$.next(newPanels);
-
     this.inputActive = pPanel;
   }
 

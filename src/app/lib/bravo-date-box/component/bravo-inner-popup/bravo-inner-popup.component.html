@@ -16,13 +16,13 @@
 @case ('month') {
     <ng-container *ngTemplateOutlet="templateLabel; context: { mode: 'month' }"></ng-container>
     <br-month-picker
-       
+       [partType]="partType"
     />
 }
 @case ('year') {
     <ng-container *ngTemplateOutlet="templateLabel; context: { mode: 'year' }"></ng-container>
     <br-year-picker
-       
+       [partType]="partType"
     />
 }
 @default {

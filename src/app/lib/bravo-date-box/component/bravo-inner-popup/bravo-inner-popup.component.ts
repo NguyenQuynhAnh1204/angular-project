@@ -1,12 +1,12 @@
-import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BravoDropdownBaseModule } from "@bravo-infra/ui/bravo-dropdown-base";
-import { DateMode, PanelState, RangePartType } from '../../bravo-control-date.type';
+import { Subject, takeUntil } from 'rxjs';
+import { DateMode, RangePartType } from '../../bravo-control-date.type';
 import { BravoDateSingleService } from '../../service';
 import { BravoDatePickerComponent } from '../bravo-date-picker';
 import { BravoMonthPickerComponent } from '../bravo-month-picker';
 import { BravoYearPickerComponent } from '../bravo-year-picker';
-import { Subject, takeUntil } from 'rxjs';
 
 
 @Component({
@@ -41,7 +41,7 @@ export class BravoDateHeaderComponent {
 
     @Input('partType')
     public partType!: RangePartType;
-    
+
     public previous() {
         this._service.moveCalendar(-1, this.partType);
     }

@@ -1,7 +1,7 @@
-import { Component, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
-import { PanelState } from '../../bravo-control-date.type';
+import { RangePartType } from '../../bravo-control-date.type';
 import { BravoDateSingleService } from '../../service';
 
 @Component({
@@ -13,12 +13,12 @@ import { BravoDateSingleService } from '../../service';
 export class BravoYearPickerComponent implements OnInit, OnDestroy {
     private _destroy$ = new Subject<void>();
     private _service = inject(BravoDateSingleService);
-    public get partType() {
-        return this._service.inputActive;
-    }
     public get date() {
         return this._service.panels[this.partType].date;
     }
+
+    @Input('partType')
+    public partType!: RangePartType;
 
     private _years!: BravoMoment[][]
     public get years() {
@@ -46,11 +46,7 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
 
     public onSelectYear(pDate: BravoMoment) {
         this.selectedYear = pDate.getFullYear();
-        this._service.panels = {
-            ...this._service.panels,
-            [this.partType]: {mode: 'year', date: pDate}
-        }
-        this._service.changeMode(this.partType);
+       this._service.selectYear(pDate, this.partType);
     }
     
 }
