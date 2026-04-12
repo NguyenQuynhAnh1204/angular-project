@@ -9,7 +9,8 @@
             >
                 {{label || 'Date'}}: 
             </p>
-    
+
+        <!-- Single Date -->
         @if (!isRange) {
             <input type="text" 
                 #pickerInput
@@ -23,7 +24,9 @@
                 (click)="onClickInputBox($event)"
                 (input)="onInputChange($event)"
             >
-        } @else {
+        } 
+        <!-- Date range -->
+        @else {
             <ng-container *ngTemplateOutlet="templateRangeInput; context: { partType: 'start' }" />
             
             <span class="material-symbols-outlined arrow-icon close-icon" [class.show-icon]="focus || textValue">

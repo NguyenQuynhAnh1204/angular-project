@@ -1,7 +1,10 @@
 @use 'styles/mixin' as *;
 
+
 .date-range {
-    @include df-center
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+   
 }
 
 .view-switch {

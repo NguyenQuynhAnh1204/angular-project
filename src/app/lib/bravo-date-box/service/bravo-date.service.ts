@@ -24,6 +24,7 @@ export class BravoDateSingleService {
     return this._inputActive$.value;
   }
   public set inputActive(pValue) {
+    console.log('active input', pValue);
     this._inputActive$.next(pValue);
   }
 
@@ -50,24 +51,24 @@ export class BravoDateSingleService {
 
   // hàm chọn date
   public selectDate(pDate: BravoMoment) {
+    // single
     if (!this.isRange) {
       this.value = pDate;
       this.hideDatePicker();
       return;
     }
-
+    // range
     const current = Array.isArray(this.value) ? this.value : [null, null];
     let [start, end] = current;
-
     if (!start && !end) {
       start = pDate;
       end = null;
     } else if (start && !end) {
-      if (pDate.getTime() >= start.getTime()) {
+      if (pDate.isAfter(start)) {
         end = pDate;
       } else {
+        end = start;
         start = pDate;
-        end = null;
       }
     }
     else {
@@ -81,14 +82,14 @@ export class BravoDateSingleService {
   }
 
   // hàm chọn month
-  public selectMonth(pdate: BravoMoment, pPart: RangePartType) {
+  public selectMonth(pDate: BravoMoment, pPart: RangePartType) {
     const panels = this.panels;
     // single
     if (!this.isRange) {
       this.panels = {
         ...panels,
         [pPart]: {
-          date: pdate,
+          date: pDate,
           mode: 'date'
         }
       };
@@ -100,16 +101,16 @@ export class BravoDateSingleService {
     let endDate = panels.end.date;
     let endMode = panels.end.mode;
     if (pPart === 'start') {
-      startDate = pdate;
+      startDate = pDate;
       startMode = "date";
-      endDate = pdate.clone().addMonths(1);
+      endDate = pDate.clone().addMonths(1);
     }
     if (pPart === 'end') {
-      endDate = pdate;
+      endDate = pDate;
       endMode = "date";
-      startDate = pdate.clone().subMonths(1);
+      startDate = pDate.clone().subMonths(1);
     }
-    this.panels = {
+    this._panels$.next({
       start: {
         date: startDate,
         mode: startMode
@@ -117,7 +118,7 @@ export class BravoDateSingleService {
       end: {
         date: endDate,
         mode: endMode}
-    };
+    });
   }
   
   // hàm chọn year
@@ -145,7 +146,7 @@ export class BravoDateSingleService {
       endDate = pDate;
       endMode = "month"
     }
-    this.panels = {
+    this._panels$.next({
       start: {
         date: startDate,
         mode: startMode
@@ -154,7 +155,7 @@ export class BravoDateSingleService {
         date: endDate,
         mode: endMode
       }
-    };
+    });
   }
 
   // move calendar
@@ -169,16 +170,15 @@ export class BravoDateSingleService {
       case 'date':
         newDate = date.addMonths(pStep);
         break;
-
-        case 'month':
+      case 'month':
           newDate = date.addYears(pStep);
           break;
-
       case 'year':
         newDate = date.addYears(pStep * 25);
         break;
     }
-    let newPanels = {...this.panels,
+    let newPanels = {
+      ...this.panels,
       [pPanel]: {
         ...state,
         date: newDate
@@ -197,9 +197,7 @@ export class BravoDateSingleService {
         };
       }
     }
-
     this._panels$.next(newPanels);
-    this.inputActive = pPanel;
   }
 
   public changeMode(pPanel: RangePartType) {
@@ -210,8 +208,9 @@ export class BravoDateSingleService {
       case 'date':
         newMode = 'year';
         break;
-
       case 'month':
+        newMode = 'date';
+        break;
       case 'year':
       default:
         newMode = 'date';
@@ -224,11 +223,11 @@ export class BravoDateSingleService {
         mode: newMode
       }
     });
-    this.inputActive = pPanel;
   }
    // hàm mở picker
    public showDatePicker() {
     this._isOpenDatePicker$.next(true);
+
   }
 
   // hàm đóng picker

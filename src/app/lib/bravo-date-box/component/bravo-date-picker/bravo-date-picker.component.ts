@@ -53,43 +53,42 @@ export class BravoDatePickerComponent implements OnInit, OnDestroy {
 
   // select date
   public onSelectDate(pDate: BravoMoment) {
-    this.selectDate = pDate;
     this._service.selectDate(pDate);
   }
 
   public isSelected(pDate: BravoMoment) {
     if (!this.selectDate) return false;
-    if (!this.isRangeValue(this.selectDate)) {
+    // single date
+    if (!this._isRangeValue(this.selectDate)) {
       return this.selectDate?.isSameDay(pDate);
     }
-    
+    // date range
     const [start, end] = this.selectDate;
-
     return (
       (start?.isSameDay(pDate) ?? false) ||
       (end?.isSameDay(pDate) ?? false)
     );
   }
-
+  
+  // day in range 
   public isInRange(pDate: BravoMoment) {
-    if (!this.isRangeValue(this.selectDate)) return false;
+    if (!this._isRangeValue(this.selectDate)) return false;
     const [start, end] = this.selectDate;
     if (!start || !end) return false;
-    const time = pDate.getTime();
-    return (
-      time > start.getTime() &&
-      time < end.getTime()
-    );
+    return (pDate.isAfter(start) && pDate.isBefore(end));
   }
+
+  public inHoverRange(pDate: BravoMoment) {
+    if (!this._isRangeValue(this.selectDate)) return false;
+    return true;
+  } 
 
   public isDayInMonth(pDate: BravoMoment) {
     return this.date.isSameMonth(pDate);
   }
 
-  private isRangeValue(pValue: CompatibleDate) {
+  private _isRangeValue(pValue: CompatibleDate) {
     return Array.isArray(pValue);
   }
-
-  
 
 }

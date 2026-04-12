@@ -31,11 +31,12 @@
     }
     &.not-month {
         opacity: 0.5;
+        background: none;
     }
     &:hover {
         border: 1px solid #3545ff;
     }
-    &:not(.disabled).selected {
+    &:not(.not-month).selected {
         background-color: #3545ff;
         color: #fff;
     }

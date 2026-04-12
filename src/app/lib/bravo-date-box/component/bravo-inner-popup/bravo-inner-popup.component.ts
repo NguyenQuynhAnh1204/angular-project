@@ -2,7 +2,7 @@ import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BravoDropdownBaseModule } from "@bravo-infra/ui/bravo-dropdown-base";
 import { Subject, takeUntil } from 'rxjs';
-import { DateMode, RangePartType } from '../../bravo-control-date.type';
+import { DateMode, PanelState, RangePartType } from '../../bravo-control-date.type';
 import { BravoDateSingleService } from '../../service';
 import { BravoDatePickerComponent } from '../bravo-date-picker';
 import { BravoMonthPickerComponent } from '../bravo-month-picker';
@@ -29,18 +29,36 @@ import { BravoYearPickerComponent } from '../bravo-year-picker';
     styleUrls: ["./bravo-inner-popup.component.scss"]
 })
 
-export class BravoDateHeaderComponent {
+export class BravoDateHeaderComponent implements OnInit, OnDestroy {
+    private _destroy$ = new Subject<void>();
     private _service = inject(BravoDateSingleService);
     public get panelState() {
         return this._service.panels;
     }
 
+    private _label!: string;
     public get label() {
-        return this._buildLabel()
+        return this._label;
+    }
+    public set label(pValue) {
+        this._label = pValue;
     }
 
     @Input('partType')
     public partType!: RangePartType;
+
+    public ngOnInit() {
+        this._service.panelsChange$
+        .pipe(takeUntil(this._destroy$))
+        .subscribe((pVal) => {
+            this._buildLabel(pVal[this.partType]);
+        })
+    }
+
+    public ngOnDestroy() {
+        this._destroy$.next();
+        this._destroy$.complete();
+    }
 
     public previous() {
         this._service.moveCalendar(-1, this.partType);
@@ -54,18 +72,20 @@ export class BravoDateHeaderComponent {
         this._service.changeMode(this.partType);
     }
 
-    private _buildLabel() {
-        const panel = this._service.panels[this.partType];
-        const mode = panel.mode;
-        const date = panel.date;
+    private _buildLabel(pPanel: PanelState) {
+        const mode = pPanel.mode;
+        const date = pPanel.date;
         switch(mode) {
             case 'date':
-                return  `Tháng ${date.getMonth()+1} năm ${date.getFullYear()}`;
+                this.label =   `Tháng ${date.getMonth()+1} năm ${date.getFullYear()}`;
+                break;
             case 'month':
-                return  `Năm ${date.getFullYear()}`;
+                this.label =   `Năm ${date.getFullYear()}`;
+                break;
             case 'year':
                 const start = Math.floor(date.getFullYear()/25) * 25;
-                return `${start} - ${start+24}`;
+                this.label =  `${start} - ${start+24}`;
+                break
         }
     }
 }
@@ -82,14 +102,6 @@ export class BravoDateHeaderComponent {
 export class BravoInnerPopupComponent implements OnInit, OnDestroy {
     private _destroy$ = new Subject<void>();
     private _service = inject(BravoDateSingleService);    
-
-    private _date!: BravoMoment;
-    public get date() {
-        return this._date;
-    }
-    public set date(pDate) {
-        this._date = pDate;
-    }
     
     @Input('mode')
     public mode!: DateMode;
@@ -102,7 +114,6 @@ export class BravoInnerPopupComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this._destroy$))
         .subscribe((pVal) => {
             this.mode = pVal[this.partType].mode;
-            this.date =  pVal[this.partType].date;
         })
     }
 

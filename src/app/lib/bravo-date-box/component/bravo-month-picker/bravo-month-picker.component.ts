@@ -1,8 +1,8 @@
-import { Component, EventEmitter, inject, input, Input, OnInit, Output } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
-import { BravoDateSingleService } from '../../service';
-import { PanelState, RangePartType } from '../../bravo-control-date.type';
 import { Subject, takeUntil } from 'rxjs';
+import { RangePartType } from '../../bravo-control-date.type';
+import { BravoDateSingleService } from '../../service';
 
 @Component({
     selector: 'br-month-picker',
@@ -30,11 +30,11 @@ export class BravoMonthPickerComponent implements OnInit {
         .subscribe((pVal) => {
             this.months = this._service.panels[pVal].date.getMonths('MMM',3);
         })
-        this.selectedMonth = this.date.getMonth();
+        this.selectedMonth = this.date.getMonth() + 1;
     }
 
     public onSelectMonth(pDate: BravoMoment) {
-        this.selectedMonth = pDate.getMonth();
+        this.selectedMonth = pDate.getMonth() + 1;
         this._service.selectMonth(pDate, this.partType);
     }
 }
