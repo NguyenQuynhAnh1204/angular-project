@@ -2,7 +2,7 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
 import { RangePartType } from '../../bravo-control-date.type';
-import { BravoDateSingleService } from '../../service';
+import { BravoDateService } from '../../service';
 
 @Component({
     selector: 'br-month-picker',
@@ -12,7 +12,7 @@ import { BravoDateSingleService } from '../../service';
 
 export class BravoMonthPickerComponent implements OnInit {
     private _destroy$ = new Subject<void>();
-    private _service = inject(BravoDateSingleService);
+    private _service = inject(BravoDateService);
     public get date() {
         return this._service.panels[this.partType].date;
     }

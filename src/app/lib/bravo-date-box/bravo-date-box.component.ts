@@ -6,7 +6,7 @@ import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-in
 import { Subject, takeUntil } from 'rxjs';
 import { BravoControlBaseComponent, BravoControlDirective } from '../bravo-control-base';
 import { BravoDateContainerComponent } from './component';
-import { BravoDateSingleService } from './service';
+import { BravoDateService } from './service';
 import { RangePartType } from './bravo-control-date.type';
 
 
@@ -26,7 +26,7 @@ import { RangePartType } from './bravo-control-date.type';
             useExisting: forwardRef(() => BravoDateBoxComponent),
             multi: true
         },
-        BravoDateSingleService,
+        BravoDateService,
     ],
     hostDirectives: [{
         directive: BravoControlDirective,
@@ -37,7 +37,7 @@ import { RangePartType } from './bravo-control-date.type';
 })
 export class BravoDateBoxComponent extends BravoControlBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     private _destroy$ = new Subject<void>();
-    private _service = inject(BravoDateSingleService);
+    private _service = inject(BravoDateService);
     public get isOpenDate() {
         return this._service.isOpenDatePicker;
     }

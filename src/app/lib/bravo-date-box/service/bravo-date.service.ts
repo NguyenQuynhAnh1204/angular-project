@@ -3,7 +3,7 @@ import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BehaviorSubject } from 'rxjs';
 import { CompatibleDate, DateMode, PanelState, RangeDate, RangePartType } from '../bravo-control-date.type';
 @Injectable()
-export class BravoDateSingleService {
+export class BravoDateService {
   public isRange!: boolean;
 
   // flag open picker
@@ -227,7 +227,10 @@ export class BravoDateSingleService {
    // hàm mở picker
    public showDatePicker() {
     this._isOpenDatePicker$.next(true);
-
+    if(!this.value) {
+      this._initialValue()
+    };
+    this._setValue();
   }
 
   // hàm đóng picker
@@ -238,5 +241,58 @@ export class BravoDateSingleService {
   // xoá select
   public clearSelectDate() {
      
+  }
+
+  private _initialValue() {
+    if(!this.isRange) {
+      this._panels$.next({
+        ...this.panels,
+        start: {
+          mode: 'date',
+          date: new BravoMoment()
+        }
+      })
+      return;
+    }  
+
+    this._panels$.next({
+      start: {
+        mode: 'date',
+        date: new BravoMoment()
+      },
+      end: {
+        mode: 'date',
+        date: new BravoMoment().clone().addMonths(1)
+      }
+    });
+    
+  }
+
+  private _setValue() {
+    if(!this.isRange) {
+      const date = this.value as BravoMoment;
+      this._panels$.next({
+        ...this.panels,
+        start: {
+          ...this.panels.start,
+          date: date.clone()
+        }
+      })
+      return;
+    }
+    // range
+    const [start, end] = this.value as RangeDate;
+    const startDate = start?.clone()!;
+    const endDate = start?.clone().addMonths(1)!;
+    this._panels$.next({
+      start: {
+        mode: 'date',
+        date: startDate
+      },
+      end: {
+        mode: 'date',
+        date: endDate
+      }
+    });
   }
 }

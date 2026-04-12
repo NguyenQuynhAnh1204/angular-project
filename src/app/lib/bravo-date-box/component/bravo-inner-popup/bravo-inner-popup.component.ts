@@ -3,7 +3,7 @@ import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BravoDropdownBaseModule } from "@bravo-infra/ui/bravo-dropdown-base";
 import { Subject, takeUntil } from 'rxjs';
 import { DateMode, PanelState, RangePartType } from '../../bravo-control-date.type';
-import { BravoDateSingleService } from '../../service';
+import { BravoDateService } from '../../service';
 import { BravoDatePickerComponent } from '../bravo-date-picker';
 import { BravoMonthPickerComponent } from '../bravo-month-picker';
 import { BravoYearPickerComponent } from '../bravo-year-picker';
@@ -31,7 +31,7 @@ import { BravoYearPickerComponent } from '../bravo-year-picker';
 
 export class BravoDateHeaderComponent implements OnInit, OnDestroy {
     private _destroy$ = new Subject<void>();
-    private _service = inject(BravoDateSingleService);
+    private _service = inject(BravoDateService);
     public get panelState() {
         return this._service.panels;
     }
@@ -101,7 +101,7 @@ export class BravoDateHeaderComponent implements OnInit, OnDestroy {
 
 export class BravoInnerPopupComponent implements OnInit, OnDestroy {
     private _destroy$ = new Subject<void>();
-    private _service = inject(BravoDateSingleService);    
+    private _service = inject(BravoDateService);    
     
     @Input('mode')
     public mode!: DateMode;

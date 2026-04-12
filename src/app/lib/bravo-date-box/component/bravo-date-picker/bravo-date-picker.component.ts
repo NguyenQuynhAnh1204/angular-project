@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
-import { BravoDateSingleService } from '../../service';
+import { BravoDateService } from '../../service';
 import { CompatibleDate, RangePartType } from '../../bravo-control-date.type';
 import { ComparableData } from '@bravo-infra/core/definition';
 
@@ -15,7 +15,7 @@ import { ComparableData } from '@bravo-infra/core/definition';
 })
 export class BravoDatePickerComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject<void>();
-  private _service = inject(BravoDateSingleService);
+  private _service = inject(BravoDateService);
   public get date() {
     return this._service.panels[this.partType].date;
   }

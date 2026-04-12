@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { BravoDateSingleService } from '../../service';
+import { BravoDateService } from '../../service';
 import { BravoInnerPopupComponent } from '../bravo-inner-popup';
 
 @Component({
@@ -11,7 +11,7 @@ import { BravoInnerPopupComponent } from '../bravo-inner-popup';
 })
 
 export class BravoDateContainerComponent implements OnInit {
-    private _service = inject(BravoDateSingleService);
+    private _service = inject(BravoDateService);
     @Input('isRange')
     public isRange!: boolean;
 
