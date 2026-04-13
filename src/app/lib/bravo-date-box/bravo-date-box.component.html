@@ -37,11 +37,14 @@
         }
         <div class="date-icon-container">
             <span class="material-symbols-outlined close-icon" 
-            [class.show-icon]='textValue'
-            (click)="handleOnClear()"
-            >close</span>
+                [class.show-icon]='textValue'
+                (click)="handleOnClear()"
+            >
+                close
+            </span>
+
             <span class="material-symbols-outlined calendar-icon"
-                [class.select-date]="focus" 
+                [class.select-date]="focus || textValue" 
                 (click)="showDatePicker()"
                 >
                 calendar_month

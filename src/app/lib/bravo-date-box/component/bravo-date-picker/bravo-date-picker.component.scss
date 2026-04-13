@@ -40,7 +40,10 @@
         background-color: #3545ff;
         color: #fff;
     }
-     &:not(.not-month).in-range:not(.selected) {
+    &:not(.not-month).in-range:not(.selected) {
         background-color: #e4f0ff;
+    }
+    &:not(.not-month).hover-range:not(.selected) {
+        background-color:#abd1ff;
     }
 }

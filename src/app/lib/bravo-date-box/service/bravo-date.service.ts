@@ -17,7 +17,6 @@ export class BravoDateService {
     this._isOpenDatePicker$.next(pStatus);
   }
 
-
   private _inputActive$ = new BehaviorSubject<RangePartType>('start');
   readonly inputActiveChange$ = this._inputActive$.asObservable();
   public get inputActive() {
@@ -47,6 +46,15 @@ export class BravoDateService {
   }
   public set value(pDate) {
     this._value$.next(pDate)
+  }
+
+  private _hoverDate$ = new BehaviorSubject<BravoMoment | null>(null);
+  public readonly hoverDateChange$ = this._hoverDate$.asObservable();
+  public get hoverDate() {
+    return this._hoverDate$.value;
+  }
+  public set hoverDate(date: BravoMoment | null) {
+    this._hoverDate$.next(date);
   }
 
   // hàm chọn date
@@ -228,9 +236,9 @@ export class BravoDateService {
    public showDatePicker() {
     this._isOpenDatePicker$.next(true);
     if(!this.value) {
-      this._initialValue()
+      this._initialValuePanel()
     };
-    this._setValue();
+    this._setValuePanel();
   }
 
   // hàm đóng picker
@@ -240,10 +248,10 @@ export class BravoDateService {
 
   // xoá select
   public clearSelectDate() {
-     
+     this.value = this.isRange ? [null, null] : null;
   }
 
-  private _initialValue() {
+  private _initialValuePanel() {
     if(!this.isRange) {
       this._panels$.next({
         ...this.panels,
@@ -268,7 +276,7 @@ export class BravoDateService {
     
   }
 
-  private _setValue() {
+  private _setValuePanel() {
     if(!this.isRange) {
       const date = this.value as BravoMoment;
       this._panels$.next({

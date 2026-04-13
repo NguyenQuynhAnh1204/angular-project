@@ -27,7 +27,7 @@ export class BravoDatePickerRangeComponent implements OnInit, OnDestroy {
     public dates: BravoMoment[][] = [];
     public days: string[] = [];
 
-    public hoverDates: BravoMoment[] = [];
+   
  
     private _time!: 'start' | 'end';
     @Input('time')

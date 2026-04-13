@@ -3,7 +3,7 @@ import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
 import { BravoDateService } from '../../service';
-import { CompatibleDate, RangePartType } from '../../bravo-control-date.type';
+import { CompatibleDate, RangeDate, RangePartType } from '../../bravo-control-date.type';
 import { ComparableData } from '@bravo-infra/core/definition';
 
 
@@ -56,6 +56,11 @@ export class BravoDatePickerComponent implements OnInit, OnDestroy {
     this._service.selectDate(pDate);
   }
 
+  public handleOnHover(pDate: BravoMoment) {
+    if(!this._service.value && !this.isRange) return;
+    this._service.hoverDate = pDate;
+  }
+
   public isSelected(pDate: BravoMoment) {
     if (!this.selectDate) return false;
     // single date
@@ -80,7 +85,15 @@ export class BravoDatePickerComponent implements OnInit, OnDestroy {
 
   public inHoverRange(pDate: BravoMoment) {
     if (!this._isRangeValue(this.selectDate)) return false;
-    return true;
+    const [start, end] = this._service.value as RangeDate;
+    const hoverDate = this._service.hoverDate;
+    if(!hoverDate || !(start ?? end)) return false;
+    const anchorTime = start?.getTime() ?? end?.getTime();
+    if(!anchorTime) return false;
+    const dateTime = pDate.getTime();
+    const hoverTime = hoverDate.getTime();
+    return dateTime >= Math.min(anchorTime, hoverTime) && 
+    dateTime <= Math.max(anchorTime, hoverTime);
   } 
 
   public isDayInMonth(pDate: BravoMoment) {
