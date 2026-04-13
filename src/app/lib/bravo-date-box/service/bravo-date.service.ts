@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BehaviorSubject } from 'rxjs';
 import { CompatibleDate, DateMode, PanelState, RangeDate, RangePartType } from '../bravo-control-date.type';
 @Injectable()
-export class BravoDateService {
+export class BravoDateService implements OnDestroy {
   public isRange!: boolean;
 
   // flag open picker
@@ -55,6 +55,14 @@ export class BravoDateService {
   }
   public set hoverDate(date: BravoMoment | null) {
     this._hoverDate$.next(date);
+  }
+
+  public ngOnDestroy() {
+    this._isOpenDatePicker$.complete();
+    this._inputActive$.complete();
+    this._panels$.complete();
+    this._value$.complete();
+    this._hoverDate$.complete();
   }
 
   // hàm chọn date
@@ -208,6 +216,7 @@ export class BravoDateService {
     this._panels$.next(newPanels);
   }
 
+  // change mode
   public changeMode(pPanel: RangePartType) {
     const panel = this.panels[pPanel];
     const mode = panel.mode;
@@ -232,11 +241,13 @@ export class BravoDateService {
       }
     });
   }
+
    // hàm mở picker
    public showDatePicker() {
     this._isOpenDatePicker$.next(true);
-    if(!this.value) {
+    if(this._isEmptyValue()) {
       this._initialValuePanel()
+      return;
     };
     this._setValuePanel();
   }
@@ -249,6 +260,12 @@ export class BravoDateService {
   // xoá select
   public clearSelectDate() {
      this.value = this.isRange ? [null, null] : null;
+
+  }
+
+  private _isEmptyValue() {
+    if(!this.isRange) return !this.value;
+    return (Array.isArray(this.value) && this.value.some(v => v == null))
   }
 
   private _initialValuePanel() {
@@ -289,6 +306,7 @@ export class BravoDateService {
       return;
     }
     // range
+    if(!Array.isArray(this.value)) return;
     const [start, end] = this.value as RangeDate;
     const startDate = start?.clone()!;
     const endDate = start?.clone().addMonths(1)!;

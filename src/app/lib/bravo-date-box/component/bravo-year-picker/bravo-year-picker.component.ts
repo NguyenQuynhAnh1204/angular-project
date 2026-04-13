@@ -31,11 +31,11 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
     public selectedYear!: number;
    
     public ngOnInit() {
-        this._service.inputActiveChange$
+        this._service.panelsChange$
         .pipe(takeUntil(this._destroy$))
         .subscribe((pVal) => {
-            this.selectedYear = this._service.panels[pVal].date.getFullYear();
-            this.years = this._service.panels[pVal].date.getYears(5, 5);
+            this.selectedYear = pVal[this.partType].date.getFullYear();
+            this.years = pVal[this.partType].date.getYears(5, 5);
         })
     }
 

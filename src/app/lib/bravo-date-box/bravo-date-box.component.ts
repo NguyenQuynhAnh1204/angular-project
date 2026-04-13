@@ -7,7 +7,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { BravoControlBaseComponent, BravoControlDirective } from '../bravo-control-base';
 import { BravoDateContainerComponent } from './component';
 import { BravoDateService } from './service';
-import { RangePartType } from './bravo-control-date.type';
+import { CompatibleDate, RangeDate, RangePartType, SingleDate } from './bravo-control-date.type';
 
 
 @Component({
@@ -38,8 +38,14 @@ import { RangePartType } from './bravo-control-date.type';
 export class BravoDateBoxComponent extends BravoControlBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     private _destroy$ = new Subject<void>();
     private _service = inject(BravoDateService);
-    public get isOpenDate() {
+    public get isOpenDatePicker() {
         return this._service.isOpenDatePicker;
+    }
+    public get inputActive() {
+        return this._service.inputActive;
+    }
+    public get value() {
+        return this._service.value;
     }
 
     // private _isRange!: boolean;
@@ -51,22 +57,26 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
         this._isRange = pVal;
     }
 
+    private _inputValue!: [string, string] | string;
+    public get inputValue() {
+        return this._inputValue;
+    }
+    public set inputValue(pVal) {
+        this._inputValue = pVal;
+    }
+
     @ViewChild('pickerInput')
     public pickerInput?: ElementRef<HTMLInputElement>;
     @ViewChildren('rangePickerInput')
     public rangePickerInput?: QueryList<ElementRef<HTMLInputElement>>
 
     ngOnInit() {
-        this._service.isOpenDatePickerChange$
-            .pipe(takeUntil(this._destroy$))
-            .subscribe((pVal) => {
-                if(pVal == true) {
-                    this.handleFocus()
-                } else {
-                    this.handleBlur()
-                }
-                // this.updateValue(this._service?.selectDate?.format())
-            })
+        this._service.valueChange$
+        .pipe(takeUntil(this._destroy$))
+        .subscribe((pVal) => {
+            if(!pVal) return;
+            this._setInputValue(pVal);
+        })
     }
 
     public ngAfterViewInit(): void {
@@ -76,51 +86,40 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
         })
     }
 
-
     ngOnDestroy() {
         this._destroy$.next();
         this._destroy$.complete();
     }
-
-    // public handleOnChange(pEvent: Event) {
-    //     const input = pEvent.target as HTMLInputElement;
-    //     const value = input.value;
-    //     this.textValue = value;
-    //     if (this._validateInputDate(value)) {
-    //         this.updateValue(this.textValue);
-    //         this._service.selectDate = new BravoMoment(BravoMoment.parseDate(value, 'dd/MM/yyyy'));
-    //     } else {
-    //         this.updateValue('');
-    //     }
-    // }
     
     public onClickInputBox(pEvent: MouseEvent) {
-        console.log('click');
         pEvent.stopPropagation();
         this.handleFocus();
     }
     
-    public onKeyupEnter(pEvent: Event) {
-        this.onInputChange(pEvent);
-    }
-    
-    public onInputChange(pEvent: Event, pEnter?: boolean) {
-        const date = (pEvent.target as HTMLInputElement).value; 
-        const valid = this._validateInputDate(date);
+    public onInputChange(pEvent: Event) {
+        const value = (pEvent.target as HTMLInputElement).value; 
+        const valid = this._validateInputDate(value);
         if (valid) {
-            this.updateValue(date)
-            // this._service.selectDate = new BravoMoment(date);
+            this._setValue(value);
         } else {
-            this.updateValue('')
+            console.log('không hợp lệ')
         }
     }
 
-    public onFocus(pEvent: FocusEvent, partType?: RangePartType) {
-        pEvent.preventDefault();
-        if(partType) {
-            this._service.inputActive = partType;
+    public onFocus(pEvent: FocusEvent) {
+        const target = pEvent.target as HTMLInputElement;
+        if(this.pickerInput) {
+            this._service.inputActive = 'start'
         }
-        // this.updateValue(this._service.selectDate.format())
+        if (this.rangePickerInput) {
+            if(target == this.rangePickerInput.first.nativeElement) {
+                this._service.inputActive = 'start'
+            } 
+            else if(target == this.rangePickerInput.last.nativeElement) {
+                this._service.inputActive="end"
+            }
+        }
+        pEvent.preventDefault();
     }
 
     public onFocusOut(pEvent: FocusEvent) {
@@ -128,28 +127,106 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
         this.onTouched();
         this.focus = false;
     }
-
-    private _validateInputDate(pValue: string) {
-        const date = new BravoMoment(pValue)
-        return date.isValid();
-    }
-
-
+    
     public showDatePicker() {
         this._service.showDatePicker();
     }
-
+    
     public hideDatePicker() {
         this._service.hideDatePicker();
     }
-
+    
     public handleOnClear() {
-        this.updateValue('');
         this._service.clearSelectDate();
     }
-
+    
     public getPlaceholder(partType?: RangePartType) {
-        return partType ? partType == 'start' ? 'Start date' : 'End date' : 'Date'
+        return partType ? partType == 'start' ? 'Start date' : 'End date' : 'Select dated';
+    }
+
+    override updateValue(pVal: string | [string, string]) {
+        if(!Array.isArray(pVal)) {
+            this.textValue = pVal;
+            if(!this.pickerInput) return;
+            this.pickerInput.nativeElement.value = pVal;
+        } else {
+            this.textValue = `${pVal[0]}${pVal[1]}`;
+            if(!this.rangePickerInput) return;
+            this.rangePickerInput.forEach((input, index) => {
+                input.nativeElement.value = pVal[index];
+            })
+        }
+        this.onChange(this.textValue);
+    }
+    
+    private _validateInputDate(pValue: string) {
+        const regex = /^(?:(?:31\/(?:0[13578]|1[02]))|(?:29|30)\/(?:0[13-9]|1[0-2]))\/\d{4}$|^(?:29\/02\/(?:(?:\d\d(?:0[48]|[2468][048]|[13579][26]))|(?:[02468][048]00|[13579][26]00)))$|^(?:0[1-9]|1\d|2[0-8])\/(?:0[1-9]|1[0-2])\/\d{4}$/
+        return regex.test(pValue);
+    }
+
+    private _setInputValue(pValue: CompatibleDate) {
+        if(!this.isRange) {
+            const value = pValue as SingleDate;
+            if(!value) this.inputValue = "";
+            this.inputValue = `${value?.format()}`;
+            this.updateValue(this.inputValue);
+            return;
+        }
+        const [start, end] = pValue as RangeDate;
+        if(!start && !end) this.inputValue = ['', ''];
+        const inputStart = start?.format() ?? '';
+        const inputEnd = end?.format() ?? '';
+        if(!end) {
+            this.inputValue = [`${inputStart}`, '']
+        } else if(!start) {
+            this.inputValue = ['', `${inputEnd}`]
+        } else {
+            this.inputValue = [`${inputStart}`, `${inputEnd}`]
+        }
+        this.updateValue(this.inputValue);
+    }
+
+    // private _setValue(pVal: string) {
+    //     const parseDate = BravoMoment.parseDate(pVal, 'dd/MM/yyyy');
+    //     const date = new BravoMoment(parseDate)
+    //     if(!this.isRange) {
+    //         this._service.value = date;
+    //         return;
+    //     }
+    //     const dateValue = Array.isArray(this.value) ? this.value : [null, null];
+    //     let [start, end] = dateValue;
+    //     if(this.inputActive == 'start') {
+    //        start = date;
+    //     } 
+    //     if(this.inputActive == 'end') {
+    //         end = date
+    //     }
+    //     this._service.value = [start, end];
+    //     console.log(this._service.value);
+    // }
+    private _setValue(pVal: string) {
+        const parseDate = BravoMoment.parseDate(pVal, 'dd/MM/yyyy');
+        const date = new BravoMoment(parseDate);
+        // single mode
+        if (!this.isRange) {
+            this._service.value = date;
+            return;
+        }
+        // đảm bảo luôn là array
+        const dateValue = Array.isArray(this.value)
+            ? this.value
+            : [null, null];
+        let [start, end] = dateValue;
+        if (this.inputActive === 'start') {
+            start = date;
+        }
+        if (this.inputActive === 'end') {
+            end = date;
+        }
+        // ✅ normalize range
+        if (start && end && start.getTime() > end.getTime()) {
+            [start, end] = [end, start];
+        }
+        this._service.value = [start, end];
     }
 }
-

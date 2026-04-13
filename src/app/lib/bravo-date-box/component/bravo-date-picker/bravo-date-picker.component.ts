@@ -61,6 +61,10 @@ export class BravoDatePickerComponent implements OnInit, OnDestroy {
     this._service.hoverDate = pDate;
   }
 
+  public handleOnLeave() {
+    this._service.hoverDate = null;
+  }
+
   public isSelected(pDate: BravoMoment) {
     if (!this.selectDate) return false;
     // single date

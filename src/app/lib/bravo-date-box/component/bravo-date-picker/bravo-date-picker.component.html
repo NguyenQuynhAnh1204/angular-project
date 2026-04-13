@@ -4,7 +4,7 @@
     }
 </div>
 
-<div class="dates">
+<div class="dates"  (mouseleave)="handleOnLeave()">
     @for (rows of dates; track $index) {
         @for (item of rows; track $index) {
             <button

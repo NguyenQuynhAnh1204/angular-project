@@ -25,10 +25,10 @@ export class BravoMonthPickerComponent implements OnInit {
     public months: BravoMoment[][] = [];
 
     public ngOnInit() {
-        this._service.inputActiveChange$
+        this._service.panelsChange$
         .pipe(takeUntil(this._destroy$))
         .subscribe((pVal) => {
-            this.months = this._service.panels[pVal].date.getMonths('MMM',3);
+            this.months = pVal[this.partType].date.getMonths('MMM',3);
         })
         this.selectedMonth = this.date.getMonth() + 1;
     }
