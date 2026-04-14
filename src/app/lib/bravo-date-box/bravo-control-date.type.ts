@@ -1,9 +1,14 @@
 import { BravoMoment } from "@bravo-infra/core/utils/dates";
 
 export enum EViewPicker {
-    PICKER_DATE = 1,
-    PICKER_MONTH,
-    PICKER_YEAR
+  PICKER_DATE = 1,
+  PICKER_MONTH,
+  PICKER_YEAR
+}
+
+export enum EDateBoxMode {
+  SINGLE = 1,
+  RANGE
 }
 
 export type RangePartType = 'start' | 'end';

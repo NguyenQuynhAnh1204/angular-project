@@ -4,7 +4,8 @@ import { FormGroup } from '@angular/forms';
 import { ITablePanel } from './bravo-panel.type';
 import { ColumnType, RowType } from './bravo-panel.until';
 import { toCamelCase } from '../shared';
-import { selectControl } from '../bravo-control-base';
+import { EControlType, selectControl } from '../bravo-control-base';
+import { BravoDateBoxComponent, EDateBoxMode } from '../bravo-date-box';
 
 
 @Component({
@@ -59,8 +60,16 @@ export class BravoPanelComponent  {
             const colPart = columnsSpan ? `span ${columnsSpan}` : column;
 
             if(!item.child) {
-                const controlType = selectControl(item.control.type);
-                const panelItem = pContainerRef.createComponent(controlType);
+                const controlComponent = selectControl(item.control.type);
+                const panelItem = pContainerRef.createComponent(controlComponent);
+                if (panelItem.instance instanceof BravoDateBoxComponent) {
+                    panelItem.setInput(
+                        'isRange',
+                        item.control.type === EControlType.DATE_RANGE
+                        ? true
+                        : false
+                    );
+                }
                 const control = this.forms.controls[toCamelCase(item.control.label)]
                 panelItem.setInput("formControl", control)
                 

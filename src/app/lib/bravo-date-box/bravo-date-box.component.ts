@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, forwardRef, inject, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, forwardRef, inject, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
@@ -48,11 +48,11 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
         return this._service.value;
     }
 
-    private _isRange!: boolean;
-    // private _isRange = true;
+    private _isRange = true;
+    @Input('isRange')
     public get isRange() {
         return this._isRange;
-    } 
+    }
     public set isRange(pVal) {
         this._isRange = pVal;
     }
@@ -168,7 +168,7 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
             if(!value) {
                 this.inputValue = ''
             } else {
-                this.inputValue = `${value?.format()}`;
+                this.inputValue = `${value?.format('dd/MM/yyyy')}`;
             }
             this.updateValue(this.inputValue);
             return;
