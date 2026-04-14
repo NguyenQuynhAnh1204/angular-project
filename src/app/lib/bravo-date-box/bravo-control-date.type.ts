@@ -7,8 +7,8 @@ export enum EViewPicker {
 }
 
 export enum EDateBoxMode {
-  SINGLE = 1,
-  RANGE
+  SINGLE = 'single',
+  RANGE = 'range'
 }
 
 export type RangePartType = 'start' | 'end';

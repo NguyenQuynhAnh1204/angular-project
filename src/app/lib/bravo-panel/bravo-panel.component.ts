@@ -65,10 +65,21 @@ export class BravoPanelComponent  {
                 if (panelItem.instance instanceof BravoDateBoxComponent) {
                     panelItem.setInput(
                         'isRange',
-                        item.control.type === EControlType.DATE_RANGE
+                        item.control.type == EControlType.DATE_RANGE || 
+                        item.control.type == EControlType.MONTH_RANGE || 
+                        item.control.type == EControlType.YEAR_RANGE
                         ? true
                         : false
                     );
+                    panelItem.setInput(
+                        'mode',
+                        item.control.type == EControlType.DATE || 
+                        item.control.type == EControlType.DATE_RANGE ? 'date' :
+                        item.control.type == EControlType.MONTH || 
+                        item.control.type == EControlType.MONTH_RANGE ? 'month' :
+                        item.control.type == EControlType.YEAR || 
+                        item.control.type == EControlType.YEAR_RANGE ? 'year' : 'date'
+                    )
                 }
                 const control = this.forms.controls[toCamelCase(item.control.label)]
                 panelItem.setInput("formControl", control)
@@ -97,10 +108,10 @@ export class BravoPanelComponent  {
     // lấy số lượng của row columns --> tạo grid
     private _handleGridTemplate() {
         const { rows, columns } = this.configLayout;
-
-        const buildTemplate = (items: any[], Type: any) =>
-            items.map(item => new Type(item.value, item.size).toString()).join(" ");
-
+        const buildTemplate = (items: any[], Type: any) => 
+            items
+            .map(item => new Type(item.value, item.size).toString())
+            .join(" ");
         return {
             templateRows: buildTemplate(rows, RowType),
             templateColumns: buildTemplate(columns, ColumnType)

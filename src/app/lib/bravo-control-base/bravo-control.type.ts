@@ -10,7 +10,10 @@ export enum EControlType {
     RADIO,
     DATE,
     DATE_RANGE,
-    DATE_RANGE_BOX,
+    MONTH,
+    MONTH_RANGE,
+    YEAR,
+    YEAR_RANGE,
     TEXTAREA
 }
 

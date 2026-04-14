@@ -23,7 +23,6 @@ export class BravoDateService implements OnDestroy {
     return this._inputActive$.value;
   }
   public set inputActive(pValue) {
-    console.log('active input', pValue);
     this._inputActive$.next(pValue);
   }
 
@@ -187,8 +186,8 @@ export class BravoDateService implements OnDestroy {
         newDate = date.addMonths(pStep);
         break;
       case 'month':
-          newDate = date.addYears(pStep);
-          break;
+        newDate = date.addYears(pStep);
+        break;
       case 'year':
         newDate = date.addYears(pStep * 25);
         break;

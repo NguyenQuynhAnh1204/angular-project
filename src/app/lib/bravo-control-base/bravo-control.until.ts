@@ -9,6 +9,10 @@ export const CONTROL_MAP:Partial<Record<EControlType, Type<any>>> = {
     [EControlType.NUMBER]: BravoControlNumberComponent,
     [EControlType.DATE]: BravoDateBoxComponent,
     [EControlType.DATE_RANGE]: BravoDateBoxComponent,
+    [EControlType.MONTH]: BravoDateBoxComponent,
+    [EControlType.MONTH_RANGE]: BravoDateBoxComponent,
+    [EControlType.YEAR]: BravoDateBoxComponent,
+    [EControlType.YEAR_RANGE]: BravoDateBoxComponent,
 };
 
 export function selectControl(type?: EControlType): Type<any> {

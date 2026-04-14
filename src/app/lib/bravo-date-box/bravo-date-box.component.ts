@@ -5,7 +5,7 @@ import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
 import { Subject, takeUntil } from 'rxjs';
 import { BravoControlBaseComponent, BravoControlDirective } from '../bravo-control-base';
-import { CompatibleDate, RangeDate, RangePartType, SingleDate } from './bravo-control-date.type';
+import { CompatibleDate, DateMode, RangePartType, SingleDate } from './bravo-control-date.type';
 import { BravoDateContainerComponent } from './component';
 import { BravoDateService } from './service';
 
@@ -48,6 +48,15 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
         return this._service.value;
     }
 
+    private _mode: DateMode = 'date';
+    @Input('mode')
+    public get mode() {
+        return this._mode;
+    }
+    public set mode(pMode) {
+        this._mode = pMode;
+    }
+
     private _isRange = true;
     @Input('isRange')
     public get isRange() {
@@ -70,7 +79,7 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
     @ViewChildren('rangePickerInput')
     public rangePickerInput?: QueryList<ElementRef<HTMLInputElement>>
 
-    ngOnInit() {
+    public ngOnInit() {
         this._service.valueChange$
         .pipe(takeUntil(this._destroy$))
         .subscribe((pVal) => {
@@ -78,14 +87,14 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
         })
     }
 
-    public ngAfterViewInit(): void {
+    public ngAfterViewInit() {
         this.pickerInput?.nativeElement.addEventListener('focusout', this.onFocusOut.bind(this))
         this.rangePickerInput?.forEach((item) => {
             item?.nativeElement.addEventListener('focusout', this.onFocusOut.bind(this))
         })
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         this._destroy$.next();
         this._destroy$.complete();
     }
@@ -139,7 +148,14 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
     }
     
     public getPlaceholder(partType?: RangePartType) {
-        return partType ? partType == 'start' ? 'Start date' : 'End date' : 'Select dated';
+        switch(this.mode) {
+            case 'date':
+                return partType ? partType == 'start' ? 'Start date' : 'End date' : 'Select dated';
+            case 'month':
+                return partType ? partType == 'start' ? 'Start month' : 'End month' : 'Select month';
+            case 'year':
+                return partType ? partType == 'start' ? 'Start year' : 'End year' : 'Select year';
+        }
     }
 
     override updateValue(pVal: string | [string, string]) {
@@ -176,14 +192,14 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
         const dateRange = Array.isArray(pValue) ? pValue : [null, null];
         const [start, end] = dateRange;
         if(!start && !end) this.inputValue = ['', ''];
-        const inputStart = start?.format() ?? '';
-        const inputEnd = end?.format() ?? '';
+        const inputStart = start?.format('dd/MM/yyyy') ?? '';
+        const inputEnd = end?.format('dd/MM/yyyy') ?? '';
         if(!end) {
-            this.inputValue = [`${inputStart}`, '']
+            this.inputValue = [inputStart , '']
         } else if(!start) {
-            this.inputValue = ['', `${inputEnd}`]
+            this.inputValue = ['', inputEnd]
         } else {
-            this.inputValue = [`${inputStart}`, `${inputEnd}`]
+            this.inputValue = [inputStart, inputEnd]
         }
         this.updateValue(this.inputValue);
     }
@@ -191,12 +207,12 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
     private _setValue(pVal: string) {
         const parseDate = BravoMoment.parseDate(pVal, 'dd/MM/yyyy');
         const date = new BravoMoment(parseDate);
-        // single mode
+        // single
         if (!this.isRange) {
             this._service.value = date;
             return;
         }
-        // đảm bảo luôn là array
+        //range
         const dateValue = Array.isArray(this.value)
             ? this.value
             : [null, null];
@@ -207,7 +223,6 @@ export class BravoDateBoxComponent extends BravoControlBaseComponent implements 
         if (this.inputActive === 'end') {
             end = date;
         }
-        // ✅ normalize range
         if (start && end && start.getTime() > end.getTime()) {
             [start, end] = [end, start];
         }

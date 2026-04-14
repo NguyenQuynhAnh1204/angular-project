@@ -16,7 +16,7 @@
                 #pickerInput
                 class="input-under-line date-box"
                 [class.show-input]="focus || textValue"
-                [readOnly]="isOpenDatePicker"
+                [readOnly]="readOnly"
                 [placeholder]="getPlaceholder()"
                 (focus)="onFocus($event)"
                 (focusout)="onFocusOut($event)"
@@ -28,7 +28,7 @@
         <!-- Date range -->
         @else {
             <ng-container *ngTemplateOutlet="templateRangeInput; context: { partType: 'start' }" />
-            
+
             <span class="material-symbols-outlined arrow-icon close-icon" [class.show-icon]="focus || textValue">
                 east
             </span>
@@ -55,6 +55,7 @@
     <div brDropdown>
         <br-date-popup
             [isRange]="isRange"
+            [mode]="mode"
         />
     </div>
 </br-dropdown-base>
