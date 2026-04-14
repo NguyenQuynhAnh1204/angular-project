@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BehaviorSubject } from 'rxjs';
-import { CompatibleDate, DateMode, PanelState, RangeDate, RangePartType } from '../bravo-control-date.type';
+import { CompatibleDate, DateMode, PanelState, RangeDate, RangePartType } from '../bravo-date-box/bravo-control-date.type';
 @Injectable()
 export class BravoDateService implements OnDestroy {
   public isRange!: boolean;
@@ -254,12 +254,13 @@ export class BravoDateService implements OnDestroy {
   // hàm đóng picker
   public hideDatePicker() {
     this._isOpenDatePicker$.next(false);
+    this.hoverDate = null;
   }
 
   // xoá select
   public clearSelectDate() {
-     this.value = this.isRange ? [null, null] : null;
-
+    this.value = this.isRange ? [null, null] : null;
+    // this._service.hoverDate = null;
   }
 
   private _isEmptyValue() {

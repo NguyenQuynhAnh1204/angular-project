@@ -1,51 +1,31 @@
-<br-dropdown-base 
-[visible]="isOpenPicker" 
-[isManualHandleOutsideClick]="true" 
-(onOverlayOutsideClick)="hideDatePicker()"
->
-    <div class="date-input-container"
-        [class.is-focus]="focus"
-        brDropdownAnchor
-    >
-       <div class="date-input-content">
-         <p
-            class="label"
-            [class.have-text]="focus || textValue"
-            [class.no-text]="textValue=='' && !focus"
-        >
-            {{label || 'Date range'}}: 
-        </p>
-        <input type="text" #startDateInput
-            class="input-under-line date-range"
-            [class.show-input]="focus || textValue"
-            placeholder="Start date"
-            [readOnly]="readOnly"
-            [value]="startDate"
-            (input)="handleOnChange('start', $event)"
-            (focus)="handleOnFocusInput('start', startDateInput)"
-            (blur)="handleOnBlurInput('start', startDateInput)"
-        >
-        <span class="material-symbols-outlined arrow-icon close-icon"
-            [class.show-icon]="focus || textValue"
-        >
-            east
-        </span>
-        <input type="text" #endDateInput
-            class="input-under-line date-range"
-            [class.show-input]="focus || textValue"
-            placeholder="End date"
-            [readOnly]="readOnly"
-            [value]="endDate"
-            (input)="handleOnChange('end', $event)"
-            (focus)="handleOnFocusInput('end', endDateInput)"
-            (blur)="handleOnBlurInput('end', endDateInput)"
-        >
-        </div>
+<br-dropdown-base [visible]="isOpenDatePicker" [isManualHandleOutsideClick]="true" (onOverlayOutsideClick)="hideDatePicker()">
+    <div class="date-input-container" 
+            [class.is-focus]="focus"
+            brDropdownAnchor>
+            <p
+                class="label"
+                [class.have-text]="focus || textValue"
+                [class.no-text]="textValue=='' && !focus"
+            >
+                {{label || 'Date'}}: 
+            </p>
+            
+            <ng-container *ngTemplateOutlet="templateRangeInput; context: { partType: 'start' }" />
+
+            <span class="material-symbols-outlined arrow-icon close-icon" [class.show-icon]="focus || textValue">
+                east
+            </span>
+
+            <ng-container *ngTemplateOutlet="templateRangeInput; context: { partType: 'end' }" />
+
         <div class="date-icon-container">
-            <span class="material-symbols-outlined close-icon"
-                [class.show-icon]="focus || textValue" 
-                (click)="clearSelectDate()"
-            >close</span>
+            <span class="material-symbols-outlined close-icon" 
+                [class.show-icon]='textValue'
+                (click)="handleOnClear()"
+            >
+                close
+            </span>
+
             <span class="material-symbols-outlined calendar-icon"
                 [class.select-date]="focus || textValue" 
                 (click)="showDatePicker()"
@@ -53,10 +33,28 @@
                 calendar_month
             </span>
         </div>
+        
     </div>
+
     <div brDropdown>
-        <br-date-range-container/>
+        <br-date-popup
+            [isRange]="true"
+            [mode]="mode"
+        />
     </div>
 </br-dropdown-base>
 
 
+<ng-template #templateRangeInput let-partType="partType">
+    <input type="text" 
+        #rangePickerInput
+        class="input-under-line date-box"
+        [class.show-input]="focus || textValue"
+        [placeholder]="getPlaceholder(partType)"
+        [readOnly]="readOnly"
+        (focus)="onFocus($event)"
+        (focusout)="onFocusOut($event)"
+        (click)="onClickInputBox($event)"
+        (input)="onInputChange($event)"
+    >
+</ng-template>

@@ -1,8 +1,8 @@
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
-import { RangePartType } from '../../bravo-control-date.type';
-import { BravoDateService } from '../../service';
+import { RangePartType } from '../../../bravo-date-box/bravo-control-date.type';
+import { BravoDateService } from '../../bravo-control-date.service';
 
 @Component({
     selector: 'br-year-picker',

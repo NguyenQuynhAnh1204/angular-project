@@ -4,25 +4,10 @@
     @include control-box;
 }
 
-.label {
-    @include label-control;
-}
-
-.date-range {
-    opacity: 0;
-    @include input-control;
-}
-
-
 .date-icon-container {
     display: flex;
     justify-content: center;
     gap: 10px;
-}
-
-.date-input-content {
-    @include df-center;
-    width: 100%;
 }
 
 .material-symbols-outlined {
@@ -33,9 +18,9 @@
         opacity: 0.8;
     }
     &.arrow-icon {
-        font-size: 2rem;
+        font-size: 1em;
         color: #c8cdfb;
-        margin: 0 10px;
+        padding: 0 4px;
     }
 }
 .close-icon {
@@ -47,6 +32,18 @@
     opacity: 1;
 }
 
+.select-date {
+    color: #3545ff;
+}
+
+.label {
+    @include label-control;
+}
+
+.date-box {
+     opacity: 0;
+    @include input-control;
+}
 .show-input {
     opacity: 1;
 }

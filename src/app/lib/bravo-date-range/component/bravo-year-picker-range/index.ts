@@ -1,1 +1,0 @@
-export * from "./bravo-year-picker-range.component";

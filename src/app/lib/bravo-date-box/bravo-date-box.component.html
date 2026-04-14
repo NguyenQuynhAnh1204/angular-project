@@ -10,31 +10,19 @@
                 {{label || 'Date'}}: 
             </p>
 
-        <!-- Single Date -->
-        @if (!isRange) {
-            <input type="text" 
-                #pickerInput
-                class="input-under-line date-box"
-                [class.show-input]="focus || textValue"
-                [readOnly]="readOnly"
-                [placeholder]="getPlaceholder()"
-                (focus)="onFocus($event)"
-                (focusout)="onFocusOut($event)"
-                (blur)="handleBlur()"
-                (click)="onClickInputBox($event)"
-                (input)="onInputChange($event)"
-            >
-        } 
-        <!-- Date range -->
-        @else {
-            <ng-container *ngTemplateOutlet="templateRangeInput; context: { partType: 'start' }" />
+        <input type="text" 
+            #pickerInput
+            class="input-under-line date-box"
+            [class.show-input]="focus || textValue"
+            [readOnly]="readOnly"
+            [placeholder]="getPlaceholder()"
+            (focus)="onFocus($event)"
+            (focusout)="onFocusOut($event)"
+            (blur)="handleBlur()"
+            (click)="onClickInputBox($event)"
+            (input)="onInputChange($event)"
+        >
 
-            <span class="material-symbols-outlined arrow-icon close-icon" [class.show-icon]="focus || textValue">
-                east
-            </span>
-
-            <ng-container *ngTemplateOutlet="templateRangeInput; context: { partType: 'end' }" />
-        }
         <div class="date-icon-container">
             <span class="material-symbols-outlined close-icon" 
                 [class.show-icon]='textValue'
@@ -53,24 +41,9 @@
     </div>
 
     <div brDropdown>
-        <br-date-popup
-            [isRange]="isRange"
+        <br-date-popup 
+            [isRange]="false"
             [mode]="mode"
         />
     </div>
 </br-dropdown-base>
-
-
-<ng-template #templateRangeInput let-partType="partType">
-    <input type="text" 
-        #rangePickerInput
-        class="input-under-line date-box"
-        [class.show-input]="focus || textValue"
-        [placeholder]="getPlaceholder(partType)"
-        [readOnly]="readOnly"
-        (focus)="onFocus($event)"
-        (focusout)="onFocusOut($event)"
-        (click)="onClickInputBox($event)"
-        (input)="onInputChange($event)"
-    >
-</ng-template>

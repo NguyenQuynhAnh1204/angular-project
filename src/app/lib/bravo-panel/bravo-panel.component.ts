@@ -64,14 +64,6 @@ export class BravoPanelComponent  {
                 const panelItem = pContainerRef.createComponent(controlComponent);
                 if (panelItem.instance instanceof BravoDateBoxComponent) {
                     panelItem.setInput(
-                        'isRange',
-                        item.control.type == EControlType.DATE_RANGE || 
-                        item.control.type == EControlType.MONTH_RANGE || 
-                        item.control.type == EControlType.YEAR_RANGE
-                        ? true
-                        : false
-                    );
-                    panelItem.setInput(
                         'mode',
                         item.control.type == EControlType.DATE || 
                         item.control.type == EControlType.DATE_RANGE ? 'date' :
