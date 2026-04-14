@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, inject, Input, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { EControlType, selectControl } from '../bravo-control-base';
+import { BravoDateBoxComponent } from '../bravo-date-box';
+import { BravoDateRangeComponent } from '../bravo-date-range';
+import { toCamelCase } from '../shared';
 import { ITablePanel } from './bravo-panel.type';
 import { ColumnType, RowType } from './bravo-panel.until';
-import { toCamelCase } from '../shared';
-import { EControlType, selectControl } from '../bravo-control-base';
-import { BravoDateBoxComponent, EDateBoxMode } from '../bravo-date-box';
 
 
 @Component({
@@ -65,12 +66,17 @@ export class BravoPanelComponent  {
                 if (panelItem.instance instanceof BravoDateBoxComponent) {
                     panelItem.setInput(
                         'mode',
-                        item.control.type == EControlType.DATE || 
-                        item.control.type == EControlType.DATE_RANGE ? 'date' :
-                        item.control.type == EControlType.MONTH || 
-                        item.control.type == EControlType.MONTH_RANGE ? 'month' :
-                        item.control.type == EControlType.YEAR || 
-                        item.control.type == EControlType.YEAR_RANGE ? 'year' : 'date'
+                        (item.control.type == EControlType.DATE) ? 'date' :
+                        (item.control.type == EControlType.MONTH) ? 'month' :
+                        (item.control.type == EControlType.YEAR) ? 'year' : 'date'
+                    )
+                }
+                if (panelItem.instance instanceof BravoDateRangeComponent) {
+                    panelItem.setInput(
+                        'mode',
+                        (item.control.type == EControlType.DATE_RANGE) ? 'date' :
+                        (item.control.type == EControlType.MONTH_RANGE) ? 'month' :
+                        (item.control.type == EControlType.YEAR_RANGE) ? 'year' : 'date'
                     )
                 }
                 const control = this.forms.controls[toCamelCase(item.control.label)]
