@@ -79,12 +79,12 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
         if (this.partType === 'start') {
             startDate = pDate;
             startMode = newMode
-            endDate = offset(newMode, startDate, 24);
+            endDate = pDate.clone().addMonths(1)
         }
         if (this.partType === 'end') {
             endDate = pDate;
             endMode = newMode
-            startDate = offset(newMode, endDate, -24);
+            startDate = pDate.clone().subMonths(1)
         }
         this._service.panels = {
             start: {
