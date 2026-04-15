@@ -79,7 +79,7 @@ export class BravoDateHeaderComponent implements OnInit, OnDestroy {
                 this.label = `Năm ${date.getFullYear()}`;
                 break;
             case 'year':
-                const start = Math.floor(date.getFullYear()/25) * 25;
+                const start = date.getFullYear() - Math.floor(25/2);
                 this.label =  `${start} - ${start+24}`;
                 break
         }
@@ -98,11 +98,10 @@ export class BravoDateHeaderComponent implements OnInit, OnDestroy {
             }
         };
         if (this.isRange) {
-            const offset = pPanel === 'start' ? 1 : -1;
-            const nDate = offsetDate(mode, newDate, offset)
+            const step = pPanel === 'start' ? 1 : -1;
             newPanels[pPanel === 'start' ? 'end' : 'start'] = {
                 ...newPanels[pPanel === 'start' ? 'end' : 'start'],
-                date: nDate
+                date: offsetDate(this.mode, newDate, step)
             };
         }
         this._service.panels = newPanels;

@@ -87,9 +87,10 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
     public override _setInputValue(pValue: CompatibleDate) {
         const dateRange = Array.isArray(pValue) ? pValue : [null, null];
         const [start, end] = dateRange;
+        const format = this.getFormat();
         if(!start && !end) this.inputValue = ['', ''];
-        const inputStart = start?.format('dd/MM/yyyy') ?? '';
-        const inputEnd = end?.format('dd/MM/yyyy') ?? '';
+        const inputStart = start?.format(format) ?? '';
+        const inputEnd = end?.format(format) ?? '';
         if(!end) {
             this.inputValue = [inputStart , '']
         } else if(!start) {
@@ -99,9 +100,10 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
         }
         this.updateValue(this.inputValue);
     }
-
+    
     public override _setValue(pVal: string) {
-        const parseDate = BravoMoment.parseDate(pVal, 'dd/MM/yyyy');
+        const format = this.getFormat();
+        const parseDate = BravoMoment.parseDate(pVal, format);
         const date = new BravoMoment(parseDate);
         const dateValue = Array.isArray(this.value)
             ? this.value

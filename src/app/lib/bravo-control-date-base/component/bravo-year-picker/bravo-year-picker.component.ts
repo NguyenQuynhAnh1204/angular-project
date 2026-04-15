@@ -60,8 +60,12 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
     }
 
     public onSelectYear(pDate: BravoMoment) {
-        const panels = this.panels;
         const newMode = this.mode == 'year' ? 'year' : 'month'
+        if (this.mode === 'year') {
+            this._service.selectRange(pDate);    
+            return;
+        }
+        const panels = this.panels;
         if (!this.isRange) {
             this._service.panels = {
                 ...panels,
@@ -70,10 +74,6 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
                 mode:newMode
                 }
             };
-            if(this.mode == "year") {
-                this._service.value = pDate;
-                this._service.hideDatePicker()
-            }
             return;
         }
         let startDate = panels.start.date;

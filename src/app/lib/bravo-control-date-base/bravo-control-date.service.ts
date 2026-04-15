@@ -80,6 +80,38 @@ export class BravoDateService {
     this._setValuePanel();
   }
 
+  public selectRange(pDate: BravoMoment) {
+    if (!this.isRange) {
+      this.value = pDate;
+      this.hideDatePicker();
+      return;
+    }
+    // range
+    const current = Array.isArray(this.value) ? 
+      this.value :
+      [null, null];
+    let [start, end] = current;
+    if (!start && !end) {
+      start = pDate;
+      end = null;
+    } else if (start && !end) {
+      if (pDate.isAfter(start)) {
+        end = pDate;
+      } else {
+        end = start;
+        start = pDate;
+      }
+    }
+    else {
+      start = pDate;
+      end = null;
+    }
+    this.value = [start, end];
+    if (start && end) {
+      this.hideDatePicker();
+    }
+  }
+
   // hàm đóng picker
   public hideDatePicker() {
     this._isOpenDatePicker$.next(false);

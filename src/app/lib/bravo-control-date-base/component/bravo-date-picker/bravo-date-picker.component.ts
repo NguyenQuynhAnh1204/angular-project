@@ -53,36 +53,7 @@ export class BravoDatePickerComponent implements OnInit, OnDestroy {
 
   // select date
   public onSelectDate(pDate: BravoMoment) {
-    // single
-    if (!this.isRange) {
-      this._service.value = pDate;
-      this._service.hideDatePicker();
-      return;
-    }
-    // range
-    const current = Array.isArray(this._service.value) ? 
-      this._service.value :
-      [null, null];
-    let [start, end] = current;
-    if (!start && !end) {
-      start = pDate;
-      end = null;
-    } else if (start && !end) {
-      if (pDate.isAfter(start)) {
-        end = pDate;
-      } else {
-        end = start;
-        start = pDate;
-      }
-    }
-    else {
-      start = pDate;
-      end = null;
-    }
-    this._service.value = [start, end];
-    if (start && end) {
-      this._service.hideDatePicker();
-    }
+   this._service.selectRange(pDate);
   }
 
   public handleOnHover(pDate: BravoMoment) {

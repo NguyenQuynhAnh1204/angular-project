@@ -53,23 +53,21 @@ export class BravoMonthPickerComponent implements OnInit, OnDestroy {
     }
 
     public onSelectMonth(pDate: BravoMoment) {
+        if (this.mode === 'month') {
+            this._service.selectRange(pDate);    
+            return;
+        }
         const panels = this.panels;
-        // single
         if (!this.isRange) {
             this._service.panels = {
                 ...panels,
                 [this.partType]: {
-                date: pDate,
-                mode: this.mode
+                    date: pDate,
+                    mode: this.mode
                 }
             };
-            if (this.mode == 'month'){
-                this._service.value = pDate;
-                this._service.hideDatePicker();
-            }
             return;
         }
-        // range
         let startDate = panels.start.date.clone();
         let startMode = panels.start.mode;
         let endDate = panels.end.date.clone();
@@ -84,11 +82,11 @@ export class BravoMonthPickerComponent implements OnInit, OnDestroy {
             endMode = this.mode;
             startDate = offsetDate(this.mode, endDate, -1);
         }
-        this._service.panels = { 
+        this._service.panels = {
             start: { date: startDate, mode: startMode },
             end: { date: endDate, mode: endMode }
         };
-    }
+}
 
     public handleOnHover(pDate: BravoMoment) {
         if(!this._service.value && !this.isRange) return;
