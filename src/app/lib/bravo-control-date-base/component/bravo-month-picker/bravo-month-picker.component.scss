@@ -15,9 +15,8 @@
         border: none;
         background: none;
         border-radius: 5px;
-        &.today {
+        &.to-month {
             color: #3545ff;
-            background-color: #e7e9ff;
         }
         &.disabled {
             pointer-events: none;

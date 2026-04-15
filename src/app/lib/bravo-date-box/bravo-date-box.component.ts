@@ -8,8 +8,6 @@ import { BravoControlDirective } from '../bravo-control-base';
 import { BravoDateControlComponent, BravoDatePopupComponent, BravoDateService } from '../bravo-control-date-base';
 import { CompatibleDate, SingleDate } from '../bravo-control-date-base/bravo-control-date.type';
 
-
-
 @Component({
     selector: 'br-date-box',
     templateUrl: './bravo-date-box.component.html',

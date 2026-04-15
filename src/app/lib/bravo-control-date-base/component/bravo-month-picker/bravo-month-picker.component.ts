@@ -1,8 +1,9 @@
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
-import { RangePartType } from '../../bravo-control-date.type';
 import { BravoDateService } from '../../bravo-control-date.service';
+import { RangePartType } from '../../bravo-control-date.type';
+import { offset } from '../../bravo-control-date.until';
 @Component({
     selector: 'br-month-picker',
     templateUrl: './bravo-month-picker.component.html',
@@ -47,7 +48,7 @@ export class BravoMonthPickerComponent implements OnInit, OnDestroy {
     }
 
     public onSelectMonth(pDate: BravoMoment) {
-        this.selectedMonth = pDate.getMonth() + 1;
+       this.selectedMonth = pDate.getMonth() + 1;
         const panels = this.panels;
         // single
         if (!this.isRange) {
@@ -65,29 +66,32 @@ export class BravoMonthPickerComponent implements OnInit, OnDestroy {
             return;
         }
         // range
-        let startDate = panels.start.date;
+        let startDate = panels.start.date.clone();
         let startMode = panels.start.mode;
-        let endDate = panels.end.date;
+        let endDate = panels.end.date.clone();
         let endMode = panels.end.mode;
         if (this.partType === 'start') {
-            startDate = pDate;
+            startDate = pDate.clone();
             startMode = this.mode;
-            endDate = this.mode == 'date' ?  pDate.clone().addMonths(1) : pDate.clone().addYears(1);
+            endDate = offset(this.mode, startDate, 1);
         }
         if (this.partType === 'end') {
-            endDate = pDate;
+            endDate = pDate.clone();
             endMode = this.mode;
-            startDate = this.mode == 'date' ? pDate.clone().subMonths(1) : pDate.clone().subYears(1                                                                                     );
+            startDate = offset(this.mode, endDate, -1);
         }
-        this._service.panels = {
-            start: {
-                date: startDate,
-                mode: startMode
-            },
-            end: {
-                date: endDate,
-                mode: endMode
-            }
+        this._service.panels = { 
+            start: { date: startDate, mode: startMode },
+            end: { date: endDate, mode: endMode }
         };
     }
+
+    public isSelected(pDate: BravoMoment) {
+        return pDate.getMonth() == this.selectedMonth -1;
+    }
+
+    public isMonthInYear(pDate: BravoMoment) {
+
+    }
+
 }

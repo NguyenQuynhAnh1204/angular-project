@@ -17,7 +17,6 @@ export class BravoDateService {
     return this._mode;
   }
   public set mode(pMode) {
-    console.log("mode:", pMode);
     this._mode = pMode;
   }
 
@@ -98,8 +97,7 @@ export class BravoDateService {
 
   private _setValuePanel(reset = false) {
     if (!this.isRange) {
-      const date =
-        !reset && this.value
+      const date = !reset && this.value
           ? (this.value as BravoMoment).clone()
           : new BravoMoment();
 
@@ -133,5 +131,5 @@ export class BravoDateService {
         date: endDate
       }
     });
-}
+  }
 }

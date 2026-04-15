@@ -3,6 +3,7 @@ import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
 import { RangePartType } from '../../bravo-control-date.type';
 import { BravoDateService } from '../../bravo-control-date.service';
+import { offset } from '../../bravo-control-date.until';
 
 @Component({
     selector: 'br-year-picker',
@@ -43,8 +44,8 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
         this._service.panelsChange$
         .pipe(takeUntil(this._destroy$))
         .subscribe((pVal) => {
-            this.selectedYear = pVal[this.partType].date.getFullYear();
             this.years = pVal[this.partType].date.getYears(5, 5);
+            this.selectedYear = pVal[this.partType].date.getFullYear();
         })
     }
 
@@ -56,12 +57,13 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
     public onSelectYear(pDate: BravoMoment) {
         this.selectedYear = pDate.getFullYear();
         const panels = this.panels;
+        const newMode = this.mode == 'year' ? 'year' : 'month'
         if (!this.isRange) {
             this._service.panels = {
                 ...panels,
                 [this.partType]: {
                 date: pDate,
-                mode: this.mode == 'date' ? 'month' : 'year'
+                mode:newMode
                 }
             };
             if(this.mode == "year") {
@@ -76,11 +78,13 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
         let endMode = panels.end.mode;
         if (this.partType === 'start') {
             startDate = pDate;
-            startMode = this.mode == 'date' ? 'month' : 'year'
+            startMode = newMode
+            endDate = offset(newMode, startDate, 24);
         }
         if (this.partType === 'end') {
             endDate = pDate;
-            endMode = this.mode == 'date' ? 'month' : 'year'
+            endMode = newMode
+            startDate = offset(newMode, endDate, -24);
         }
         this._service.panels = {
             start: {
