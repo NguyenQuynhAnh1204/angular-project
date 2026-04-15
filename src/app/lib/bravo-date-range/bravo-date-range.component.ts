@@ -52,7 +52,6 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
     public rangePickerInput!: QueryList<ElementRef<HTMLInputElement>>
 
     public ngOnInit() {
-        // console.log(this.mode);
         this._service.valueChange$
         .pipe(takeUntil(this._destroy$))
         .subscribe((pVal) => {

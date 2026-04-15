@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { BravoInnerPopupComponent } from '../bravo-inner-popup';
-import { DateMode } from '../../../bravo-date-box/bravo-control-date.type';
+import { DateMode } from '../../bravo-control-date.type';
 import { BravoDateService } from '../../bravo-control-date.service';
 
 @Component({

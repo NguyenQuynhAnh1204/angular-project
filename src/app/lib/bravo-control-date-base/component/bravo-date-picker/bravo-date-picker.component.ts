@@ -3,7 +3,7 @@ import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
 import { BravoDateService } from '../../bravo-control-date.service';
-import { CompatibleDate, RangeDate, RangePartType } from '../../../bravo-date-box/bravo-control-date.type';
+import { CompatibleDate, RangeDate, RangePartType } from '../../bravo-control-date.type';
 
 
 @Component({
@@ -52,7 +52,36 @@ export class BravoDatePickerComponent implements OnInit, OnDestroy {
 
   // select date
   public onSelectDate(pDate: BravoMoment) {
-    this._service.selectDate(pDate);
+    // single
+    if (!this.isRange) {
+      this._service.value = pDate;
+      this._service.hideDatePicker();
+      return;
+    }
+    // range
+    const current = Array.isArray(this._service.value) ? 
+      this._service.value :
+      [null, null];
+    let [start, end] = current;
+    if (!start && !end) {
+      start = pDate;
+      end = null;
+    } else if (start && !end) {
+      if (pDate.isAfter(start)) {
+        end = pDate;
+      } else {
+        end = start;
+        start = pDate;
+      }
+    }
+    else {
+      start = pDate;
+      end = null;
+    }
+    this._service.value = [start, end];
+    if (start && end) {
+      this._service.hideDatePicker();
+    }
   }
 
   public handleOnHover(pDate: BravoMoment) {

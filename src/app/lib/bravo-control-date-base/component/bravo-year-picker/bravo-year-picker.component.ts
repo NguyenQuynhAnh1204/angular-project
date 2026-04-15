@@ -1,7 +1,7 @@
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
-import { RangePartType } from '../../../bravo-date-box/bravo-control-date.type';
+import { RangePartType } from '../../bravo-control-date.type';
 import { BravoDateService } from '../../bravo-control-date.service';
 
 @Component({
@@ -13,8 +13,14 @@ import { BravoDateService } from '../../bravo-control-date.service';
 export class BravoYearPickerComponent implements OnInit, OnDestroy {
     private _destroy$ = new Subject<void>();
     private _service = inject(BravoDateService);
+    public get panels() {
+        return this._service.panels;
+    }
     public get date() {
         return this._service.panels[this.partType].date;
+    }
+    public get isRange() {
+        return this._service.isRange;
     }
 
     @Input('partType')
@@ -46,7 +52,39 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
 
     public onSelectYear(pDate: BravoMoment) {
         this.selectedYear = pDate.getFullYear();
-       this._service.selectYear(pDate, this.partType);
+        const panels = this.panels;
+        if (!this.isRange) {
+            this._service.panels = {
+                ...panels,
+                [this.partType]: {
+                date: pDate,
+                mode: 'month'
+                }
+            };
+            return;
+        }
+        let startDate = panels.start.date;
+        let startMode = panels.start.mode;
+        let endDate = panels.end.date;
+        let endMode = panels.end.mode;
+        if (this.partType === 'start') {
+            startDate = pDate;
+            startMode = 'month'
+        }
+        if (this.partType === 'end') {
+            endDate = pDate;
+            endMode = "month"
+        }
+        this._service.panels = {
+            start: {
+                date: startDate,
+                mode: startMode
+            },
+            end: {
+                date: endDate,
+                mode: endMode
+            }
+        };
     }
     
 }

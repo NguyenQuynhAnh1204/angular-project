@@ -1,8 +1,9 @@
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BravoDropdownBaseModule } from "@bravo-infra/ui/bravo-dropdown-base";
 import { Subject, takeUntil } from 'rxjs';
 import { BravoDateService } from '../../bravo-control-date.service';
-import { DateMode, PanelState, RangePartType } from '../../../bravo-date-box/bravo-control-date.type';
+import { DateMode, PanelState, RangePartType } from '../../bravo-control-date.type';
 import { BravoDatePickerComponent } from '../bravo-date-picker';
 import { BravoMonthPickerComponent } from '../bravo-month-picker';
 import { BravoYearPickerComponent } from '../bravo-year-picker';
@@ -31,8 +32,11 @@ import { BravoYearPickerComponent } from '../bravo-year-picker';
 export class BravoDateHeaderComponent implements OnInit, OnDestroy {
     private _destroy$ = new Subject<void>();
     private _service = inject(BravoDateService);
-    public get panelState() {
+    public get panels() {
         return this._service.panels;
+    }
+    public get isRange() {
+        return this._service.isRange;
     }
 
     private _label!: string;
@@ -60,15 +64,36 @@ export class BravoDateHeaderComponent implements OnInit, OnDestroy {
     }
 
     public previous() {
-        this._service.moveCalendar(-1, this.partType);
+        this._moveCalendar(-1, this.partType);
     }
     
     public next() { 
-        this._service.moveCalendar(1, this.partType);
+        this._moveCalendar(1, this.partType);
     }
 
     public changeMode() {
-        this._service.changeMode(this.partType);
+        const panel = this.panels[this.partType];
+        const mode = panel.mode;
+        let newMode: DateMode;
+        switch (mode) {
+        case 'date':
+            newMode = 'year';
+            break;
+        case 'month':
+            newMode = 'date';
+            break;
+        case 'year':
+        default:
+            newMode = 'date';
+            break;
+        }
+        this._service.panels = {
+        ...this.panels,
+        [this.partType]: {
+            ...panel,
+            mode: newMode
+        }
+        };
     }
 
     private _buildLabel(pPanel: PanelState) {
@@ -76,16 +101,55 @@ export class BravoDateHeaderComponent implements OnInit, OnDestroy {
         const date = pPanel.date;
         switch(mode) {
             case 'date':
-                this.label =   `Tháng ${date.getMonth()+1} năm ${date.getFullYear()}`;
+                this.label = `Tháng ${date.getMonth()+1} năm ${date.getFullYear()}`;
                 break;
             case 'month':
-                this.label =   `Năm ${date.getFullYear()}`;
+                this.label = `Năm ${date.getFullYear()}`;
                 break;
             case 'year':
                 const start = Math.floor(date.getFullYear()/25) * 25;
                 this.label =  `${start} - ${start+24}`;
                 break
         }
+    }
+
+    private _moveCalendar(pStep: number, pPanel: RangePartType) {
+        const state = this.panels[pPanel]; // để lấy ra mode & date của input active
+        const mode = state.mode; 
+        const date = state.date; 
+        let newDate: BravoMoment;
+        switch(mode) {
+        case 'date':
+            newDate = date.addMonths(pStep);
+            break;
+        case 'month':
+            newDate = date.addYears(pStep);
+            break;
+        case 'year':
+            newDate = date.addYears(pStep * 25);
+            break;
+        }
+        let newPanels = {
+        ...this.panels,
+        [pPanel]: {
+            ...state,
+            date: newDate
+        }
+        };
+        if (this.isRange) {
+        if (pPanel === 'start') {
+            newPanels.end = {
+            ...newPanels.end,
+            date: newDate.clone().addMonths(1)
+            };
+        } else {
+            newPanels.start = {
+            ...newPanels.start,
+            date: newDate.clone().addMonths(-1)
+            };
+        }
+        }
+        this._service.panels = newPanels;
     }
 }
 

@@ -1,7 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { BravoControlBaseComponent } from '../bravo-control-base';
 import { BravoDateService } from './bravo-control-date.service';
-import { CompatibleDate, DateMode, RangePartType } from '../bravo-date-box/bravo-control-date.type';
+import { CompatibleDate, DateMode, RangePartType } from './bravo-control-date.type';
 
 @Component({
     selector: 'br-date-control',
@@ -39,8 +39,6 @@ export class BravoDateControlComponent extends BravoControlBaseComponent {
             const valid = this._validateInputDate(value);
             if (valid) {
                 this._setValue(value);
-            } else {
-                console.log('không hợp lệ')
             }
         }
     
