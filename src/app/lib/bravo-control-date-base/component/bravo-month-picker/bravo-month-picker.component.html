@@ -1,11 +1,13 @@
-<div class="full-months">
+<div class="full-months" (mouseleave)="handleOnLeave()">
   @for (rows of months; track $index) {
     @for (item of rows; track $index) {
       <button
         class="btn-month"
         [class.selected]="isSelected(item)"
-        
+        [class.in-range]="isInRange(item)"
+        [class.hover-range]="inHoverRange(item)"
         (click)="onSelectMonth(item)"
+        (mouseenter)="handleOnHover(item)"
       >
         Tháng {{ item.getMonth() + 1 }}
       </button>

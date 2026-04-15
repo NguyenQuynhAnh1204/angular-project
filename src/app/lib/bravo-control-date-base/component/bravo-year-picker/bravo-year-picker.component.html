@@ -1,11 +1,14 @@
-<div class="full-years">
+<div class="full-years" (mouseleave)="handleOnLeave()">
   @for (rows of years; track $index) {
     @for (item of rows; track $index) {
       <button
         #monthItemRef
         class="btn-month"
-        [class.selected]="item.getFullYear() == selectedYear"
+        [class.selected]="isSelected(item)"
+        [class.in-range]="isInRange(item)"
+        [class.hover-range]="inHoverRange(item)"
         (click)="onSelectYear(item)"
+        (mouseenter)="handleOnHover(item)"
       >
         {{ item.getFullYear() }}
       </button>

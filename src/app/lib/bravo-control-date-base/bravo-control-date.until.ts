@@ -1,5 +1,5 @@
 import { BravoMoment } from "@bravo-infra/core/utils/dates";
-import { DateMode } from "./bravo-control-date.type";
+import { CompatibleDate, DateMode } from "./bravo-control-date.type";
 
 export function offset(mode: DateMode, date: BravoMoment, step: number) {
   switch (mode) {
@@ -13,3 +13,7 @@ export function offset(mode: DateMode, date: BravoMoment, step: number) {
       return date.clone().addYears(step * 25);
   }
 }
+
+export function isRangeValue(pValue: CompatibleDate) {
+    return Array.isArray(pValue);
+  }

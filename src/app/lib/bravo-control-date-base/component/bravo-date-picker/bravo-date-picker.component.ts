@@ -4,6 +4,7 @@ import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
 import { BravoDateService } from '../../bravo-control-date.service';
 import { CompatibleDate, RangeDate, RangePartType } from '../../bravo-control-date.type';
+import { isRangeValue } from '../../bravo-control-date.until';
 
 
 @Component({
@@ -96,7 +97,7 @@ export class BravoDatePickerComponent implements OnInit, OnDestroy {
   public isSelected(pDate: BravoMoment) {
     if (!this.selectDate) return false;
     // single date
-    if (!this._isRangeValue(this.selectDate)) {
+    if (!isRangeValue(this.selectDate)) {
       return this.selectDate?.isSameDay(pDate);
     }
     // date range
@@ -109,14 +110,14 @@ export class BravoDatePickerComponent implements OnInit, OnDestroy {
   
   // day in range 
   public isInRange(pDate: BravoMoment) {
-    if (!this._isRangeValue(this.selectDate)) return false;
+    if (!isRangeValue(this.selectDate)) return false;
     const [start, end] = this.selectDate;
     if (!start || !end) return false;
     return (pDate.isAfter(start) && pDate.isBefore(end));
   }
 
   public inHoverRange(pDate: BravoMoment) {
-    if (!this._isRangeValue(this.selectDate)) return false;
+    if (!isRangeValue(this.selectDate)) return false;
     const [start, end] = this._service.value as RangeDate;
     const hoverDate = this._service.hoverDate;
     if(!hoverDate || !(start ?? end)) return false;
@@ -130,10 +131,6 @@ export class BravoDatePickerComponent implements OnInit, OnDestroy {
 
   public isDayInMonth(pDate: BravoMoment) {
     return this.date.isSameMonth(pDate);
-  }
-
-  private _isRangeValue(pValue: CompatibleDate) {
-    return Array.isArray(pValue);
   }
 
 }

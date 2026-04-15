@@ -2,8 +2,8 @@ import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
 import { BravoDateService } from '../../bravo-control-date.service';
-import { RangePartType } from '../../bravo-control-date.type';
-import { offset } from '../../bravo-control-date.until';
+import { CompatibleDate, RangePartType } from '../../bravo-control-date.type';
+import { isRangeValue, offset } from '../../bravo-control-date.until';
 @Component({
     selector: 'br-month-picker',
     templateUrl: './bravo-month-picker.component.html',
@@ -29,7 +29,7 @@ export class BravoMonthPickerComponent implements OnInit, OnDestroy {
     @Input('partType')
     public partType!: RangePartType;
 
-    public selectedMonth!: number;
+    public selectedMonth!: CompatibleDate;
 
     public months: BravoMoment[][] = [];
 
@@ -38,7 +38,12 @@ export class BravoMonthPickerComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this._destroy$))
         .subscribe((pVal) => {
             this.months = pVal[this.partType].date.getMonths('MMM',3);
-            this.selectedMonth = pVal[this.partType].date.getMonth() + 1;
+        })
+        
+        this._service.valueChange$
+        .pipe(takeUntil(this._destroy$))
+        .subscribe((pVal) => { 
+            this.selectedMonth = pVal;
         })
     }
 
@@ -48,7 +53,6 @@ export class BravoMonthPickerComponent implements OnInit, OnDestroy {
     }
 
     public onSelectMonth(pDate: BravoMoment) {
-       this.selectedMonth = pDate.getMonth() + 1;
         const panels = this.panels;
         // single
         if (!this.isRange) {
@@ -86,11 +90,33 @@ export class BravoMonthPickerComponent implements OnInit, OnDestroy {
         };
     }
 
-    public isSelected(pDate: BravoMoment) {
-        return pDate.getMonth() == this.selectedMonth -1;
+    public handleOnHover(pDate: BravoMoment) {
+        if(!this._service.value && !this.isRange) return;
+        this._service.hoverDate = pDate;
     }
 
-    public isMonthInYear(pDate: BravoMoment) {
+    public handleOnLeave() {
+        this._service.hoverDate = null;
+    }
+
+    public isSelected(pDate: BravoMoment) {
+        if(!this.selectedMonth) return false;
+        if (!isRangeValue(this.selectedMonth)) {
+          return this.selectedMonth?.isSameDay(pDate);
+        }
+        // date range
+        const [start, end] = this.selectedMonth;
+        return (
+          (start?.isSameDay(pDate) ?? false) ||
+          (end?.isSameDay(pDate) ?? false)
+        );
+    }
+
+    public isInRange(pDate: BravoMoment) {
+
+    }
+
+    public inHoverRange(pDate: BravoMoment) {
 
     }
 

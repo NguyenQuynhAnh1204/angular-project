@@ -1,9 +1,9 @@
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
-import { RangePartType } from '../../bravo-control-date.type';
 import { BravoDateService } from '../../bravo-control-date.service';
-import { offset } from '../../bravo-control-date.until';
+import { CompatibleDate, RangePartType } from '../../bravo-control-date.type';
+import { isRangeValue } from '../../bravo-control-date.until';
 
 @Component({
     selector: 'br-year-picker',
@@ -38,14 +38,19 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
         this._years = pYears;
     }
 
-    public selectedYear!: number;
+    public selectedYear!: CompatibleDate;
    
     public ngOnInit() {
         this._service.panelsChange$
         .pipe(takeUntil(this._destroy$))
         .subscribe((pVal) => {
             this.years = pVal[this.partType].date.getYears(5, 5);
-            this.selectedYear = pVal[this.partType].date.getFullYear();
+        })
+        
+        this._service.valueChange$
+        .pipe(takeUntil(this._destroy$))
+        .subscribe((pVal) => { 
+            this.selectedYear = pVal;
         })
     }
 
@@ -55,7 +60,6 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
     }
 
     public onSelectYear(pDate: BravoMoment) {
-        this.selectedYear = pDate.getFullYear();
         const panels = this.panels;
         const newMode = this.mode == 'year' ? 'year' : 'month'
         if (!this.isRange) {
@@ -96,6 +100,36 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
                 mode: endMode
             }
         };
+    }
+
+    public handleOnHover(pDate: BravoMoment) {
+        if(!this._service.value && !this.isRange) return;
+        this._service.hoverDate = pDate;
+    }
+
+    public handleOnLeave() {
+        this._service.hoverDate = null;
+    }
+
+    public isSelected(pDate: BravoMoment) {
+        if(!this.selectedYear) return false;
+        if (!isRangeValue(this.selectedYear)) {
+          return this.selectedYear?.isSameDay(pDate);
+        }
+        // date range
+        const [start, end] = this.selectedYear;
+        return (
+          (start?.isSameDay(pDate) ?? false) ||
+          (end?.isSameDay(pDate) ?? false)
+        );
+    }
+    
+    public isInRange(pDate: BravoMoment) {
+
+    }
+
+    public inHoverRange(pDate: BravoMoment) {
+
     }
     
 }
