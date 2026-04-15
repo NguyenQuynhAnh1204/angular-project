@@ -21,6 +21,9 @@ export class BravoMonthPickerComponent implements OnInit {
     public get isRange() {
         return this,this._service.isRange;
     }
+    public get mode() {
+        return this._service.mode;
+    }
 
     @Input('partType')
     public partType!: RangePartType;
@@ -34,8 +37,8 @@ export class BravoMonthPickerComponent implements OnInit {
         .pipe(takeUntil(this._destroy$))
         .subscribe((pVal) => {
             this.months = pVal[this.partType].date.getMonths('MMM',3);
+            this.selectedMonth = pVal[this.partType].date.getMonth() + 1;
         })
-        this.selectedMonth = this.date.getMonth() + 1;
     }
 
     public onSelectMonth(pDate: BravoMoment) {

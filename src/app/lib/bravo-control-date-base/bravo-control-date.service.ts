@@ -82,7 +82,7 @@ export class BravoDateService implements OnDestroy {
    public showDatePicker() {
     this._isOpenDatePicker$.next(true);
     if(this._isEmptyValue()) {
-      this._initialValuePanel()
+      this._setValuePanel(true)
       return;
     };
     this._setValuePanel();
@@ -103,55 +103,43 @@ export class BravoDateService implements OnDestroy {
     return !this.value || (Array.isArray(this.value) && this.value.some(v => v == null))
   }
 
-  private _initialValuePanel() {
-    if(!this.isRange) {
+  private _setValuePanel(reset = false) {
+    if (!this.isRange) {
+      const date =
+        !reset && this.value
+          ? (this.value as BravoMoment).clone()
+          : new BravoMoment();
+
       this._panels$.next({
         ...this.panels,
         start: {
           mode: this.mode,
-          date: new BravoMoment()
+          date
         }
-      })
-      return;
-    }  
-    this._panels$.next({
-      start: {
-        mode: this.mode,
-        date: new BravoMoment()
-      },
-      end: {
-        mode: this.mode,
-        date: new BravoMoment().clone().addMonths(1)
-      }
-    });
-  }
+      });
 
-  private _setValuePanel() {
-    if(!this.isRange) {
-      const date = this.value as BravoMoment;
-      this._panels$.next({
-        ...this.panels,
-        start: {
-          ...this.panels.start,
-          date: date.clone()
-        }
-      })
       return;
     }
-    // range
-    if(!Array.isArray(this.value)) return;
-    const [start, end] = this.value as RangeDate;
-    const startDate = start?.clone()!;
-    const endDate = start?.clone().addMonths(1)!;
+    let startDate: BravoMoment;
+    let endDate: BravoMoment;
+    if (!reset && Array.isArray(this.value)) {
+      const [start] = this.value as RangeDate;
+
+      startDate = start?.clone() ?? new BravoMoment();
+      endDate = startDate.clone().addMonths(1);
+    } else {
+      startDate = new BravoMoment();
+      endDate = startDate.clone().addMonths(1);
+    }
     this._panels$.next({
       start: {
-        mode: 'date',
+        mode: this.mode,
         date: startDate
       },
       end: {
-        mode: 'date',
+        mode: this.mode,
         date: endDate
       }
     });
-  }
+}
 }
