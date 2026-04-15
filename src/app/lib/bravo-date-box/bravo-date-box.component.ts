@@ -68,6 +68,7 @@ export class BravoDateBoxComponent extends BravoDateControlComponent implements 
     public override updateValue(pVal: string) {
         this.textValue = pVal;
         this.pickerInput.nativeElement.value = pVal;
+        this.onChange(this.textValue);
     }
     
     public override _setInputValue(pValue: CompatibleDate) {
