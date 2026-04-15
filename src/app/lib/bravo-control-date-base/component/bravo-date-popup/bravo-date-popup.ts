@@ -21,6 +21,7 @@ export class BravoDatePopupComponent implements OnInit {
     public mode!: DateMode;
 
     public ngOnInit(): void {
+        this._service.mode = this.mode;
         this._service.isRange = this.isRange;
     }
 

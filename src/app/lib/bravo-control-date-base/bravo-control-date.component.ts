@@ -1,7 +1,8 @@
 import { Component, inject, Input } from '@angular/core';
 import { BravoControlBaseComponent } from '../bravo-control-base';
 import { BravoDateService } from './bravo-control-date.service';
-import { CompatibleDate, DateMode, RangePartType } from './bravo-control-date.type';
+import { CompatibleDate, DATE_REGEX, DateMode, MONTH_REGEX, RangePartType, YEAR_REGEX } from './bravo-control-date.type';
+import { BravoMoment } from '@bravo-infra/core/utils/dates';
 
 @Component({
     selector: 'br-date-control',
@@ -76,12 +77,30 @@ export class BravoDateControlComponent extends BravoControlBaseComponent {
 
     override updateValue(pVal: string | [string, string]) {}
     
-    private _validateInputDate(pValue: string) {
-        const regex = /^(?:(?:31\/(?:0[13578]|1[02]))|(?:29|30)\/(?:0[13-9]|1[0-2]))\/\d{4}$|^(?:29\/02\/(?:(?:\d\d(?:0[48]|[2468][048]|[13579][26]))|(?:[02468][048]00|[13579][26]00)))$|^(?:0[1-9]|1\d|2[0-8])\/(?:0[1-9]|1[0-2])\/\d{4}$/
-        return regex.test(pValue);
+    private _validateInputDate(value: string): boolean {
+        if (!value) return false;
+        switch (this.mode) {
+            case 'date':
+                return DATE_REGEX.test(value);
+            case 'month':
+                return MONTH_REGEX.test(value);
+            case 'year':
+                return YEAR_REGEX.test(value);
+            default:
+                return false;
+        }
     }
 
     protected _setInputValue(pValue: CompatibleDate) {}
     
     protected _setValue(pVal: string) {}
+
+    public getFormat() {
+        switch (this.mode) {
+            case "date":  return 'dd/MM/yyyy'
+            case 'month': return 'MM/yyyy'
+            case 'year':  return 'yyyy'
+        }
+
+    }
 }

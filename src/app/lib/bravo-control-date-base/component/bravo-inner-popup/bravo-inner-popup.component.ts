@@ -38,6 +38,9 @@ export class BravoDateHeaderComponent implements OnInit, OnDestroy {
     public get isRange() {
         return this._service.isRange;
     }
+    public get mode() {
+        return this._service.mode;
+    }
 
     private _label!: string;
     public get label() {
@@ -74,19 +77,7 @@ export class BravoDateHeaderComponent implements OnInit, OnDestroy {
     public changeMode() {
         const panel = this.panels[this.partType];
         const mode = panel.mode;
-        let newMode: DateMode;
-        switch (mode) {
-        case 'date':
-            newMode = 'year';
-            break;
-        case 'month':
-            newMode = 'date';
-            break;
-        case 'year':
-        default:
-            newMode = 'date';
-            break;
-        }
+        let newMode = this._switchMode();
         this._service.panels = {
         ...this.panels,
         [this.partType]: {
@@ -150,6 +141,18 @@ export class BravoDateHeaderComponent implements OnInit, OnDestroy {
         }
         }
         this._service.panels = newPanels;
+    }
+
+    private _switchMode() {
+        const partMode = this.panels[this.partType].mode;
+        switch(this.mode) {
+            case 'date':
+                return partMode === "date" ? 'year' : 'date';
+            case "month":
+                return partMode === 'month' ? 'year' : 'month'
+            case 'year':
+                return 'year';
+        }
     }
 }
 

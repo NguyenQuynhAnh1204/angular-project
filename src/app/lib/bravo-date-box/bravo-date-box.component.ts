@@ -76,14 +76,16 @@ export class BravoDateBoxComponent extends BravoDateControlComponent implements 
         if(!value) {
             this.inputValue = ''
         } else {
-            this.inputValue = `${value?.format('dd/MM/yyyy')}`;
+            const format = this.getFormat()
+            this.inputValue = `${value?.format(format)}`;
         }
         this.updateValue(this.inputValue);
         return;
     }
 
     public override _setValue(pVal: string) {
-        const parseDate = BravoMoment.parseDate(pVal, 'dd/MM/yyyy');
+        const format = this.getFormat();
+        const parseDate = BravoMoment.parseDate(pVal, format);
         const date = new BravoMoment(parseDate);
         this._service.value = date;
     }

@@ -110,7 +110,6 @@ export class BravoDateService {
           date
         }
       });
-
       return;
     }
     let startDate: BravoMoment;
@@ -119,10 +118,10 @@ export class BravoDateService {
       const [start] = this.value as RangeDate;
 
       startDate = start?.clone() ?? new BravoMoment();
-      endDate = startDate.clone().addMonths(1);
+      endDate = this.mode == 'date' ? startDate.clone().addMonths(1) : startDate.clone().addYears(1);
     } else {
       startDate = new BravoMoment();
-      endDate = startDate.clone().addMonths(1);
+      endDate = this.mode == 'date' ? startDate.clone().addMonths(1) : startDate.clone().addYears(1);
     }
     this._panels$.next({
       start: {

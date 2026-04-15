@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
 import { RangePartType } from '../../bravo-control-date.type';
@@ -9,7 +9,7 @@ import { BravoDateService } from '../../bravo-control-date.service';
     styleUrls: ["./bravo-month-picker.component.scss"]
 })
 
-export class BravoMonthPickerComponent implements OnInit {
+export class BravoMonthPickerComponent implements OnInit, OnDestroy {
     private _destroy$ = new Subject<void>();
     private _service = inject(BravoDateService);
     public get panels() {
@@ -41,6 +41,11 @@ export class BravoMonthPickerComponent implements OnInit {
         })
     }
 
+    public ngOnDestroy() {
+        this._destroy$.next();
+        this._destroy$.complete();
+    }
+
     public onSelectMonth(pDate: BravoMoment) {
         this.selectedMonth = pDate.getMonth() + 1;
         const panels = this.panels;
@@ -50,9 +55,13 @@ export class BravoMonthPickerComponent implements OnInit {
                 ...panels,
                 [this.partType]: {
                 date: pDate,
-                mode: 'date'
+                mode: this.mode
                 }
             };
+            if (this.mode == 'month'){
+                this._service.value = pDate;
+                this._service.hideDatePicker();
+            }
             return;
         }
         // range
@@ -62,13 +71,13 @@ export class BravoMonthPickerComponent implements OnInit {
         let endMode = panels.end.mode;
         if (this.partType === 'start') {
             startDate = pDate;
-            startMode = "date";
-            endDate = pDate.clone().addMonths(1);
+            startMode = this.mode;
+            endDate = this.mode == 'date' ?  pDate.clone().addMonths(1) : pDate.clone().addYears(1);
         }
         if (this.partType === 'end') {
             endDate = pDate;
-            endMode = "date";
-            startDate = pDate.clone().subMonths(1);
+            endMode = this.mode;
+            startDate = this.mode == 'date' ? pDate.clone().subMonths(1) : pDate.clone().subYears(1                                                                                     );
         }
         this._service.panels = {
             start: {

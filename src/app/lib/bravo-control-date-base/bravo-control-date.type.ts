@@ -1,5 +1,9 @@
 import { BravoMoment } from "@bravo-infra/core/utils/dates";
 
+export const DATE_REGEX = /^(?:(?:31\/(?:0[13578]|1[02]))|(?:29|30)\/(?:0[13-9]|1[0-2]))\/\d{4}$|^(?:29\/02\/(?:(?:\d\d(?:0[48]|[2468][048]|[13579][26]))|(?:[02468][048]00|[13579][26]00)))$|^(?:0[1-9]|1\d|2[0-8])\/(?:0[1-9]|1[0-2])\/\d{4}$/;
+export const MONTH_REGEX = /^(0[1-9]|1[0-2])\/\d{4}$/; 
+export const YEAR_REGEX = /^\d{4}$/;
+
 export enum EViewPicker {
   PICKER_DATE = 1,
   PICKER_MONTH,

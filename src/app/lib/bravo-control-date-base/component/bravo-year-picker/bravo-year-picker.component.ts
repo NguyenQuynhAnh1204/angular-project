@@ -22,6 +22,9 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
     public get isRange() {
         return this._service.isRange;
     }
+    public get mode() {
+        return this._service.mode;
+    }
 
     @Input('partType')
     public partType!: RangePartType;
@@ -45,7 +48,7 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
         })
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         this._destroy$.next();
         this._destroy$.complete();
     }
@@ -58,9 +61,13 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
                 ...panels,
                 [this.partType]: {
                 date: pDate,
-                mode: 'month'
+                mode: this.mode == 'date' ? 'month' : 'year'
                 }
             };
+            if(this.mode == "year") {
+                this._service.value = pDate;
+                this._service.hideDatePicker()
+            }
             return;
         }
         let startDate = panels.start.date;
@@ -69,11 +76,11 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
         let endMode = panels.end.mode;
         if (this.partType === 'start') {
             startDate = pDate;
-            startMode = 'month'
+            startMode = this.mode == 'date' ? 'month' : 'year'
         }
         if (this.partType === 'end') {
             endDate = pDate;
-            endMode = "month"
+            endMode = this.mode == 'date' ? 'month' : 'year'
         }
         this._service.panels = {
             start: {

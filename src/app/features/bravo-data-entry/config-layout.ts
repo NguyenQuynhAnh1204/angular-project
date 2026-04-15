@@ -143,7 +143,31 @@ export const PANEL_CONFIG: ITablePanel[] = [
                     label: 'Month',
                     type: EControlType.MONTH,
                 }
-            }
+            },
+            {
+                control: {
+                    column: 1,
+                    row: 3,
+                    label: 'Month range',
+                    type: EControlType.MONTH_RANGE,
+                }
+            },
+            {
+                control: {
+                    column: 2,
+                    row: 3,
+                    label: 'Year',
+                    type: EControlType.YEAR,
+                }
+            },
+            {
+                control: {
+                    column: 1,
+                    row: 4,
+                    label: 'Year range',
+                    type: EControlType.YEAR_RANGE,
+                }
+            },
         ]
     },
     //layout 2
