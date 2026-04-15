@@ -3,7 +3,7 @@ import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
 import { BravoDateService } from '../../bravo-control-date.service';
 import { CompatibleDate, RangePartType } from '../../bravo-control-date.type';
-import { isRangeValue } from '../../bravo-control-date.until';
+import { isRangeValue, offsetDate } from '../../bravo-control-date.until';
 
 @Component({
     selector: 'br-year-picker',
@@ -83,12 +83,12 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
         if (this.partType === 'start') {
             startDate = pDate;
             startMode = newMode
-            endDate = pDate.clone().addMonths(1)
+            endDate = offsetDate(this.mode, pDate, 1)
         }
         if (this.partType === 'end') {
             endDate = pDate;
             endMode = newMode
-            startDate = pDate.clone().subMonths(1)
+            startDate = offsetDate(this.mode, pDate, -1)
         }
         this._service.panels = {
             start: {

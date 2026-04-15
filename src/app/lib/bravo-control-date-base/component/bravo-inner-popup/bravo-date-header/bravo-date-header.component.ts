@@ -1,8 +1,8 @@
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BravoDateService } from '../../../bravo-control-date.service';
 import { PanelState, RangePartType } from '../../../bravo-control-date.type';
+import { offsetDate } from '../../../bravo-control-date.until';
 
 @Component({
     selector: 'br-date-header',
@@ -87,9 +87,9 @@ export class BravoDateHeaderComponent implements OnInit, OnDestroy {
 
     private _moveCalendar(pStep: number, pPanel: RangePartType) {
         const state = this.panels[pPanel]; // để lấy ra mode & date của input active
-        const mode = state.mode; 
         const date = state.date; 
-        let newDate = this._offsetDate(date, pStep);
+        const mode = state.mode
+        let newDate = offsetDate(mode, date, pStep);
         let newPanels = {
             ...this.panels,
             [pPanel]: {
@@ -99,9 +99,10 @@ export class BravoDateHeaderComponent implements OnInit, OnDestroy {
         };
         if (this.isRange) {
             const offset = pPanel === 'start' ? 1 : -1;
+            const nDate = offsetDate(mode, newDate, offset)
             newPanels[pPanel === 'start' ? 'end' : 'start'] = {
                 ...newPanels[pPanel === 'start' ? 'end' : 'start'],
-                date: this._offsetDate(newDate, offset)
+                date: nDate
             };
         }
         this._service.panels = newPanels;
@@ -119,16 +120,4 @@ export class BravoDateHeaderComponent implements OnInit, OnDestroy {
         }
     }
 
-    private _offsetDate(date: BravoMoment, step: number) {
-        switch (this.mode) {
-            case 'date':
-            return date.clone().addMonths(step);
-
-            case 'month':
-            return date.clone().addYears(step);
-
-            case 'year':
-            return date.clone().addYears(step * 25);
-        }
-    }
 }

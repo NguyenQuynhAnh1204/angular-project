@@ -1,7 +1,7 @@
 import { BravoMoment } from "@bravo-infra/core/utils/dates";
 import { CompatibleDate, DateMode } from "./bravo-control-date.type";
 
-export function offset(mode: DateMode, date: BravoMoment, step: number) {
+export function offsetDate(mode: DateMode, date: BravoMoment, step: number) {
   switch (mode) {
     case 'date':
       return date.clone().addMonths(step);

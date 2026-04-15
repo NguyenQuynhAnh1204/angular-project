@@ -3,7 +3,7 @@ import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
 import { BravoDateService } from '../../bravo-control-date.service';
 import { CompatibleDate, RangePartType } from '../../bravo-control-date.type';
-import { isRangeValue, offset } from '../../bravo-control-date.until';
+import { isRangeValue, offsetDate } from '../../bravo-control-date.until';
 @Component({
     selector: 'br-month-picker',
     templateUrl: './bravo-month-picker.component.html',
@@ -77,12 +77,12 @@ export class BravoMonthPickerComponent implements OnInit, OnDestroy {
         if (this.partType === 'start') {
             startDate = pDate.clone();
             startMode = this.mode;
-            endDate = offset(this.mode, startDate, 1);
+            endDate = offsetDate(this.mode, startDate, 1);
         }
         if (this.partType === 'end') {
             endDate = pDate.clone();
             endMode = this.mode;
-            startDate = offset(this.mode, endDate, -1);
+            startDate = offsetDate(this.mode, endDate, -1);
         }
         this._service.panels = { 
             start: { date: startDate, mode: startMode },
