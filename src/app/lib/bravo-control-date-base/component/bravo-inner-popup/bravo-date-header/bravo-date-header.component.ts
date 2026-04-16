@@ -57,7 +57,6 @@ export class BravoDateHeaderComponent implements OnInit, OnDestroy {
 
     public changeMode() {
         const panel = this.panels[this.partType];
-        const mode = panel.mode;
         let newMode = this._switchMode();
         this._service.panels = {
         ...this.panels,

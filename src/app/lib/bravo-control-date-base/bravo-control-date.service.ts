@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BehaviorSubject } from 'rxjs';
 import { CompatibleDate, DateMode, PanelState, RangeDate, RangePartType } from './bravo-control-date.type';
+import { offsetDate } from './bravo-control-date.until';
 @Injectable()
 export class BravoDateService {
   private _isRange!: boolean;
@@ -48,8 +49,8 @@ export class BravoDateService {
   public get panels() {
     return this._panels$.value;
   }
-  public set panels(value) {
-    this._panels$.next(value);
+  public set panels(pValue) {
+    this._panels$.next(pValue);
   }
 
   private _value$ = new BehaviorSubject<CompatibleDate>(null);
@@ -68,16 +69,6 @@ export class BravoDateService {
   }
   public set hoverDate(date: BravoMoment | null) {
     this._hoverDate$.next(date);
-  }
-
-   // hàm mở picker
-   public showDatePicker() {
-    this._isOpenDatePicker$.next(true);
-    if(this._isEmptyValue()) {
-      this._setValuePanel(true)
-      return;
-    };
-    this._setValuePanel();
   }
 
   public selectRange(pDate: BravoMoment) {
@@ -112,6 +103,16 @@ export class BravoDateService {
     }
   }
 
+   // hàm mở picker
+   public showDatePicker() {
+    this._isOpenDatePicker$.next(true);
+    if(this._isEmptyValue()) {
+      this._initPanels()
+      return;
+    };
+    this._setPanels();
+  }
+
   // hàm đóng picker
   public hideDatePicker() {
     this._isOpenDatePicker$.next(false);
@@ -127,33 +128,46 @@ export class BravoDateService {
     return !this.value || (Array.isArray(this.value) && this.value.some(v => v == null))
   }
 
-  private _setValuePanel(reset = false) {
-    if (!this.isRange) {
-      const date = !reset && this.value
-          ? (this.value as BravoMoment).clone()
-          : new BravoMoment();
+  private _initPanels() {
+    const startDate = new BravoMoment();
+    this.panels = {
+      start: {
+        mode: this.mode,
+        date: startDate
+      },
+      end: {
+        mode: this.mode,
+        date: offsetDate(this.mode, startDate, 1)
+      }
+    };
+  }
 
-      this._panels$.next({
+  private _setPanels() {
+    if (!this.isRange) {
+      const date = this.value
+        ? (this.value as BravoMoment).clone()
+        : new BravoMoment();
+      this.panels = {
         ...this.panels,
         start: {
           mode: this.mode,
           date
         }
-      });
+      };
       return;
     }
-    let startDate: BravoMoment;
-    let endDate: BravoMoment;
-    if (!reset && Array.isArray(this.value)) {
-      const [start] = this.value as RangeDate;
-
-      startDate = start?.clone() ?? new BravoMoment();
-      endDate = this.mode == 'date' ? startDate.clone().addMonths(1) : startDate.clone().addYears(1);
-    } else {
-      startDate = new BravoMoment();
-      endDate = this.mode == 'date' ? startDate.clone().addMonths(1) : startDate.clone().addYears(1);
+    if (!Array.isArray(this.value)) {
+      this._initPanels();
+      return;
     }
-    this._panels$.next({
+    const [start, end] = this.value as RangeDate;
+    const startDate = start?.clone() ?? new BravoMoment();
+    let endDate: BravoMoment;
+    endDate = offsetDate(this.mode, startDate, 1);
+    if (!endDate.isAfter(startDate)) {
+      endDate = offsetDate(this.mode, startDate, 1);
+    }
+    this.panels = {
       start: {
         mode: this.mode,
         date: startDate
@@ -162,6 +176,6 @@ export class BravoDateService {
         mode: this.mode,
         date: endDate
       }
-    });
+    };
   }
 }

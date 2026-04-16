@@ -16,4 +16,4 @@ export function offsetDate(mode: DateMode, date: BravoMoment, step: number) {
 
 export function isRangeValue(pValue: CompatibleDate) {
     return Array.isArray(pValue);
-  }
+}

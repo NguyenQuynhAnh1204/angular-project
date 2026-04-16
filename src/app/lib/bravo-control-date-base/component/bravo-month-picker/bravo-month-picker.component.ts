@@ -2,7 +2,7 @@ import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
 import { BravoDateService } from '../../bravo-control-date.service';
-import { CompatibleDate, RangePartType } from '../../bravo-control-date.type';
+import { CompatibleDate, RangeDate, RangePartType } from '../../bravo-control-date.type';
 import { isRangeValue, offsetDate } from '../../bravo-control-date.until';
 @Component({
     selector: 'br-month-picker',
@@ -86,7 +86,7 @@ export class BravoMonthPickerComponent implements OnInit, OnDestroy {
             start: { date: startDate, mode: startMode },
             end: { date: endDate, mode: endMode }
         };
-}
+    }
 
     public handleOnHover(pDate: BravoMoment) {
         if(!this._service.value && !this.isRange) return;
@@ -100,22 +100,34 @@ export class BravoMonthPickerComponent implements OnInit, OnDestroy {
     public isSelected(pDate: BravoMoment) {
         if(!this.selectedMonth) return false;
         if (!isRangeValue(this.selectedMonth)) {
-          return this.selectedMonth?.isSameDay(pDate);
+          return this.selectedMonth?.isSameMonth(pDate);
         }
         // date range
         const [start, end] = this.selectedMonth;
         return (
-          (start?.isSameDay(pDate) ?? false) ||
-          (end?.isSameDay(pDate) ?? false)
+          (start?.isSameMonth(pDate) ?? false) ||
+          (end?.isSameMonth(pDate) ?? false)
         );
     }
 
     public isInRange(pDate: BravoMoment) {
-
+        if (!isRangeValue(this.selectedMonth)) return false;
+        const [start, end] = this.selectedMonth;
+        if (!start || !end) return false;
+        return (pDate.isAfter(start) && pDate.isBefore(end));
     }
 
     public inHoverRange(pDate: BravoMoment) {
-
+        if (!isRangeValue(this.selectedMonth)) return false;
+        const [start, end] = this._service.value as RangeDate;
+        const hoverDate = this._service.hoverDate;
+        if(!hoverDate || !(start ?? end)) return false;
+        const anchorTime = start?.getTime() ?? end?.getTime();
+        if(!anchorTime) return false;
+        const dateTime = pDate.getTime();
+        const hoverTime = hoverDate.getTime();
+        return dateTime >= Math.min(anchorTime, hoverTime) && 
+        dateTime <= Math.max(anchorTime, hoverTime);
     }
 
 }

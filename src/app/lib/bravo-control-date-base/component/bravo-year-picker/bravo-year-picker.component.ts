@@ -2,7 +2,7 @@ import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
 import { BravoDateService } from '../../bravo-control-date.service';
-import { CompatibleDate, RangePartType } from '../../bravo-control-date.type';
+import { CompatibleDate, RangeDate, RangePartType } from '../../bravo-control-date.type';
 import { isRangeValue, offsetDate } from '../../bravo-control-date.until';
 
 @Component({
@@ -114,22 +114,34 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
     public isSelected(pDate: BravoMoment) {
         if(!this.selectedYear) return false;
         if (!isRangeValue(this.selectedYear)) {
-          return this.selectedYear?.isSameDay(pDate);
+          return this.selectedYear?.isSameYear(pDate);
         }
         // date range
         const [start, end] = this.selectedYear;
         return (
-          (start?.isSameDay(pDate) ?? false) ||
-          (end?.isSameDay(pDate) ?? false)
+          (start?.isSameYear(pDate) ?? false) ||
+          (end?.isSameYear(pDate) ?? false)
         );
     }
     
     public isInRange(pDate: BravoMoment) {
-
+        if (!isRangeValue(this.selectedYear)) return false;
+        const [start, end] = this.selectedYear;
+        if (!start || !end) return false;
+        return (pDate.isAfter(start) && pDate.isBefore(end));
     }
 
     public inHoverRange(pDate: BravoMoment) {
-
+        if (!isRangeValue(this.selectedYear)) return false;
+        const [start, end] = this._service.value as RangeDate;
+        const hoverDate = this._service.hoverDate;
+        if(!hoverDate || !(start ?? end)) return false;
+        const anchorTime = start?.getTime() ?? end?.getTime();
+        if(!anchorTime) return false;
+        const dateTime = pDate.getTime();
+        const hoverTime = hoverDate.getTime();
+        return dateTime >= Math.min(anchorTime, hoverTime) && 
+        dateTime <= Math.max(anchorTime, hoverTime);
     }
     
 }
