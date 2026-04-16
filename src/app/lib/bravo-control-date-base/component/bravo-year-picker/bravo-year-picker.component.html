@@ -1,4 +1,4 @@
-<div class="full-years" (mouseleave)="handleOnLeave()">
+<div class="full-years" (mouseleave)="enableRange('year') && handleOnLeave()">
   @for (rows of years; track $index) {
     @for (item of rows; track $index) {
       <button
@@ -8,7 +8,7 @@
         [class.in-range]="isInRange(item)"
         [class.hover-range]="inHoverRange(item)"
         (click)="onSelectYear(item)"
-        (mouseenter)="handleOnHover(item)"
+        (mouseenter)="enableRange('year') && handleOnHover(item)"
       >
         {{ item.getFullYear() }}
       </button>

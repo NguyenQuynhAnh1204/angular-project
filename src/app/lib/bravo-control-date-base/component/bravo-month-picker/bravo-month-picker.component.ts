@@ -88,5 +88,4 @@ export class BravoMonthPickerComponent extends BravoDateAbstractComponent implem
           (end?.isSameMonth(pDate) ?? false)
         );
     }
-
 }

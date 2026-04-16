@@ -102,5 +102,4 @@ export class BravoYearPickerComponent extends BravoDateAbstractComponent impleme
           (end?.isSameYear(pDate) ?? false)
         );
     }
-    
 }

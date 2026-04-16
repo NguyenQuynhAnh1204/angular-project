@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BravoDateService } from '../../bravo-control-date.service';
-import { CompatibleDate, RangeDate } from '../../bravo-control-date.type';
+import { CompatibleDate, DateMode, RangeDate } from '../../bravo-control-date.type';
 import { isRangeValue } from '../../bravo-control-date.until';
 
 @Component({
@@ -45,13 +45,17 @@ export class BravoDateAbstractComponent {
     public inHoverRange(pDate: BravoMoment) {
         if (!isRangeValue(this.selectedDate)) return false;
         const [start, end] = this._service.value as RangeDate;
+        if (start && end) return false;
         const hoverDate = this._service.hoverDate;
         if(!hoverDate || !(start ?? end)) return false;
         const anchorTime = start?.getTime() ?? end?.getTime();
         if(!anchorTime) return false;
         const dateTime = pDate.getTime();
         const hoverTime = hoverDate.getTime();
-        return dateTime >= Math.min(anchorTime, hoverTime) && 
-        dateTime <= Math.max(anchorTime, hoverTime);
+        return dateTime >= Math.min(anchorTime, hoverTime) && dateTime <= Math.max(anchorTime, hoverTime);
+    }
+
+    public enableRange(pMode: DateMode) {
+        return this.mode == pMode && this.isInRange
     }
 }
