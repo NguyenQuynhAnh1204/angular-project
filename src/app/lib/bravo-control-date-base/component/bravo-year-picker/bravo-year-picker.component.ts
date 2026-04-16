@@ -1,9 +1,9 @@
-import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
-import { BravoDateService } from '../../bravo-control-date.service';
-import { CompatibleDate, RangeDate, RangePartType } from '../../bravo-control-date.type';
+import { RangePartType } from '../../bravo-control-date.type';
 import { isRangeValue, offsetDate } from '../../bravo-control-date.until';
+import { BravoDateAbstractComponent } from '../bravo-date-abstract';
 
 @Component({
     selector: 'br-year-picker',
@@ -11,20 +11,10 @@ import { isRangeValue, offsetDate } from '../../bravo-control-date.until';
     styleUrls: ["./bravo-year-picker.component.scss"]
 })
 
-export class BravoYearPickerComponent implements OnInit, OnDestroy {
+export class BravoYearPickerComponent extends BravoDateAbstractComponent implements OnInit, OnDestroy {
     private _destroy$ = new Subject<void>();
-    private _service = inject(BravoDateService);
-    public get panels() {
-        return this._service.panels;
-    }
     public get date() {
         return this._service.panels[this.partType].date;
-    }
-    public get isRange() {
-        return this._service.isRange;
-    }
-    public get mode() {
-        return this._service.mode;
     }
 
     @Input('partType')
@@ -37,8 +27,6 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
     public set years(pYears) {
         this._years = pYears;
     }
-
-    public selectedYear!: CompatibleDate;
    
     public ngOnInit() {
         this._service.panelsChange$
@@ -50,7 +38,7 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
         this._service.valueChange$
         .pipe(takeUntil(this._destroy$))
         .subscribe((pVal) => { 
-            this.selectedYear = pVal;
+            this.selectedDate = pVal;
         })
     }
 
@@ -102,46 +90,17 @@ export class BravoYearPickerComponent implements OnInit, OnDestroy {
         };
     }
 
-    public handleOnHover(pDate: BravoMoment) {
-        if(!this._service.value && !this.isRange) return;
-        this._service.hoverDate = pDate;
-    }
-
-    public handleOnLeave() {
-        this._service.hoverDate = null;
-    }
-
-    public isSelected(pDate: BravoMoment) {
-        if(!this.selectedYear) return false;
-        if (!isRangeValue(this.selectedYear)) {
-          return this.selectedYear?.isSameYear(pDate);
+    public override isSelected(pDate: BravoMoment) {
+        if(!this.selectedDate) return false;
+        if (!isRangeValue(this.selectedDate)) {
+          return this.selectedDate?.isSameYear(pDate);
         }
         // date range
-        const [start, end] = this.selectedYear;
+        const [start, end] = this.selectedDate;
         return (
           (start?.isSameYear(pDate) ?? false) ||
           (end?.isSameYear(pDate) ?? false)
         );
-    }
-    
-    public isInRange(pDate: BravoMoment) {
-        if (!isRangeValue(this.selectedYear)) return false;
-        const [start, end] = this.selectedYear;
-        if (!start || !end) return false;
-        return (pDate.isAfter(start) && pDate.isBefore(end));
-    }
-
-    public inHoverRange(pDate: BravoMoment) {
-        if (!isRangeValue(this.selectedYear)) return false;
-        const [start, end] = this._service.value as RangeDate;
-        const hoverDate = this._service.hoverDate;
-        if(!hoverDate || !(start ?? end)) return false;
-        const anchorTime = start?.getTime() ?? end?.getTime();
-        if(!anchorTime) return false;
-        const dateTime = pDate.getTime();
-        const hoverTime = hoverDate.getTime();
-        return dateTime >= Math.min(anchorTime, hoverTime) && 
-        dateTime <= Math.max(anchorTime, hoverTime);
     }
     
 }

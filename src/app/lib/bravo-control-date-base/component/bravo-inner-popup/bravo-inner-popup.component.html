@@ -8,25 +8,25 @@
 
 @switch(mode) {
 @case('date') {
-    <ng-container *ngTemplateOutlet="templateLabel;  context: { mode: 'date' }"></ng-container>
+    <ng-container *ngTemplateOutlet="templateLabel"></ng-container>
     <br-date-picker
         [partType]="partType"
     />
 }
 @case ('month') {
-    <ng-container *ngTemplateOutlet="templateLabel; context: { mode: 'month' }"></ng-container>
+    <ng-container *ngTemplateOutlet="templateLabel"></ng-container>
     <br-month-picker
        [partType]="partType"
     />
 }
 @case ('year') {
-    <ng-container *ngTemplateOutlet="templateLabel; context: { mode: 'year' }"></ng-container>
+    <ng-container *ngTemplateOutlet="templateLabel"></ng-container>
     <br-year-picker
        [partType]="partType"
     />
 }
 @default {
-    <ng-container *ngTemplateOutlet="templateLabel; context: { mode: 'date' }"></ng-container>
+    <ng-container *ngTemplateOutlet="templateLabel"></ng-container>
     <br-date-picker
         [partType]="partType"
     />

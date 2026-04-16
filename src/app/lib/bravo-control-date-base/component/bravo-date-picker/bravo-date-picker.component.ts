@@ -5,6 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { BravoDateService } from '../../bravo-control-date.service';
 import { CompatibleDate, RangeDate, RangePartType } from '../../bravo-control-date.type';
 import { isRangeValue } from '../../bravo-control-date.until';
+import { BravoDateAbstractComponent } from '../bravo-date-abstract';
 
 
 @Component({
@@ -13,20 +14,14 @@ import { isRangeValue } from '../../bravo-control-date.until';
   styleUrls: ['./bravo-date-picker.component.scss'],
   imports: [CommonModule],
 })
-export class BravoDatePickerComponent implements OnInit, OnDestroy {
+export class BravoDatePickerComponent extends BravoDateAbstractComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject<void>();
-  private _service = inject(BravoDateService);
   public get date() {
     return this._service.panels[this.partType].date;
   }
-  public get isRange() {
-    return this._service.isRange;
-  }
-
   @Input('partType')
   public partType!: RangePartType;
 
-  public selectDate!: CompatibleDate;
   public dates: BravoMoment[][] = [];
   public days: string[] = [];
 
@@ -40,7 +35,7 @@ export class BravoDatePickerComponent implements OnInit, OnDestroy {
     this._service.valueChange$
     .pipe(takeUntil(this._destroy$))
     .subscribe((pVal) => { 
-      this.selectDate = pVal;
+      this.selectedDate = pVal;
     })
 
     this.days = this._service.panels[this.partType].date.getDays();
@@ -56,49 +51,19 @@ export class BravoDatePickerComponent implements OnInit, OnDestroy {
    this._service.selectRange(pDate);
   }
 
-  public handleOnHover(pDate: BravoMoment) {
-    if(!this._service.value && !this.isRange) return;
-    this._service.hoverDate = pDate;
-  }
-
-  public handleOnLeave() {
-    this._service.hoverDate = null;
-  }
-
-  public isSelected(pDate: BravoMoment) {
-    if (!this.selectDate) return false;
+  public override isSelected(pDate: BravoMoment) {
+    if (!this.selectedDate) return false;
     // single date
-    if (!isRangeValue(this.selectDate)) {
-      return this.selectDate?.isSameDay(pDate);
+    if (!isRangeValue(this.selectedDate)) {
+      return this.selectedDate?.isSameDay(pDate);
     }
     // date range
-    const [start, end] = this.selectDate;
+    const [start, end] = this.selectedDate;
     return (
       (start?.isSameDay(pDate) ?? false) ||
       (end?.isSameDay(pDate) ?? false)
     );
   }
-  
-  // day in range 
-  public isInRange(pDate: BravoMoment) {
-    if (!isRangeValue(this.selectDate)) return false;
-    const [start, end] = this.selectDate;
-    if (!start || !end) return false;
-    return (pDate.isAfter(start) && pDate.isBefore(end));
-  }
-
-  public inHoverRange(pDate: BravoMoment) {
-    if (!isRangeValue(this.selectDate)) return false;
-    const [start, end] = this._service.value as RangeDate;
-    const hoverDate = this._service.hoverDate;
-    if(!hoverDate || !(start ?? end)) return false;
-    const anchorTime = start?.getTime() ?? end?.getTime();
-    if(!anchorTime) return false;
-    const dateTime = pDate.getTime();
-    const hoverTime = hoverDate.getTime();
-    return dateTime >= Math.min(anchorTime, hoverTime) && 
-    dateTime <= Math.max(anchorTime, hoverTime);
-  } 
 
   public isDayInMonth(pDate: BravoMoment) {
     return this.date.isSameMonth(pDate);
