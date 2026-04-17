@@ -4,6 +4,12 @@ export const DATE_REGEX = /^(?:(?:31\/(?:0[13578]|1[02]))|(?:29|30)\/(?:0[13-9]|
 export const MONTH_REGEX = /^(0[1-9]|1[0-2])\/\d{4}$/; 
 export const YEAR_REGEX = /^\d{4}$/;
 
+export const FORMAT_DATE = {
+  'date': 'dd/MM/yyyy',
+  'month': 'MM/yyy',
+  'year': 'yyyy'
+}
+
 export enum EViewPicker {
   PICKER_DATE = 1,
   PICKER_MONTH,
