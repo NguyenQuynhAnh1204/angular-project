@@ -1,7 +1,8 @@
 import { Component, inject, Input } from '@angular/core';
 import { BravoControlBaseComponent } from '../bravo-control-base';
 import { BravoDateService } from './bravo-control-date.service';
-import { CompatibleDate, DATE_REGEX, DateMode, FORMAT_DATE, MONTH_REGEX, RangePartType, YEAR_REGEX } from './bravo-control-date.type';
+import { CompatibleDate, DATE_REGEX, DateMode, FORMAT_DATE, MONTH_REGEX, RangePartType, SingleDate, YEAR_REGEX } from './bravo-control-date.type';
+import { BravoMoment } from '@bravo-infra/core/utils/dates';
 
 @Component({
     selector: 'br-date-control',
@@ -38,7 +39,8 @@ export class BravoDateControlComponent extends BravoControlBaseComponent {
             const value = (pEvent.target as HTMLInputElement).value; 
             const valid = this._validateInputDate(value);
             if (valid) {
-                this._setValue(value);
+                const date = this._parseInputValue(value);
+                this._setValue(date);
             }
         }
     
@@ -90,9 +92,15 @@ export class BravoDateControlComponent extends BravoControlBaseComponent {
         }
     }
 
+    private _parseInputValue(pVal: string) {
+        const format = this.getFormat();
+        const parse = BravoMoment.parseDate(pVal, format);
+        return parse.isValid() ? parse : null;
+    }
+
     protected _setInputValue(pValue: CompatibleDate) {}
     
-    protected _setValue(pVal: string) {}
+    protected _setValue(pDate: SingleDate) {}
 
     public getFormat() {
         return FORMAT_DATE[this.mode];

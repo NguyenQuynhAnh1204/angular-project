@@ -81,11 +81,8 @@ export class BravoDateBoxComponent extends BravoDateControlComponent implements 
         return;
     }
 
-    public override _setValue(pVal: string) {
-        const format = this.getFormat();
-        const parseDate = BravoMoment.parseDate(pVal, format);
-        const date = new BravoMoment(parseDate);
-        this._service.value = date;
+    public override _setValue(pDate: SingleDate) {
+        this._service.value = pDate;
     }
 }
 

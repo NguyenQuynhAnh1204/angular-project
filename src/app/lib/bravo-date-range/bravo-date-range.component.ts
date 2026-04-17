@@ -5,7 +5,7 @@ import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
 import { Subject, takeUntil } from 'rxjs';
 import { BravoControlDirective } from '../bravo-control-base';
-import { BravoDateControlComponent, BravoDatePopupComponent, BravoDateService, CompatibleDate } from '../bravo-control-date-base';
+import { BravoDateControlComponent, BravoDatePopupComponent, BravoDateService, CompatibleDate, SingleDate } from '../bravo-control-date-base';
 
 
 @Component({
@@ -101,19 +101,16 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
         this.updateValue(this.inputValue);
     }
     
-    public override _setValue(pVal: string) {
-        const format = this.getFormat();
-        const parseDate = BravoMoment.parseDate(pVal, format);
-        const date = new BravoMoment(parseDate);
+    public override _setValue(pDate: SingleDate) {
         const dateValue = Array.isArray(this.value)
             ? this.value
             : [null, null];
         let [start, end] = dateValue;
         if (this.inputActive === 'start') {
-            start = date;
+            start = pDate;
         }
         if (this.inputActive === 'end') {
-            end = date;
+            end = pDate;
         }
         if (start && end && start.getTime() > end.getTime()) {
             [start, end] = [end, start];
