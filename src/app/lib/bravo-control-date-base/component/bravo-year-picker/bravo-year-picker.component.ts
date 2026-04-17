@@ -50,7 +50,7 @@ export class BravoYearPickerComponent extends BravoDateAbstractComponent impleme
     public onSelectYear(pDate: BravoMoment) {
         const newMode = this.mode == 'year' ? 'year' : 'month'
         if (this.mode === 'year') {
-            this._service.selectRange(pDate);    
+            this._service.selectDate(pDate);    
             return;
         }
         const panels = this.panels;

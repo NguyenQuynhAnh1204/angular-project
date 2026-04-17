@@ -42,7 +42,7 @@ export class BravoMonthPickerComponent extends BravoDateAbstractComponent implem
 
     public onSelectMonth(pDate: BravoMoment) {
         if (this.mode === 'month') {
-            this._service.selectRange(pDate);    
+            this._service.selectDate(pDate);    
             return;
         }
         const panels = this.panels;

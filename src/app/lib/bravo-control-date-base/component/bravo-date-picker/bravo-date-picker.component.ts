@@ -48,7 +48,7 @@ export class BravoDatePickerComponent extends BravoDateAbstractComponent impleme
 
   // select date
   public onSelectDate(pDate: BravoMoment) {
-   this._service.selectRange(pDate);
+   this._service.selectDate(pDate);
   }
 
   public override isSelected(pDate: BravoMoment) {

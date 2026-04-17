@@ -71,7 +71,7 @@ export class BravoDateService {
     this._hoverDate$.next(date);
   }
 
-  public selectRange(pDate: BravoMoment) {
+  public selectDate(pDate: BravoMoment) {
     if (!this.isRange) {
       this.value = pDate;
       this.hideDatePicker();
@@ -82,10 +82,11 @@ export class BravoDateService {
       this.value :
       [null, null];
     let [start, end] = current;
-    if (!start && !end) {
+    if ((!start && !end) || (start && end)) {
       start = pDate;
       end = null;
-    } else if (start && !end) {
+    } 
+    else if (start && !end) {
       if (pDate.isAfter(start)) {
         end = pDate;
       } else {
@@ -93,9 +94,13 @@ export class BravoDateService {
         start = pDate;
       }
     }
-    else {
-      start = pDate;
-      end = null;
+    else if (!start && end) {
+      if (pDate.isAfter(end)) {
+        start = end;
+        end = pDate;
+      } else {
+        start = pDate;
+      }
     }
     this.value = [start, end];
     if (start && end) {
