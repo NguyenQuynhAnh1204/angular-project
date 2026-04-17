@@ -36,13 +36,16 @@ export class BravoDateControlComponent extends BravoControlBaseComponent {
     }
 
     public onInputChange(pEvent: Event) {
-            const value = (pEvent.target as HTMLInputElement).value; 
-            const valid = this._validateInputDate(value);
-            if (valid) {
-                const date = this._parseInputValue(value);
-                this._setValue(date);
-            }
+        const value = (pEvent.target as HTMLInputElement).value; 
+        if(!value) {
+            this._setValue(null);
+        };
+        const valid = this._validateInputDate(value);
+        if (valid) {
+            const date = this._parseInputValue(value);
+            this._setValue(date);
         }
+    }
     
     public onFocus(pEvent: FocusEvent) {
         pEvent.preventDefault();
