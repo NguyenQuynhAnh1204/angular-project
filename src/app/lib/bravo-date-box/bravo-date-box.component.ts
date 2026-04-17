@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, forwardRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
 import { Subject, takeUntil } from 'rxjs';
 import { BravoControlDirective } from '../bravo-control-base';
@@ -33,7 +32,7 @@ import { CompatibleDate, SingleDate } from '../bravo-control-date-base/bravo-con
         directive: BravoDropdownAnchorDirective
     }],
 })
-export class BravoDateBoxComponent extends BravoDateControlComponent implements OnInit, AfterViewInit, OnDestroy {
+export class BravoDateBoxComponent extends BravoDateControlComponent implements OnInit, OnDestroy {
     private _destroy$ = new Subject<void>();
     public get isOpenDatePicker() {
         return this._service.isOpenDatePicker;
@@ -50,10 +49,6 @@ export class BravoDateBoxComponent extends BravoDateControlComponent implements 
         })
     }
 
-    public ngAfterViewInit() {
-        this.pickerInput?.nativeElement.addEventListener('focusout', this.onFocusOut.bind(this))
-    }
-
     public ngOnDestroy() {
         this._destroy$.next();
         this._destroy$.complete();
@@ -65,7 +60,6 @@ export class BravoDateBoxComponent extends BravoDateControlComponent implements 
     
     public override updateValue(pVal: string) {
         this.textValue = pVal;
-        this.pickerInput.nativeElement.value = pVal;
         this.onChange(this.textValue);
     }
     

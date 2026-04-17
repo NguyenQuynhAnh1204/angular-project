@@ -130,7 +130,7 @@ export class BravoDateService {
   }
 
   private _isEmptyValue() {
-    return !this.value || (Array.isArray(this.value) && this.value.some(v => v == null))
+    return !this.value || (Array.isArray(this.value) && this.value.every(v => v == null))
   }
 
   private _initPanels() {

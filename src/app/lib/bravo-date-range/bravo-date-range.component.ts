@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, forwardRef, inject, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, ElementRef, forwardRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
 import { Subject, takeUntil } from 'rxjs';
 import { BravoControlDirective } from '../bravo-control-base';
@@ -36,7 +35,7 @@ import { BravoDateControlComponent, BravoDatePopupComponent, BravoDateService, C
         }
     ]
 })
-export class BravoDateRangeComponent extends BravoDateControlComponent implements OnInit, AfterViewInit {
+export class BravoDateRangeComponent extends BravoDateControlComponent implements OnInit {
     private _destroy$ = new Subject<void>();
     public get isOpenDatePicker() {
         return this._service.isOpenDatePicker;
@@ -59,12 +58,6 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
         })
     }
 
-    public ngAfterViewInit() {
-        this.rangePickerInput?.forEach((item) => {
-            item?.nativeElement.addEventListener('focusout', this.onFocusOut.bind(this))
-        })
-    }
-
     public override onFocus(pEvent: FocusEvent): void {
         const target = pEvent.target as HTMLInputElement;
         if(target == this.rangePickerInput.first.nativeElement) {
@@ -77,10 +70,6 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
 
     public override updateValue(pVal: [string, string]) {
         this.textValue = `${pVal[0]}${pVal[1]}`;
-        if(!this.rangePickerInput) return;
-        this.rangePickerInput.forEach((input, index) => {
-            input.nativeElement.value = pVal[index];
-        })
         this.onChange(this.textValue);
     }
 

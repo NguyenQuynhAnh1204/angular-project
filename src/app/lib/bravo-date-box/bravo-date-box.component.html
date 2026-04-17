@@ -15,10 +15,10 @@
             class="input-under-line date-box"
             [class.show-input]="focus || textValue"
             [readOnly]="readOnly"
+            [value]="inputValue"
             [placeholder]="getPlaceholder()"
             (focus)="onFocus($event)"
             (focusout)="onFocusOut($event)"
-            (blur)="handleBlur()"
             (click)="onClickInputBox($event)"
             (input)="onInputChange($event)"
         >
