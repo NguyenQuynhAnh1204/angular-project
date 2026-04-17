@@ -1,0 +1,11 @@
+@use 'styles/mixin' as *;
+
+.tree-node {
+    display: flex;
+}
+
+.btn-icon {
+    border: none;
+    background: none;
+    @include df-center;
+}

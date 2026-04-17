@@ -1,0 +1,45 @@
+<cdk-tree 
+[dataSource]="dataSource" 
+[childrenAccessor]="childrenAccessor"
+>
+
+  <!-- Leaf -->
+  <cdk-tree-node *cdkTreeNodeDef="let node">
+    <p class="leaf">
+        {{ node.name }}
+    </p>
+  </cdk-tree-node>
+
+  <!-- Expandable -->
+    <cdk-nested-tree-node 
+        *cdkTreeNodeDef="let node; when: hasChild"
+    >
+
+    <div class="tree-node">
+        <button (click)="toggle(node)" class="btn-icon">
+            @if (expanded.has(node)) {
+                <span class="material-symbols-outlined arrow-icon">
+                arrow_drop_down
+                </span>
+            } @else {
+                <span class="material-symbols-outlined arrow-icon">
+                arrow_right
+                </span>                                            
+            }
+        </button>
+
+        <p class="node">
+            {{ node.name }}
+        </p>
+    </div>
+
+    @if (expanded.has(node)) {
+      <div>
+        <ng-container cdkTreeNodeOutlet></ng-container>
+      </div>
+    }
+
+  </cdk-nested-tree-node>
+
+</cdk-tree>
+
