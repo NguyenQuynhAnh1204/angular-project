@@ -6,7 +6,7 @@ export const YEAR_REGEX = /^\d{4}$/;
 
 export const FORMAT_DATE = {
   'date': 'dd/MM/yyyy',
-  'month': 'MM/yyy',
+  'month': 'MM/yyyy',
   'year': 'yyyy'
 }
 

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, forwardRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, ElementRef, forwardRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
 import { Subject, takeUntil } from 'rxjs';
@@ -35,7 +35,7 @@ import { BravoDateControlComponent, BravoDatePopupComponent, BravoDateService, C
         }
     ]
 })
-export class BravoDateRangeComponent extends BravoDateControlComponent implements OnInit {
+export class BravoDateRangeComponent extends BravoDateControlComponent implements OnInit, OnDestroy {
     private _destroy$ = new Subject<void>();
     public get isOpenDatePicker() {
         return this._service.isOpenDatePicker;
@@ -43,9 +43,7 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
     public get value() {
         return this._service.value;
     }
-    public get inputActive() {
-        return this._service.inputActive;
-    }
+    
 
     @ViewChildren('rangePickerInput')
     public rangePickerInput!: QueryList<ElementRef<HTMLInputElement>>
@@ -56,6 +54,11 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
         .subscribe((pVal) => {
             this._setInputValue(pVal);
         })
+    }
+    
+    public ngOnDestroy(): void {
+        this._destroy$.next();
+        this._destroy$.complete();
     }
 
     public override onFocus(pEvent: FocusEvent): void {

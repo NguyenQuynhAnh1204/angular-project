@@ -161,14 +161,25 @@ export class BravoDateService {
       };
       return;
     }
-    if (!Array.isArray(this.value)) {
+    if (this._isEmptyValue()) {
       this._initPanels();
       return;
     }
     const [start, end] = this.value as RangeDate;
-    const startDate = start?.clone() ?? new BravoMoment();
+    let startDate: BravoMoment;
     let endDate: BravoMoment;
-    endDate = offsetDate(this.mode, startDate, 1);
+    if(start) {
+      startDate = start.clone()
+      endDate = offsetDate(this.mode, startDate, 1);
+    } 
+    else if(!start && end) {
+      endDate = end.clone()
+      startDate = offsetDate(this.mode, endDate, -1);
+    }
+    else {
+      startDate = new BravoMoment().clone();
+      endDate = offsetDate(this.mode, startDate, 1);
+    }
     if (!endDate.isAfter(startDate)) {
       endDate = offsetDate(this.mode, startDate, 1);
     }

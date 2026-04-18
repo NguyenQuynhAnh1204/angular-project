@@ -1,8 +1,8 @@
 import { Component, inject, Input } from '@angular/core';
+import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BravoControlBaseComponent } from '../bravo-control-base';
 import { BravoDateService } from './bravo-control-date.service';
-import { CompatibleDate, DATE_REGEX, DateMode, FORMAT_DATE, MONTH_REGEX, RangePartType, SingleDate, YEAR_REGEX } from './bravo-control-date.type';
-import { BravoMoment } from '@bravo-infra/core/utils/dates';
+import { CompatibleDate, DateMode, FORMAT_DATE, RangePartType, SingleDate } from './bravo-control-date.type';
 
 @Component({
     selector: 'br-date-control',
@@ -12,6 +12,10 @@ import { BravoMoment } from '@bravo-infra/core/utils/dates';
 
 export class BravoDateControlComponent extends BravoControlBaseComponent {
     protected _service = inject(BravoDateService);
+    public get inputActive() {
+        return this._service.inputActive;
+    }
+    public _rawInput = '';
 
     private _mode: DateMode = 'date';
     @Input('mode')
@@ -32,29 +36,55 @@ export class BravoDateControlComponent extends BravoControlBaseComponent {
 
     public onClickInputBox(pEvent: MouseEvent) {
         pEvent.stopPropagation();
-        this.handleFocus();
+        this.focus = true;
     }
 
     public onInputChange(pEvent: Event) {
-        const value = (pEvent.target as HTMLInputElement).value; 
-        if(!value) {
-            this._setValue(null);
-            return;
-        };
-        const valid = this._validateInputDate(value);
-        if (valid) {
-            const date = this._parseInputValue(value);
-            this._setValue(date);
-        }
+        const input = (pEvent.target as HTMLInputElement); 
+        this._rawInput = this.sanitize(input.value);
     }
     
     public onFocus(pEvent: FocusEvent) {
         pEvent.preventDefault();
     }
+
     public onFocusOut(pEvent: FocusEvent) {
         pEvent.preventDefault();
+        const date = this._parseInputValue(this._rawInput);
+        this._setValue(date); 
         this.onTouched();
         this.focus = false;
+    }
+
+    public onKeyDown(event: KeyboardEvent) {
+        const allowedKeys = [
+            'Backspace',
+            'Delete',
+            'ArrowLeft',
+            'ArrowRight',
+            'Tab'
+        ];
+        if (allowedKeys.includes(event.key)) return;
+        if (/^\d$/.test(event.key)) return;
+        if (event.key === '/') return;
+        event.preventDefault();
+    }
+
+    private sanitize(value: string): string {
+        if (!value) return '';
+        // chỉ giữ số và /
+        value = value.replace(/[^\d/]/g, '');
+        // không cho //
+        value = value.replace(/\/{2,}/g, '/');
+        // ký tự đầu phải là số
+        if (value.startsWith('/')) {
+            value = value.substring(1);
+        }
+        // ký tự cuối phải là số
+        if (value.endsWith('/')) {
+            value = value.slice(0, -1);
+        }
+        return value;
     }
     
     public showDatePicker() {
@@ -81,22 +111,9 @@ export class BravoDateControlComponent extends BravoControlBaseComponent {
     }
 
     override updateValue(pVal: string | [string, string]) {}
-    
-    private _validateInputDate(value: string) {
-        if (!value) return false;
-        switch (this.mode) {
-            case 'date':
-                return DATE_REGEX.test(value);
-            case 'month':
-                return MONTH_REGEX.test(value);
-            case 'year':
-                return YEAR_REGEX.test(value);
-            default:
-                return false;
-        }
-    }
 
     private _parseInputValue(pVal: string) {
+        if(!pVal) return null;
         const format = this.getFormat();
         const parse = BravoMoment.parseDate(pVal, format);
         return parse.isValid() ? parse : null;

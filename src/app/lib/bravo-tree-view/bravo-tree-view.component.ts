@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { TreeNode } from './bravo-tree-view.type';
-import { CdkTreeModule } from '@angular/cdk/tree';
 import { ArrayDataSource } from '@angular/cdk/collections';
+import { CdkTreeModule } from '@angular/cdk/tree';
+import { Component } from '@angular/core';
+import { TreeNode } from './bravo-tree-view.type';
 
 const TREE_DATA: TreeNode[] = [
   {

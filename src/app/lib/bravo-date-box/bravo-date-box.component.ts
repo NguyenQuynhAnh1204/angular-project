@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, forwardRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, forwardRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
 import { Subject, takeUntil } from 'rxjs';
@@ -72,7 +72,6 @@ export class BravoDateBoxComponent extends BravoDateControlComponent implements 
             this.inputValue = `${value?.format(format)}`;
         }
         this.updateValue(this.inputValue);
-        return;
     }
 
     public override _setValue(pDate: SingleDate) {

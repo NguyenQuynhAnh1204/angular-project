@@ -1,14 +1,18 @@
-<br-dropdown-base [visible]="isOpenDatePicker" [isManualHandleOutsideClick]="true" (onOverlayOutsideClick)="hideDatePicker()">
+<br-dropdown-base [visible]="isOpenDatePicker" 
+[isManualHandleOutsideClick]="true" 
+(onOverlayOutsideClick)="hideDatePicker()"
+>
     <div class="date-input-container" 
-            [class.is-focus]="focus"
-            brDropdownAnchor>
-            <p
-                class="label"
-                [class.have-text]="focus || textValue"
-                [class.no-text]="textValue=='' && !focus"
-            >
-                {{label || 'Date'}}: 
-            </p>
+        [class.is-focus]="focus"
+        brDropdownAnchor
+    >
+        <p
+            class="label"
+            [class.have-text]="focus || textValue"
+            [class.no-text]="textValue=='' && !focus"
+        >
+            {{label || 'Date'}}: 
+        </p>
 
         <input type="text" 
             #pickerInput
@@ -21,6 +25,7 @@
             (focusout)="onFocusOut($event)"
             (click)="onClickInputBox($event)"
             (input)="onInputChange($event)"
+            (keydown)="onKeyDown($event)"
         >
 
         <div class="date-icon-container">

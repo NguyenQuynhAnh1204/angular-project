@@ -304,8 +304,7 @@ export class BravoControlBaseComponent implements ControlValueAccessor, Validato
     } 
 
     public updateValue(pVal: string) {
-        this.textValue = pVal;
-        this.onChange(this.textValue);
+        this.onChange(pVal);
         this._markAsTouched();
     }
     
