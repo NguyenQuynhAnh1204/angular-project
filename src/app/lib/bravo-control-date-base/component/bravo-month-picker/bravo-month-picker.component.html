@@ -6,7 +6,7 @@
         [class.selected]="isSelected(item)"
         [class.in-range]="isInRange(item)"
         [class.hover-range]="inHoverRange(item)"
-        (click)="onSelectMonth(item)"
+        (mousedown)="onSelectMonth($event, item)"
         (mouseenter)="enableRange('month') && handleOnHover(item)"
       >
         Tháng {{ item.getMonth() + 1 }}

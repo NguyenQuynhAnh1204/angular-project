@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, forwardRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, forwardRef, inject, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
 import { Subject, takeUntil } from 'rxjs';
 import { BravoControlDirective } from '../bravo-control-base';
 import { BravoDateControlComponent, BravoDatePopupComponent, BravoDateService, CompatibleDate, SingleDate } from '../bravo-control-date-base';
+import { FocusMonitor } from '@angular/cdk/a11y';
 
 
 @Component({
@@ -35,8 +36,9 @@ import { BravoDateControlComponent, BravoDatePopupComponent, BravoDateService, C
         }
     ]
 })
-export class BravoDateRangeComponent extends BravoDateControlComponent implements OnInit, OnDestroy {
+export class BravoDateRangeComponent extends BravoDateControlComponent implements OnInit, AfterViewInit, OnDestroy {
     private _destroy$ = new Subject<void>();
+    private _focusMonitor = inject(FocusMonitor);
     public get isOpenDatePicker() {
         return this._service.isOpenDatePicker;
     }
@@ -55,10 +57,38 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
             this._setInputValue(pVal);
         })
     }
+
+    public ngAfterViewInit() {
+        this.rangePickerInput.forEach((item) => {
+            this._focusMonitor.monitor(item)
+            .subscribe(origin => {
+                if (origin) {
+                    this.focus = true;
+                    this._service.openDatePicker(true);
+                } else {
+                    this.focus = false;
+                }
+    
+            });
+        })
+    }
     
     public ngOnDestroy(): void {
+        this.rangePickerInput.forEach((item) => {
+            this._focusMonitor.stopMonitoring(item);
+        })
         this._destroy$.next();
         this._destroy$.complete();
+    }
+
+    public override showDatePicker(pEvent: MouseEvent) {
+        pEvent.preventDefault();
+        const inputActive = this.inputActive == 'start' ? this.rangePickerInput.first : this.rangePickerInput.last;
+        this._focusMonitor.focusVia(
+            inputActive,
+            'program'
+        );
+        this._service.openDatePicker(true);
     }
 
     public override onFocus(pEvent: FocusEvent): void {

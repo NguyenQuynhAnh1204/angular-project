@@ -1,13 +1,13 @@
 <div class="date-label">
     <span class="material-symbols-outlined icon-chevron"
-        (click)="previous()"
+        (mousedown)="previous($event)"
     >chevron_left</span>
 
-    <div class="label-content" (click)="changeMode()">
+    <div class="label-content" (mousedown)="changeMode($event)">
         {{label}}
     </div>
 
     <span class="material-symbols-outlined icon-chevron"
-        (click)="next()"
+        (mousedown)="next($event)"
     >chevron_right</span>
 </div>

@@ -1,34 +1,33 @@
-<br-dropdown-base [visible]="isOpenDatePicker" [isManualHandleOutsideClick]="true" (onOverlayOutsideClick)="hideDatePicker()">
+<br-dropdown-base [visible]="isOpenDatePicker"
+(onVisibleChanged)="openDatePicker($event)">
     <div class="date-input-container" 
-            [class.is-focus]="focus"
-            brDropdownAnchor>
-            <p
-                class="label"
-                [class.have-text]="focus || textValue"
-                [class.no-text]="textValue=='' && !focus"
-            >
-                {{label || 'Date'}}: 
-            </p>
-            
-            <ng-container *ngTemplateOutlet="templateRangeInput; context: { partType: 'start', index:0 }" />
-
-            <span class="material-symbols-outlined arrow-icon close-icon" [class.show-icon]="focus || textValue">
-                east
-            </span>
-
-            <ng-container *ngTemplateOutlet="templateRangeInput; context: { partType: 'end', index:1 }" />
+        [class.is-focus]="focus"
+        brDropdownAnchor>
+        <p
+            class="label"
+            [class.have-text]="focus || textValue"
+            [class.no-text]="textValue=='' && !focus"
+        >
+            {{label || 'Date'}}: 
+        </p>
+        
+        <ng-container *ngTemplateOutlet="templateRangeInput; context: { partType: 'start', index:0 }" />
+        <span class="material-symbols-outlined arrow-icon close-icon" [class.show-icon]="focus || textValue">
+            east
+        </span>
+        <ng-container *ngTemplateOutlet="templateRangeInput; context: { partType: 'end', index:1 }" />
 
         <div class="date-icon-container">
             <span class="material-symbols-outlined close-icon" 
                 [class.show-icon]='textValue'
-                (click)="handleOnClear()"
+                (mousedown)="handleOnClear($event)"
             >
                 close
             </span>
 
             <span class="material-symbols-outlined calendar-icon"
                 [class.select-date]="focus || textValue" 
-                (click)="showDatePicker()"
+                (mousedown)="showDatePicker($event)"
                 >
                 calendar_month
             </span>
@@ -53,10 +52,7 @@
         [placeholder]="getPlaceholder(partType)"
         [readOnly]="readOnly"
         [value]="inputValue[indx]"
-        (focus)="onFocus($event)"
-        (focusout)="onFocusOut($event)"
-        (click)="onClickInputBox($event)"
+        (mousedown)="onClickInputBox($event)"
         (input)="onInputChange($event)"
-        (keydown)="onKeyDown($event)"
     >
 </ng-template>

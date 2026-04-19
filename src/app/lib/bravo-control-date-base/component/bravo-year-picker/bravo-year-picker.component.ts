@@ -47,7 +47,8 @@ export class BravoYearPickerComponent extends BravoDateAbstractComponent impleme
         this._destroy$.complete();
     }
 
-    public onSelectYear(pDate: BravoMoment) {
+    public onSelectYear(pEvent: MouseEvent, pDate: BravoMoment) {
+        pEvent.preventDefault();
         const newMode = this.mode == 'year' ? 'year' : 'month'
         if (this.mode === 'year') {
             this._service.selectDate(pDate);    

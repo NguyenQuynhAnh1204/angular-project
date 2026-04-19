@@ -7,7 +7,7 @@
         [class.selected]="isSelected(item)"
         [class.in-range]="isInRange(item)"
         [class.hover-range]="inHoverRange(item)"
-        (click)="onSelectYear(item)"
+        (mousedown)="onSelectYear($event, item)"
         (mouseenter)="enableRange('year') && handleOnHover(item)"
       >
         {{ item.getFullYear() }}

@@ -35,8 +35,8 @@ export class BravoDateControlComponent extends BravoControlBaseComponent {
     }
 
     public onClickInputBox(pEvent: MouseEvent) {
-        pEvent.stopPropagation();
-        this.focus = true;
+        pEvent.preventDefault();
+        this.showDatePicker(pEvent)
     }
 
     public onInputChange(pEvent: Event) {
@@ -87,15 +87,16 @@ export class BravoDateControlComponent extends BravoControlBaseComponent {
         return value;
     }
     
-    public showDatePicker() {
-        this._service.showDatePicker();
+    public showDatePicker(pEvent: MouseEvent) {
+        this.openDatePicker(true);
+    }
+
+    public openDatePicker(pOpen: boolean) {
+        this._service.openDatePicker(pOpen);
     }
     
-    public hideDatePicker() {
-        this._service.hideDatePicker();
-    }
-    
-    public handleOnClear() {
+    public handleOnClear(pEvent: MouseEvent) {
+        pEvent.preventDefault();
         this._service.clearSelectDate();
     }
     

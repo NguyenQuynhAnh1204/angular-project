@@ -1,6 +1,5 @@
-<br-dropdown-base [visible]="isOpenDatePicker" 
-[isManualHandleOutsideClick]="true" 
-(onOverlayOutsideClick)="hideDatePicker()"
+<br-dropdown-base [visible]="isOpenDatePicker"
+(onVisibleChanged)="openDatePicker($event)"
 >
     <div class="date-input-container" 
         [class.is-focus]="focus"
@@ -21,24 +20,21 @@
             [readOnly]="readOnly"
             [value]="inputValue"
             [placeholder]="getPlaceholder()"
-            (focus)="onFocus($event)"
-            (focusout)="onFocusOut($event)"
-            (click)="onClickInputBox($event)"
+            (mousedown)="onClickInputBox($event)"
             (input)="onInputChange($event)"
-            (keydown)="onKeyDown($event)"
         >
 
         <div class="date-icon-container">
             <span class="material-symbols-outlined close-icon" 
                 [class.show-icon]='textValue'
-                (click)="handleOnClear()"
+                (mousedown)="handleOnClear($event)"
             >
                 close
             </span>
 
             <span class="material-symbols-outlined calendar-icon"
                 [class.select-date]="focus || textValue" 
-                (click)="showDatePicker()"
+                (mousedown)="showDatePicker($event)"
                 >
                 calendar_month
             </span>

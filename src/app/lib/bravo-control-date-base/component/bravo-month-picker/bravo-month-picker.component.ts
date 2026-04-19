@@ -40,7 +40,8 @@ export class BravoMonthPickerComponent extends BravoDateAbstractComponent implem
         this._destroy$.complete();
     }
 
-    public onSelectMonth(pDate: BravoMoment) {
+    public onSelectMonth(pEvent: MouseEvent, pDate: BravoMoment) {
+        pEvent.preventDefault();
         if (this.mode === 'month') {
             this._service.selectDate(pDate);    
             return;

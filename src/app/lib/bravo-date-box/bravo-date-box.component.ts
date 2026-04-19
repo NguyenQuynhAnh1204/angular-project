@@ -1,5 +1,6 @@
+import { FocusMonitor } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, forwardRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, forwardRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
 import { Subject, takeUntil } from 'rxjs';
@@ -32,8 +33,9 @@ import { CompatibleDate, SingleDate } from '../bravo-control-date-base/bravo-con
         directive: BravoDropdownAnchorDirective
     }],
 })
-export class BravoDateBoxComponent extends BravoDateControlComponent implements OnInit, OnDestroy {
+export class BravoDateBoxComponent extends BravoDateControlComponent implements OnInit, AfterViewInit, OnDestroy {
     private _destroy$ = new Subject<void>();
+    private _focusMonitor = inject(FocusMonitor);
     public get isOpenDatePicker() {
         return this._service.isOpenDatePicker;
     }
@@ -49,10 +51,34 @@ export class BravoDateBoxComponent extends BravoDateControlComponent implements 
         })
     }
 
+    public ngAfterViewInit() {
+        this._focusMonitor.monitor(this.pickerInput)
+        .subscribe(origin => {
+            if (origin) {
+                this.focus = true;
+                this._service.openDatePicker(true);
+            } else {
+                this.focus = false;
+            }
+
+        });
+    }
+
     public ngOnDestroy() {
+        this._focusMonitor.stopMonitoring(this.pickerInput);
         this._destroy$.next();
         this._destroy$.complete();
     }
+    
+    public override showDatePicker(pEvent: MouseEvent) {
+        pEvent.preventDefault();
+        this._focusMonitor.focusVia(
+            this.pickerInput,
+            'program'
+        );
+        this._service.openDatePicker(true);
+    }
+    
     
     public override onFocus(pEvent: FocusEvent) {
         this._service.inputActive = 'start'

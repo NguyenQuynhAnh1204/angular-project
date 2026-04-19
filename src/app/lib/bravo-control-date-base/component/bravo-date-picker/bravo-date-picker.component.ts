@@ -46,7 +46,8 @@ export class BravoDatePickerComponent extends BravoDateAbstractComponent impleme
   }
 
   // select date
-  public onSelectDate(pDate: BravoMoment) {
+  public onSelectDate(pEvent: MouseEvent, pDate: BravoMoment) {
+    pEvent.preventDefault();
    this._service.selectDate(pDate);
   }
 

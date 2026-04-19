@@ -47,15 +47,18 @@ export class BravoDateHeaderComponent implements OnInit, OnDestroy {
         this._destroy$.complete();
     }
 
-    public previous() {
+    public previous(pEvent: MouseEvent) {
+        pEvent.preventDefault();
         this._moveCalendar(-1, this.partType);
     }
     
-    public next() { 
+    public next(pEvent: MouseEvent) { 
+        pEvent.preventDefault();
         this._moveCalendar(1, this.partType);
     }
 
-    public changeMode() {
+    public changeMode(pEvent: MouseEvent) {
+        pEvent.preventDefault();
         const panel = this.panels[this.partType];
         let newMode = this._switchMode();
         this._service.panels = {

@@ -74,7 +74,7 @@ export class BravoDateService {
   public selectDate(pDate: BravoMoment) {
     if (!this.isRange) {
       this.value = pDate;
-      this.hideDatePicker();
+      this.openDatePicker(false);
       return;
     }
     // range
@@ -104,24 +104,37 @@ export class BravoDateService {
     }
     this.value = [start, end];
     if (start && end) {
-      this.hideDatePicker();
+      this.openDatePicker(false);
     }
   }
 
-   // hàm mở picker
-   public showDatePicker() {
-    this._isOpenDatePicker$.next(true);
-    if(this._isEmptyValue()) {
-      this._initPanels()
-      return;
-    };
-    this._setPanels();
-  }
+  //  // hàm mở picker
+  //  public showDatePicker() {
+  //   this._isOpenDatePicker$.next(true);
+  //   if(this._isEmptyValue()) {
+  //     this._initPanels()
+  //     return;
+  //   };
+  //   this._setPanels();
+  // }
 
-  // hàm đóng picker
-  public hideDatePicker() {
-    this._isOpenDatePicker$.next(false);
-    this.hoverDate = null;
+  // // hàm đóng picker
+  // public hideDatePicker(pVisible: boolean) {
+  //   this._isOpenDatePicker$.next(pVisible);
+  //   this.hoverDate = null;
+  // }
+  
+  public openDatePicker(pOpen: boolean) {
+    this._isOpenDatePicker$.next(pOpen);
+    if(pOpen) {
+      if(this._isEmptyValue()) {
+        this._initPanels()
+        return;
+      };
+      this._setPanels();
+    } else {
+      this.hoverDate = null;
+    }
   }
 
   // xoá select
