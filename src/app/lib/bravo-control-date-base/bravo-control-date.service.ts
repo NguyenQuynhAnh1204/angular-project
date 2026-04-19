@@ -107,22 +107,6 @@ export class BravoDateService {
       this.openDatePicker(false);
     }
   }
-
-  //  // hàm mở picker
-  //  public showDatePicker() {
-  //   this._isOpenDatePicker$.next(true);
-  //   if(this._isEmptyValue()) {
-  //     this._initPanels()
-  //     return;
-  //   };
-  //   this._setPanels();
-  // }
-
-  // // hàm đóng picker
-  // public hideDatePicker(pVisible: boolean) {
-  //   this._isOpenDatePicker$.next(pVisible);
-  //   this.hoverDate = null;
-  // }
   
   public openDatePicker(pOpen: boolean) {
     this._isOpenDatePicker$.next(pOpen);

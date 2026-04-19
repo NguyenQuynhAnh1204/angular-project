@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, forwardRef, inject, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, forwardRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
 import { Subject, takeUntil } from 'rxjs';
 import { BravoControlDirective } from '../bravo-control-base';
 import { BravoDateControlComponent, BravoDatePopupComponent, BravoDateService, CompatibleDate, SingleDate } from '../bravo-control-date-base';
-import { FocusMonitor } from '@angular/cdk/a11y';
 
 
 @Component({
@@ -38,14 +37,12 @@ import { FocusMonitor } from '@angular/cdk/a11y';
 })
 export class BravoDateRangeComponent extends BravoDateControlComponent implements OnInit, AfterViewInit, OnDestroy {
     private _destroy$ = new Subject<void>();
-    private _focusMonitor = inject(FocusMonitor);
     public get isOpenDatePicker() {
         return this._service.isOpenDatePicker;
     }
     public get value() {
         return this._service.value;
     }
-    
 
     @ViewChildren('rangePickerInput')
     public rangePickerInput!: QueryList<ElementRef<HTMLInputElement>>
@@ -59,16 +56,18 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
     }
 
     public ngAfterViewInit() {
-        this.rangePickerInput.forEach((item) => {
+        this.rangePickerInput.forEach((item, index) => {
             this._focusMonitor.monitor(item)
+            .pipe(takeUntil(this._destroy$))
             .subscribe(origin => {
                 if (origin) {
                     this.focus = true;
-                    this._service.openDatePicker(true);
+                    if(origin == 'program') {
+                        this._service.openDatePicker(true);
+                    }
                 } else {
                     this.focus = false;
                 }
-    
             });
         })
     }
@@ -89,16 +88,6 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
             'program'
         );
         this._service.openDatePicker(true);
-    }
-
-    public override onFocus(pEvent: FocusEvent): void {
-        const target = pEvent.target as HTMLInputElement;
-        if(target == this.rangePickerInput.first.nativeElement) {
-            this._service.inputActive = 'start'
-        } 
-        else if(target == this.rangePickerInput.last.nativeElement) {
-            this._service.inputActive="end"
-        }
     }
 
     public override updateValue(pVal: [string, string]) {

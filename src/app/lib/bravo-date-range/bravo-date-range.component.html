@@ -52,7 +52,7 @@
         [placeholder]="getPlaceholder(partType)"
         [readOnly]="readOnly"
         [value]="inputValue[indx]"
-        (mousedown)="onClickInputBox($event)"
+        (mousedown)="onClickInputBox($event, partType)"
         (input)="onInputChange($event)"
     >
 </ng-template>

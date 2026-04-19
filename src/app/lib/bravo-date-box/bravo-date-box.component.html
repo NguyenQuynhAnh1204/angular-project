@@ -20,7 +20,7 @@
             [readOnly]="readOnly"
             [value]="inputValue"
             [placeholder]="getPlaceholder()"
-            (mousedown)="onClickInputBox($event)"
+            (mousedown)="onClickInputBox($event, 'start')"
             (input)="onInputChange($event)"
         >
 

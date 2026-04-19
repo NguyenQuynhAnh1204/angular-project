@@ -1,6 +1,5 @@
-import { FocusMonitor } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, forwardRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, forwardRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
 import { Subject, takeUntil } from 'rxjs';
@@ -35,7 +34,6 @@ import { CompatibleDate, SingleDate } from '../bravo-control-date-base/bravo-con
 })
 export class BravoDateBoxComponent extends BravoDateControlComponent implements OnInit, AfterViewInit, OnDestroy {
     private _destroy$ = new Subject<void>();
-    private _focusMonitor = inject(FocusMonitor);
     public get isOpenDatePicker() {
         return this._service.isOpenDatePicker;
     }
@@ -56,7 +54,9 @@ export class BravoDateBoxComponent extends BravoDateControlComponent implements 
         .subscribe(origin => {
             if (origin) {
                 this.focus = true;
-                this._service.openDatePicker(true);
+                if(origin == 'program') {
+                    this._service.openDatePicker(true);
+                }
             } else {
                 this.focus = false;
             }
@@ -77,11 +77,6 @@ export class BravoDateBoxComponent extends BravoDateControlComponent implements 
             'program'
         );
         this._service.openDatePicker(true);
-    }
-    
-    
-    public override onFocus(pEvent: FocusEvent) {
-        this._service.inputActive = 'start'
     }
     
     public override updateValue(pVal: string) {
