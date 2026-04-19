@@ -82,28 +82,21 @@ export class BravoDateService {
       this.value :
       [null, null];
     let [start, end] = current;
-    if ((!start && !end) || (start && end)) {
+    if(this.inputActive == 'start') {
       start = pDate;
-      end = null;
-    } 
-    else if (start && !end) {
-      if (pDate.isAfter(start)) {
-        end = pDate;
-      } else {
-        end = start;
-        start = pDate;
+      this._inputActive$.next('end');
+    } else {
+      end = pDate;
+      if(!start) {
+        this._inputActive$.next('start');
       }
     }
-    else if (!start && end) {
-      if (pDate.isAfter(end)) {
-        start = end;
-        end = pDate;
-      } else {
-        start = pDate;
-      }
+    if (start && end && start.getTime() > end.getTime()) {
+      [start, end] = [end, start];
     }
     this.value = [start, end];
     if (start && end) {
+      this._inputActive$.next('start');
       this.openDatePicker(false);
     }
   }

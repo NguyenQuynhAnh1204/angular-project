@@ -35,13 +35,13 @@ export class BravoDateControlComponent extends BravoControlBaseComponent {
         this._inputValue = pVal;
     }
 
-    public onClickInputBox(pEvent: MouseEvent, pPart: RangePartType) {
+    public onClickInputBox(pPart: RangePartType) {
         this._service.inputActive = pPart;
-        this.showDatePicker(pEvent)
+        this.openDatePicker(true);
     }
 
     public onInputChange(pEvent: Event) {
-        this._service.openDatePicker(false);
+        this.openDatePicker(false);
         const value = (pEvent.target as HTMLInputElement).value;
         const valid = this._validateInput(value);
         if(valid) {
@@ -51,6 +51,7 @@ export class BravoDateControlComponent extends BravoControlBaseComponent {
     }
     
     public showDatePicker(pEvent: MouseEvent) {
+        pEvent.preventDefault();
         this.openDatePicker(true);
     }
 
@@ -85,7 +86,6 @@ export class BravoDateControlComponent extends BravoControlBaseComponent {
 
     private _validateInput(pVal: string) {
         if(!pVal) return false;
-        const format = this.getFormat();
         const regex = DATE_FORMAT_REGEX[this.mode]
         return regex.test(pVal);
     }

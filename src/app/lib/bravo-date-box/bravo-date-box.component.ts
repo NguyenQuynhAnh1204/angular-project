@@ -71,12 +71,11 @@ export class BravoDateBoxComponent extends BravoDateControlComponent implements 
     }
     
     public override showDatePicker(pEvent: MouseEvent) {
-        pEvent.preventDefault();
         this._focusMonitor.focusVia(
             this.pickerInput,
             'program'
         );
-        this._service.openDatePicker(true);
+        super.showDatePicker(pEvent);
     }
     
     public override updateValue(pVal: string) {

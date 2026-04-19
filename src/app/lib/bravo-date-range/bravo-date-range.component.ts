@@ -70,6 +70,22 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
                 }
             });
         })
+
+        this._service.inputActiveChange$
+        .subscribe(target => {
+            if (target === 'start') {
+                this._focusMonitor.focusVia(
+                this.rangePickerInput.first,
+                'program'
+                );
+            }
+            if (target === 'end') {
+                this._focusMonitor.focusVia(
+                this.rangePickerInput.last,
+                'program'
+                );
+            }
+        });
     }
     
     public ngOnDestroy(): void {
@@ -81,13 +97,12 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
     }
 
     public override showDatePicker(pEvent: MouseEvent) {
-        pEvent.preventDefault();
         const inputActive = this.inputActive == 'start' ? this.rangePickerInput.first : this.rangePickerInput.last;
         this._focusMonitor.focusVia(
             inputActive,
             'program'
         );
-        this._service.openDatePicker(true);
+        super.showDatePicker(pEvent);
     }
 
     public override updateValue(pVal: [string, string]) {
