@@ -137,11 +137,60 @@ export class BravoDateService {
     };
   }
 
+  // private _setPanels() {
+  //   if (!this.isRange) {
+  //     const date = this.value
+  //       ? (this.value as BravoMoment).clone()
+  //       : new BravoMoment();
+  //     this.panels = {
+  //       ...this.panels,
+  //       start: {
+  //         mode: this.mode,
+  //         date
+  //       }
+  //     };
+  //     return;
+  //   }
+  //   if (this._isEmptyValue()) {
+  //     this._initPanels();
+  //     return;
+  //   }
+  //   const [start, end] = this.value as RangeDate;
+  //   let startDate: BravoMoment;
+  //   let endDate: BravoMoment;
+  //   if(start) {
+  //     startDate = start.clone()
+  //     endDate = offsetDate(this.mode, startDate, 1);
+  //   } 
+  //   else if(!start && end) {
+  //     endDate = end.clone()
+  //     startDate = offsetDate(this.mode, endDate, -1);
+  //   }
+  //   else {
+  //     startDate = new BravoMoment().clone();
+  //     endDate = offsetDate(this.mode, startDate, 1);
+  //   }
+  //   if (!endDate.isAfter(startDate)) {
+  //     endDate = offsetDate(this.mode, startDate, 1);
+  //   }
+  //   this.panels = {
+  //     start: {
+  //       mode: this.mode,
+  //       date: startDate
+  //     },
+  //     end: {
+  //       mode: this.mode,
+  //       date: endDate
+  //     }
+  //   };
+  // }
+
   private _setPanels() {
     if (!this.isRange) {
       const date = this.value
         ? (this.value as BravoMoment).clone()
         : new BravoMoment();
+
       this.panels = {
         ...this.panels,
         start: {
@@ -156,19 +205,28 @@ export class BravoDateService {
       return;
     }
     const [start, end] = this.value as RangeDate;
+    const active = this.inputActive;
     let startDate: BravoMoment;
     let endDate: BravoMoment;
-    if(start) {
-      startDate = start.clone()
+    if (active === 'start') {
+      if (start) {
+        startDate = start.clone();
+      } else if (end) {
+        startDate = offsetDate(this.mode, end, -1);
+      } else {
+        startDate = new BravoMoment();
+      }
+
       endDate = offsetDate(this.mode, startDate, 1);
-    } 
-    else if(!start && end) {
-      endDate = end.clone()
+    } else {
+      if (end) {
+        endDate = end.clone();
+      } else if (start) {
+        endDate = offsetDate(this.mode, start, 1);
+      } else {
+        endDate = new BravoMoment();
+      }
       startDate = offsetDate(this.mode, endDate, -1);
-    }
-    else {
-      startDate = new BravoMoment().clone();
-      endDate = offsetDate(this.mode, startDate, 1);
     }
     if (!endDate.isAfter(startDate)) {
       endDate = offsetDate(this.mode, startDate, 1);
