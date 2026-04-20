@@ -57,15 +57,13 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
     }
 
     public ngAfterViewInit() {
-        this.rangePickerInput.forEach((item, index) => {
+        this.rangePickerInput.forEach((item) => {
             this._focusMonitor.monitor(item)
             .pipe(takeUntil(this._destroy$))
             .subscribe(origin => {
                 if (origin) {
                     this.focus = true;
-                    if(origin == 'program') {
-                        this._service.openDatePicker(true);
-                    }
+                    this._service.openDatePicker(true);
                 } else {
                     this.focus = false;
                 }
@@ -77,14 +75,14 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
             .subscribe(target => {
                 if (target === 'start') {
                     this._focusMonitor.focusVia(
-                    this.rangePickerInput.first,
-                    'program'
+                        this.rangePickerInput.first,
+                        'program'
                     );
                 }
                 if (target === 'end') {
                     this._focusMonitor.focusVia(
-                    this.rangePickerInput.last,
-                    'program'
+                        this.rangePickerInput.last,
+                        'program'
                     );
                 }
             });

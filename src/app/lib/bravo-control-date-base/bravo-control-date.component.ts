@@ -37,7 +37,6 @@ export class BravoDateControlComponent extends BravoControlBaseComponent {
 
     public onClickInputBox(pPart: RangePartType) {
         this._service.inputActive = pPart;
-        this.openDatePicker(true);
     }
 
     public onInputChange(pEvent: Event) {

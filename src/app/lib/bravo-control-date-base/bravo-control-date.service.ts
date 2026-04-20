@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BehaviorSubject } from 'rxjs';
 import { CompatibleDate, DateMode, PanelState, RangeDate, RangePartType, SingleDate } from './bravo-control-date.type';
-import { offsetDate } from './bravo-control-date.until';
+import { isRangeValue, offsetDate } from './bravo-control-date.until';
 @Injectable()
 export class BravoDateService {
   private _isRange!: boolean;
@@ -60,6 +60,7 @@ export class BravoDateService {
   }
   public set value(pDate) {
     this._value$.next(pDate)
+    this._setPanels();
   }
 
   private _hoverDate$ = new BehaviorSubject<SingleDate>(null);
@@ -113,7 +114,7 @@ export class BravoDateService {
   }
 
   private _isEmptyValue() {
-    return !this.value || ((Array.isArray(this.value) && this.value.every(v => v == null)))
+    return !this.value || ((isRangeValue(this.value) && this.value.every(v => v == null)))
   }
 
   private _initPanels() {

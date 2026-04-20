@@ -55,9 +55,7 @@ export class BravoDateBoxComponent extends BravoDateControlComponent implements 
             .subscribe(origin => {
                 if (origin) {
                     this.focus = true;
-                    if(origin == 'program') {
-                        this._service.openDatePicker(true);
-                    }
+                    this._service.openDatePicker(true);
                 } else {
                     this.focus = false;
                 }
