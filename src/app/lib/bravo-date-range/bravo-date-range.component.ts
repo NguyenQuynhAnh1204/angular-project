@@ -105,10 +105,10 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
         super.showDatePicker(pEvent);
     }
 
-    public override updateValue(pVal: [string, string]) {
-        this.textValue = `${pVal[0]}${pVal[1]}`;
-        this.onChange(this.textValue);
-    }
+    // public override updateValue(pVal: CompatibleDate) {
+    //     // this.textValue = `${pVal[0]}${pVal[1]}`;
+    //     this.onChange(this.textValue);
+    // }
 
     public override _setInputValue(pValue: CompatibleDate) {
         const dateRange = Array.isArray(pValue) ? pValue : [null, null];
@@ -124,7 +124,10 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
         } else {
             this.inputValue = [inputStart, inputEnd]
         }
-        this.updateValue(this.inputValue);
+        this.updateValue({
+            start: inputStart,
+            end: inputEnd
+        });
     }
     
     public override _setValue(pDate: SingleDate) {

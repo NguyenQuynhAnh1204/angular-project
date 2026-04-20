@@ -59,7 +59,6 @@ export class BravoDateBoxComponent extends BravoDateControlComponent implements 
                 } else {
                     this.focus = false;
                 }
-
             });
     }
 
@@ -77,15 +76,10 @@ export class BravoDateBoxComponent extends BravoDateControlComponent implements 
         super.showDatePicker(pEvent);
     }
     
-    public override updateValue(pVal: string) {
-        this.textValue = pVal;
-        this.onChange(this.textValue);
-    }
-    
     public override _setInputValue(pValue: CompatibleDate) {
         const value = pValue as SingleDate;
         if(!value) {
-            this.inputValue = ''
+            this.inputValue = ''  
         } else {
             const format = this.getFormat()
             this.inputValue = `${value?.format(format)}`;

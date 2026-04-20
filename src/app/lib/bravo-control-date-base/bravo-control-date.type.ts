@@ -17,6 +17,12 @@ export enum EViewPicker {
   PICKER_MONTH,
   PICKER_YEAR
 }
+export type DateRangeValue = {
+  start?: string,
+  end?: string,
+}
+
+export type DateValue = string | DateRangeValue;
 
 export type RangePartType = 'start' | 'end';
 

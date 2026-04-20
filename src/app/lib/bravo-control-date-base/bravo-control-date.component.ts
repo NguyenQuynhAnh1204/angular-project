@@ -1,9 +1,9 @@
+import { FocusMonitor } from '@angular/cdk/a11y';
 import { Component, inject, Input } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BravoControlBaseComponent } from '../bravo-control-base';
 import { BravoDateService } from './bravo-control-date.service';
-import { CompatibleDate, DATE_FORMAT_REGEX, DateMode, FORMAT_DATE, RangePartType, SingleDate } from './bravo-control-date.type';
-import { FocusMonitor } from '@angular/cdk/a11y';
+import { CompatibleDate, DATE_FORMAT_REGEX, DateMode, DateValue, FORMAT_DATE, RangePartType, SingleDate } from './bravo-control-date.type';
 
 @Component({
     selector: 'br-date-control',
@@ -11,7 +11,7 @@ import { FocusMonitor } from '@angular/cdk/a11y';
     providers: [BravoDateService]
 })
 
-export class BravoDateControlComponent extends BravoControlBaseComponent {
+export class BravoDateControlComponent extends BravoControlBaseComponent<DateValue> {
     protected _focusMonitor = inject(FocusMonitor);
     protected _service = inject(BravoDateService);
     public get inputActive() {
@@ -73,8 +73,6 @@ export class BravoDateControlComponent extends BravoControlBaseComponent {
                 return partType ? partType == 'start' ? 'Start year' : 'End year' : 'Select year';
         }
     }
-
-    override updateValue(pVal: string | [string, string]) {}
 
     private _parseInputValue(pVal: string) {
         if(!pVal) return null;

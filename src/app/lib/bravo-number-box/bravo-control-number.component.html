@@ -1,11 +1,11 @@
 <p
     class="label"
     [class.have-text]="focus || textValue"
-    [class.no-text]="textValue=='' && !focus"
+    [class.no-text]="!textValue && !focus"
 >
     {{label || 'Number'}}: 
 </p>
-<input type="number" 
+<input
     class="input-under-line number-box"
     [class.is-focus]="focus"
     [readOnly]="readOnly"

@@ -6,7 +6,7 @@
         <p
             class="label"
             [class.have-text]="focus || textValue"
-            [class.no-text]="textValue=='' && !focus"
+            [class.no-text]="!textValue && !focus"
         >
             {{label || 'Date'}}: 
         </p>

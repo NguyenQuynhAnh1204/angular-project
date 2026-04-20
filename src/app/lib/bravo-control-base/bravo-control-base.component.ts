@@ -14,12 +14,12 @@ import { colorAttribute, fontAttribute, paddingAttribute, singleDimension, sizeA
     }
 })
 
-export class BravoControlBaseComponent implements ControlValueAccessor, Validator {
+export class BravoControlBaseComponent<T> implements ControlValueAccessor, Validator {
     private el = inject(ElementRef);
 
     constructor() {}
     
-    private _text = '';
+    private _text!: T;
     public get textValue() {
         return this._text;
     }
@@ -284,10 +284,10 @@ export class BravoControlBaseComponent implements ControlValueAccessor, Validato
         this.focus = false;
     }
 
-    public onChange = (pText: string) => {}
+    public onChange = (pText: T) => {}
     public onTouched = () => {}
     
-    public writeValue(pText: string) {
+    public writeValue(pText: T) {
         this.textValue = pText;
     }
 
@@ -303,7 +303,8 @@ export class BravoControlBaseComponent implements ControlValueAccessor, Validato
         return null;
     } 
 
-    public updateValue(pVal: string) {
+    public updateValue(pVal: T) {
+        this.textValue = pVal;
         this.onChange(pVal);
         this._markAsTouched();
     }

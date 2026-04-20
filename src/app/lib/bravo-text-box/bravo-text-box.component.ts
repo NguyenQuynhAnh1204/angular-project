@@ -27,7 +27,7 @@ import { BravoControlBaseComponent, BravoControlDirective } from '../bravo-contr
     }]
 })
 
-export class BravoTextBoxComponent extends  BravoControlBaseComponent{
+export class BravoTextBoxComponent extends  BravoControlBaseComponent<string>{
 
     public handleOnChange(pEvent: Event) {
         const input = pEvent.target as HTMLInputElement;

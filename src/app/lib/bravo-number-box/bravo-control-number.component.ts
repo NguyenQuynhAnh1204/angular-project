@@ -26,10 +26,13 @@ import { BravoControlBaseComponent, BravoControlDirective } from '../bravo-contr
     }]
 })
 
-export class BravoControlNumberComponent extends BravoControlBaseComponent{
+export class BravoControlNumberComponent extends BravoControlBaseComponent<number>{
     public handleOnChange(pEvent: Event) {
         const input = pEvent.target as HTMLInputElement;
         const value  = input.value;
-        this.updateValue(value);
+        const regex = /^-?\d+(\.\d+)?$/;
+        if(regex.test(value)){
+            this.updateValue(+value);
+        }
     }
 }
