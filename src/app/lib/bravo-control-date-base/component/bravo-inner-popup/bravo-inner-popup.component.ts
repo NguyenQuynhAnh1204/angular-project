@@ -27,15 +27,15 @@ export class BravoInnerPopupComponent implements OnInit, OnDestroy {
     @Input("partType")
     public partType: RangePartType = 'start';
     
-    public ngOnInit(): void {
+    public ngOnInit() {
         this._service.panelsChange$
-        .pipe(takeUntil(this._destroy$))
-        .subscribe((pVal) => {
-            this.mode = pVal[this.partType].mode;
-        })
+            .pipe(takeUntil(this._destroy$))
+            .subscribe((pVal) => {
+                this.mode = pVal[this.partType].mode;
+            })
     }
 
-    public ngOnDestroy(): void {
+    public ngOnDestroy() {
         this._destroy$.next()
         this._destroy$.complete();
     }

@@ -23,16 +23,16 @@ export class BravoMonthPickerComponent extends BravoDateAbstractComponent implem
 
     public ngOnInit() {
         this._service.panelsChange$
-        .pipe(takeUntil(this._destroy$))
-        .subscribe((pVal) => {
-            this.months = pVal[this.partType].date.getMonths('MMM',3);
-        })
+            .pipe(takeUntil(this._destroy$))
+            .subscribe((pVal) => {
+                this.months = pVal[this.partType].date.getMonths('MMM',3);
+            })
         
         this._service.valueChange$
-        .pipe(takeUntil(this._destroy$))
-        .subscribe((pVal) => { 
-            this.selectedDate = pVal;
-        })
+            .pipe(takeUntil(this._destroy$))
+            .subscribe((pVal) => { 
+                this.selectedDate = pVal;
+            })
     }
 
     public ngOnDestroy() {

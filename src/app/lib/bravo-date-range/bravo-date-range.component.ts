@@ -5,6 +5,7 @@ import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-in
 import { skip, Subject, takeUntil } from 'rxjs';
 import { BravoControlDirective } from '../bravo-control-base';
 import { BravoDateControlComponent, BravoDatePopupComponent, BravoDateService, CompatibleDate, SingleDate } from '../bravo-control-date-base';
+import { isRangeValue } from '../bravo-control-date-base/bravo-control-date.until';
 
 
 @Component({
@@ -129,7 +130,7 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
     }
     
     public override _setValue(pDate: SingleDate) {
-        const dateValue = Array.isArray(this.value)
+        const dateValue = isRangeValue(this.value)
             ? this.value
             : [null, null];
         let [start, end] = dateValue;

@@ -36,10 +36,10 @@ export class BravoDateHeaderComponent implements OnInit, OnDestroy {
 
     public ngOnInit() {
         this._service.panelsChange$
-        .pipe(takeUntil(this._destroy$))
-        .subscribe((pVal) => {
-            this._buildLabel(pVal[this.partType]);
-        })
+            .pipe(takeUntil(this._destroy$))
+            .subscribe((pVal) => {
+                this._buildLabel(pVal[this.partType]);
+            })
     }
 
     public ngOnDestroy() {

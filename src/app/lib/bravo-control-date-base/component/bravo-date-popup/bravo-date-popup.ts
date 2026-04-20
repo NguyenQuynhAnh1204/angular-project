@@ -20,7 +20,7 @@ export class BravoDatePopupComponent implements OnInit {
     @Input('mode')
     public mode!: DateMode;
 
-    public ngOnInit(): void {
+    public ngOnInit() {
         this._service.mode = this.mode;
         this._service.isRange = this.isRange;
     }

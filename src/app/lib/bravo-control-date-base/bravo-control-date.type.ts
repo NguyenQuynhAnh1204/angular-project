@@ -18,11 +18,6 @@ export enum EViewPicker {
   PICKER_YEAR
 }
 
-export enum EDateBoxMode {
-  SINGLE = 'single',
-  RANGE = 'range'
-}
-
 export type RangePartType = 'start' | 'end';
 
 export type DateMode = 'date' | 'month' | 'year'

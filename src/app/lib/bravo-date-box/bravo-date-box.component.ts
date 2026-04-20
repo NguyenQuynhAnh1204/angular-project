@@ -43,25 +43,26 @@ export class BravoDateBoxComponent extends BravoDateControlComponent implements 
 
     public ngOnInit() {
         this._service.valueChange$
-        .pipe(takeUntil(this._destroy$))
-        .subscribe((pVal) => {
-            this._setInputValue(pVal);
-        })
+            .pipe(takeUntil(this._destroy$))
+            .subscribe((pVal) => {
+                this._setInputValue(pVal);
+            })
     }
 
     public ngAfterViewInit() {
         this._focusMonitor.monitor(this.pickerInput)
-        .subscribe(origin => {
-            if (origin) {
-                this.focus = true;
-                if(origin == 'program') {
-                    this._service.openDatePicker(true);
+            .pipe(takeUntil(this._destroy$))
+            .subscribe(origin => {
+                if (origin) {
+                    this.focus = true;
+                    if(origin == 'program') {
+                        this._service.openDatePicker(true);
+                    }
+                } else {
+                    this.focus = false;
                 }
-            } else {
-                this.focus = false;
-            }
 
-        });
+            });
     }
 
     public ngOnDestroy() {

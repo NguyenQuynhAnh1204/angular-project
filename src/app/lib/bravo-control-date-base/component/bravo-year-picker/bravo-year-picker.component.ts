@@ -30,16 +30,16 @@ export class BravoYearPickerComponent extends BravoDateAbstractComponent impleme
    
     public ngOnInit() {
         this._service.panelsChange$
-        .pipe(takeUntil(this._destroy$))
-        .subscribe((pVal) => {
-            this.years = pVal[this.partType].date.getYears(5, 5);
-        })
+            .pipe(takeUntil(this._destroy$))
+            .subscribe((pVal) => {
+                this.years = pVal[this.partType].date.getYears(5, 5);
+            })
         
         this._service.valueChange$
-        .pipe(takeUntil(this._destroy$))
-        .subscribe((pVal) => { 
-            this.selectedDate = pVal;
-        })
+            .pipe(takeUntil(this._destroy$))
+            .subscribe((pVal) => { 
+                this.selectedDate = pVal;
+            })
     }
 
     public ngOnDestroy() {

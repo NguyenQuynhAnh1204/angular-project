@@ -26,21 +26,20 @@ export class BravoDatePickerComponent extends BravoDateAbstractComponent impleme
 
   public ngOnInit() {
     this._service.panelsChange$
-    .pipe(takeUntil(this._destroy$))
-    .subscribe((pVal) => {
-      this.dates = pVal[this.partType].date.getWeeks();
-    })
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((pVal) => {
+        this.dates = pVal[this.partType].date.getWeeks();
+      })
     
     this._service.valueChange$
-    .pipe(takeUntil(this._destroy$))
-    .subscribe((pVal) => { 
-      this.selectedDate = pVal;
-    })
-
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((pVal) => { 
+        this.selectedDate = pVal;
+      })
     this.days = this._service.panels[this.partType].date.getDays();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy() {
       this._destroy$.next();
       this._destroy$.complete();
   }
