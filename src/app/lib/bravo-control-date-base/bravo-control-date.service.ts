@@ -21,6 +21,11 @@ export class BravoDateService {
     this._mode = pMode;
   }
 
+  private _selectSection = {
+    start: false,
+    end: false
+  }
+
   // flag open picker
   private _isOpenDatePicker$ = new BehaviorSubject<boolean>(false);
   public readonly isOpenDatePickerChange$ = this._isOpenDatePicker$.asObservable();
@@ -78,35 +83,43 @@ export class BravoDateService {
       this.openDatePicker(false);
       return;
     }
-    // range
     const current = Array.isArray(this.value) ? this.value : [null, null];
     let [start, end] = current;
     if(this.inputActive == 'start') {
       start = pDate;
-      this._inputActive$.next('end');
+      this._selectSection.start = true;
     } else {
       end = pDate;
-      if(!start) {
-        this._inputActive$.next('start');
-      }
+      this._selectSection.end = true;
     }
     if (start && end && start.getTime() > end.getTime()) {
       [start, end] = [end, start];
     }
     this.value = [start, end];
-    if (start && end) {
-      this._inputActive$.next('start');
+
+    if (this._selectSection.start && this._selectSection.end) {
       this.openDatePicker(false);
+      return;
     }
+    this._inputActive$.next(
+      this.inputActive === 'start'
+        ? 'end'
+        : 'start'
+    );
   }
   
   public openDatePicker(pOpen: boolean) {
-    this._isOpenDatePicker$.next(pOpen);
     if(pOpen) {
       this._setPanels();
     } else {
+      this._selectSection =  {
+        start: false,
+        end: false,
+      }
+      this._inputActive$.next('start');
       this.hoverDate = null;
     }
+    this._isOpenDatePicker$.next(pOpen);
   }
 
   public clearSelectDate() {

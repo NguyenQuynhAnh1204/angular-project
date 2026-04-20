@@ -57,6 +57,11 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
     }
 
     public ngAfterViewInit() {
+        this._formDir.ngSubmit
+            .pipe(takeUntil(this._destroy$))
+            .subscribe(() => {
+                this._service.value = [null, null];
+            })
         this.rangePickerInput.forEach((item) => {
             this._focusMonitor.monitor(item)
             .pipe(takeUntil(this._destroy$))
@@ -72,6 +77,7 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
 
         this._service.inputActiveChange$
             .pipe(skip(1))
+            .pipe(takeUntil(this._destroy$))
             .subscribe(target => {
                 if (target === 'start') {
                     this._focusMonitor.focusVia(
@@ -105,11 +111,6 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
         super.showDatePicker(pEvent);
     }
 
-    // public override updateValue(pVal: CompatibleDate) {
-    //     // this.textValue = `${pVal[0]}${pVal[1]}`;
-    //     this.onChange(this.textValue);
-    // }
-
     public override _setInputValue(pValue: CompatibleDate) {
         const dateRange = Array.isArray(pValue) ? pValue : [null, null];
         const [start, end] = dateRange;
@@ -124,10 +125,7 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
         } else {
             this.inputValue = [inputStart, inputEnd]
         }
-        this.updateValue({
-            start: inputStart,
-            end: inputEnd
-        });
+        this.updateValue(`${this.inputValue[0]}${this.inputValue[1]}`);
     }
     
     public override _setValue(pDate: SingleDate) {

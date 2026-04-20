@@ -50,6 +50,11 @@ export class BravoDateBoxComponent extends BravoDateControlComponent implements 
     }
 
     public ngAfterViewInit() {
+        this._formDir.ngSubmit
+        .pipe(takeUntil(this._destroy$))
+        .subscribe(() => {
+            this._service.value = null;
+        })
         this._focusMonitor.monitor(this.pickerInput)
             .pipe(takeUntil(this._destroy$))
             .subscribe(origin => {

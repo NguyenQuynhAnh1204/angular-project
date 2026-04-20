@@ -4,6 +4,7 @@ import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BravoControlBaseComponent } from '../bravo-control-base';
 import { BravoDateService } from './bravo-control-date.service';
 import { CompatibleDate, DATE_FORMAT_REGEX, DateMode, DateValue, FORMAT_DATE, RangePartType, SingleDate } from './bravo-control-date.type';
+import { FormGroupDirective } from '@angular/forms';
 
 @Component({
     selector: 'br-date-control',
@@ -12,6 +13,7 @@ import { CompatibleDate, DATE_FORMAT_REGEX, DateMode, DateValue, FORMAT_DATE, Ra
 })
 
 export class BravoDateControlComponent extends BravoControlBaseComponent<DateValue> {
+    protected _formDir = inject(FormGroupDirective);
     protected _focusMonitor = inject(FocusMonitor);
     protected _service = inject(BravoDateService);
     public get inputActive() {
@@ -42,6 +44,9 @@ export class BravoDateControlComponent extends BravoControlBaseComponent<DateVal
     public onInputChange(pEvent: Event) {
         this.openDatePicker(false);
         const value = (pEvent.target as HTMLInputElement).value;
+        if(!value) {
+            this._setValue(null)
+        }
         const valid = this._validateInput(value);
         if(valid) {
             const date = this._parseInputValue(value)
