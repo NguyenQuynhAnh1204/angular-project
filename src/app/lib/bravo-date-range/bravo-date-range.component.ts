@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, forwardRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
-import { Subject, takeUntil } from 'rxjs';
+import { skip, Subject, takeUntil } from 'rxjs';
 import { BravoControlDirective } from '../bravo-control-base';
 import { BravoDateControlComponent, BravoDatePopupComponent, BravoDateService, CompatibleDate, SingleDate } from '../bravo-control-date-base';
 
@@ -72,20 +72,21 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
         })
 
         this._service.inputActiveChange$
-        .subscribe(target => {
-            if (target === 'start') {
-                this._focusMonitor.focusVia(
-                this.rangePickerInput.first,
-                'program'
-                );
-            }
-            if (target === 'end') {
-                this._focusMonitor.focusVia(
-                this.rangePickerInput.last,
-                'program'
-                );
-            }
-        });
+            .pipe(skip(1))
+            .subscribe(target => {
+                if (target === 'start') {
+                    this._focusMonitor.focusVia(
+                    this.rangePickerInput.first,
+                    'program'
+                    );
+                }
+                if (target === 'end') {
+                    this._focusMonitor.focusVia(
+                    this.rangePickerInput.last,
+                    'program'
+                    );
+                }
+            });
     }
     
     public ngOnDestroy(): void {
@@ -97,7 +98,7 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
     }
 
     public override showDatePicker(pEvent: MouseEvent) {
-        const inputActive = this.inputActive == 'start' ? this.rangePickerInput.first : this.rangePickerInput.last;
+        const inputActive = this.rangePickerInput.first;
         this._focusMonitor.focusVia(
             inputActive,
             'program'

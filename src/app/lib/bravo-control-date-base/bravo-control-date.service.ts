@@ -216,7 +216,6 @@ export class BravoDateService {
       } else {
         startDate = new BravoMoment();
       }
-
       endDate = offsetDate(this.mode, startDate, 1);
     } else {
       if (end) {
