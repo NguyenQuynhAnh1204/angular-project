@@ -39,7 +39,6 @@ export class BravoDateAbstractComponent {
     public inHoverRange(pDate: BravoMoment) {
         if (!isRangeValue(this.selectedDate)) return false;
         const [start, end] = this._service.value as RangeDate;
-        if (start && end) return false;
         const hoverDate = this._service.hoverDate;
         if(!hoverDate || !(start ?? end)) return false;
         const anchorTime = start?.getTime() ?? end?.getTime();
