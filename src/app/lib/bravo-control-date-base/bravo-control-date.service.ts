@@ -116,7 +116,6 @@ export class BravoDateService {
         start: false,
         end: false,
       }
-      this._inputActive$.next('start');
       this.hoverDate = null;
     }
     this._isOpenDatePicker$.next(pOpen);
