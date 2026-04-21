@@ -5,7 +5,7 @@ import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-in
 import { Subject, takeUntil } from 'rxjs';
 import { BravoControlDirective } from '../bravo-control-base';
 import { BravoDateBaseComponent, BravoDatePopupComponent, BravoDateService, CompatibleDate, DateSingleValue, SingleDate } from '../bravo-date-base';
-import { normalizeDate } from '../bravo-date-base/bravo-date-base.until';
+import { normalizeDate } from '../bravo-date-base/bravo-date-base.utilities';
 
 
 @Component({
@@ -63,12 +63,7 @@ export class BravoDateBoxComponent extends BravoDateBaseComponent implements OnI
         this._focusMonitor.monitor(this.pickerInput)
             .pipe(takeUntil(this._destroy$))
             .subscribe(origin => {
-                if (origin) {
-                    this.focus = true;
-                    this._service.openDatePicker(true);
-                } else {
-                    this.focus = false;
-                }
+                this.focusChange(origin);
             });
     }
 

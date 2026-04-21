@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
 import { RangePartType } from '../../bravo-date-base.type';
-import { isRangeValue, offsetDate } from '../../bravo-date-base.until';
+import { isRangeValue, offsetDate } from '../../bravo-date-base.utilities';
 import { BravoDateAbstractComponent } from '../bravo-date-abstract';
 @Component({
     selector: 'br-month-picker',

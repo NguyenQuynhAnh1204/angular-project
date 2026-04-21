@@ -1,11 +1,12 @@
-import { FocusMonitor } from '@angular/cdk/a11y';
+import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
 import { Component, inject, Input } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BravoControlBaseComponent } from '../bravo-control-base';
 import { BravoDateService } from './bravo-date-base.service';
-import { CompatibleDate, DATE_FORMAT_REGEX, DateMode, DateSingleValue, DateValue, FORMAT_DATE, RangePartType, SingleDate } from './bravo-date-base.type';
+import { CompatibleDate, DateMode, DateSingleValue, DateValue, RangePartType, SingleDate } from './bravo-date-base.type';
 import { FormGroupDirective } from '@angular/forms';
-import { formatByPattern } from './bravo-date-base.until';
+import { formatByPattern } from './bravo-date-base.utilities';
+import { DATE_FORMAT_REGEX, FORMAT_DATE } from './bravo-date-base.definition';
 
 @Component({
     selector: 'br-date-base',
@@ -107,5 +108,14 @@ export class BravoDateBaseComponent extends BravoControlBaseComponent<DateValue>
         if (pDate instanceof Date) return false;
 
         return !pDate.start && !pDate.end;
+    }
+
+    public focusChange(pOrigin: FocusOrigin) {
+        if (pOrigin) {
+            this.focus = true;
+            this.openDatePicker(true);
+        } else {
+            this.focus = false;
+        }
     }
 }

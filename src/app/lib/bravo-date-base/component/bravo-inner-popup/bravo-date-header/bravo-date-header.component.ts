@@ -2,7 +2,7 @@ import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { BravoDateService } from '../../../bravo-date-base.service';
 import { PanelState, RangePartType } from '../../../bravo-date-base.type';
-import { offsetDate } from '../../../bravo-date-base.until';
+import { offsetDate } from '../../../bravo-date-base.utilities';
 
 @Component({
     selector: 'br-date-header',

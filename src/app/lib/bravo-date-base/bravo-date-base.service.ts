@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BehaviorSubject } from 'rxjs';
 import { CompatibleDate, DateMode, PanelState, RangeDate, RangePartType, SingleDate } from './bravo-date-base.type';
-import { isRangeValue, offsetDate } from './bravo-date-base.until';
+import { isRangeValue, offsetDate } from './bravo-date-base.utilities';
 @Injectable()
 export class BravoDateService {
   private _isRange!: boolean;

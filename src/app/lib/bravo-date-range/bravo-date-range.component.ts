@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, forwardRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
 import { skip, Subject, takeUntil } from 'rxjs';
 import { BravoControlDirective } from '../bravo-control-base';
 import { BravoDateBaseComponent, BravoDatePopupComponent, BravoDateService, CompatibleDate, DateRangeValue, SingleDate } from '../bravo-date-base';
-import { isRangeValue, normalizeDate } from '../bravo-date-base/bravo-date-base.until';
+import { isRangeValue, normalizeDate } from '../bravo-date-base/bravo-date-base.utilities';
 
 
 
@@ -71,12 +71,7 @@ export class BravoDateRangeComponent extends BravoDateBaseComponent implements O
             this._focusMonitor.monitor(item)
             .pipe(takeUntil(this._destroy$))
             .subscribe(origin => {
-                if (origin) {
-                    this.focus = true;
-                    this._service.openDatePicker(true);
-                } else {
-                    this.focus = false;
-                }
+                this.focusChange(origin);
             });
         })
 
