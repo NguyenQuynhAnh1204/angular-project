@@ -88,7 +88,6 @@ export class BravoDateBoxComponent extends BravoDateBaseComponent implements OnI
             const date = normalizeDate(value);
             this.dateValue = date;
         }
-        this.updateValue(this.dateValue);
     }
 
     public override _setValue(pDate: SingleDate) {

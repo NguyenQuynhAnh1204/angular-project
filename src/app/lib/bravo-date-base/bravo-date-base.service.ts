@@ -95,7 +95,6 @@ export class BravoDateService {
     if (start && end && start.getTime() > end.getTime()) {
       [start, end] = [end, start];
     }
-    console.log(start, end)
     this.selectedMoment = {
       start,
       end,

@@ -38,7 +38,6 @@ export class BravoDateBaseComponent extends BravoControlBaseComponent<DateValue>
     }
 
     public onInputChange(pEvent: Event) {
-        this.openDatePicker(false);
         const value = (pEvent.target as HTMLInputElement).value;
         if (!value) {
             this._setValue(null)
@@ -56,6 +55,9 @@ export class BravoDateBaseComponent extends BravoControlBaseComponent<DateValue>
     }
 
     public openDatePicker(pOpen: boolean) {
+        if(!pOpen) {
+            this.updateValue(this._dateValue);
+        }
         this._service.openDatePicker(pOpen);
     }
 
