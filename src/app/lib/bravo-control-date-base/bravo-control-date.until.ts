@@ -17,3 +17,16 @@ export function offsetDate(mode: DateMode, date: BravoMoment, step: number) {
 export function isRangeValue(pValue: CompatibleDate) {
     return Array.isArray(pValue);
 }
+
+export function formatByPattern(date: Date, format: string): string {
+  if (!date) return '';
+
+  const dd = String(date.getDate()).padStart(2, '0');
+  const MM = String(date.getMonth() + 1).padStart(2, '0');
+  const yyyy = String(date.getFullYear());
+
+  return format
+    .replace('dd', dd)
+    .replace('MM', MM)
+    .replace('yyyy', yyyy);
+}

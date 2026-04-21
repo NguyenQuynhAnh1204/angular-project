@@ -3,8 +3,9 @@ import { Component, inject, Input } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BravoControlBaseComponent } from '../bravo-control-base';
 import { BravoDateService } from './bravo-control-date.service';
-import { CompatibleDate, DATE_FORMAT_REGEX, DateMode, DateValue, FORMAT_DATE, RangePartType, SingleDate } from './bravo-control-date.type';
+import { CompatibleDate, DATE_FORMAT_REGEX, DateMode, DateSingleValue, DateValue, FORMAT_DATE, RangePartType, SingleDate } from './bravo-control-date.type';
 import { FormGroupDirective } from '@angular/forms';
+import { formatByPattern } from './bravo-control-date.until';
 
 @Component({
     selector: 'br-date-control',
@@ -29,16 +30,9 @@ export class BravoDateControlComponent extends BravoControlBaseComponent<DateVal
         this._mode = pMode;
     }
 
-    private _inputValue!: [string, string] | string;
-    public get inputValue() {
-        return this._inputValue;
-    }
-    public set inputValue(pVal) {
-        this._inputValue = pVal;
-    }
-
     public onClickInputBox(pPart: RangePartType) {
         this._service.inputActive = pPart;
+        this.openDatePicker(true)
     }
 
     public onInputChange(pEvent: Event) {
@@ -99,4 +93,20 @@ export class BravoDateControlComponent extends BravoControlBaseComponent<DateVal
     public getFormat() {
         return FORMAT_DATE[this.mode];
     }
+
+    public displayValue(pDate: DateSingleValue) {
+        if (!pDate) return '';
+        return formatByPattern(
+            pDate,
+            this.getFormat()
+        );
+    }
+
+    public isEmptyValue(pDate: DateValue): boolean {
+  if (!pDate) return true;
+
+  if (pDate instanceof Date) return false;
+
+  return !pDate.start && !pDate.end;
+}
 }

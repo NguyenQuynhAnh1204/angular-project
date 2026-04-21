@@ -17,12 +17,14 @@ export enum EViewPicker {
   PICKER_MONTH,
   PICKER_YEAR
 }
+export type DateSingleValue = Date | null;
+
 export type DateRangeValue = {
-  start?: string,
-  end?: string,
+  start: DateSingleValue,
+  end: DateSingleValue,
 }
 
-export type DateValue = string | DateRangeValue;
+export type DateValue = DateSingleValue | DateRangeValue;
 
 export type RangePartType = 'start' | 'end';
 
@@ -32,6 +34,8 @@ export interface PanelState {
   mode: DateMode;
   date: BravoMoment;
 }
+
+
 
 export type SingleDate = BravoMoment | null;
 

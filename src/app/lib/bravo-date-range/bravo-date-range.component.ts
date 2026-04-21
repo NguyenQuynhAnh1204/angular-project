@@ -4,7 +4,7 @@ import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
 import { skip, Subject, takeUntil } from 'rxjs';
 import { BravoControlDirective } from '../bravo-control-base';
-import { BravoDateControlComponent, BravoDatePopupComponent, BravoDateService, CompatibleDate, SingleDate } from '../bravo-control-date-base';
+import { BravoDateControlComponent, BravoDatePopupComponent, BravoDateService, CompatibleDate, DateRangeValue, DateSingleValue, SingleDate } from '../bravo-control-date-base';
 import { isRangeValue } from '../bravo-control-date-base/bravo-control-date.until';
 
 
@@ -43,6 +43,15 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
     }
     public get value() {
         return this._service.value;
+    }
+
+    private _dateRangeValue!: DateRangeValue;
+    public get dateRangeValue() {
+        return this._dateRangeValue;
+    }
+    public set dateRangeValue(pDateRange) {
+        if(this._dateRangeValue === pDateRange) return;
+        this._dateRangeValue = pDateRange;
     }
 
     @ViewChildren('rangePickerInput')
@@ -115,17 +124,24 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
         const dateRange = Array.isArray(pValue) ? pValue : [null, null];
         const [start, end] = dateRange;
         const format = this.getFormat();
-        if(!start && !end) this.inputValue = ['', ''];
-        const inputStart = start?.format(format) ?? '';
-        const inputEnd = end?.format(format) ?? '';
-        if(!end) {
-            this.inputValue = [inputStart , '']
-        } else if(!start) {
-            this.inputValue = ['', inputEnd]
-        } else {
-            this.inputValue = [inputStart, inputEnd]
+        let inputStart!: DateSingleValue;
+        let inputEnd!: DateSingleValue;
+        if(!start && !end) {
+            inputStart = null,
+            inputEnd = null;
+        } else if(start && !end) {
+            inputStart = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+        } else if(!start && end) {
+            inputEnd = new Date(end.getFullYear(), end.getMonth(), end.getDate())
+        } else if (start && end) {
+            inputStart = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+            inputEnd = new Date(end.getFullYear(), end.getMonth(), end.getDate())
         }
-        this.updateValue(`${this.inputValue[0]}${this.inputValue[1]}`);
+        this.dateRangeValue = {
+            start: inputStart,
+            end: inputEnd,
+        }
+        this.updateValue(this.dateRangeValue);
     }
     
     public override _setValue(pDate: SingleDate) {

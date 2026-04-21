@@ -5,7 +5,7 @@ import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-in
 import { Subject, takeUntil } from 'rxjs';
 import { BravoControlDirective } from '../bravo-control-base';
 import { BravoDateControlComponent, BravoDatePopupComponent, BravoDateService } from '../bravo-control-date-base';
-import { CompatibleDate, SingleDate } from '../bravo-control-date-base/bravo-control-date.type';
+import { CompatibleDate, DateSingleValue, SingleDate } from '../bravo-control-date-base/bravo-control-date.type';
 
 @Component({
     selector: 'br-date-box',
@@ -36,6 +36,15 @@ export class BravoDateBoxComponent extends BravoDateControlComponent implements 
     private _destroy$ = new Subject<void>();
     public get isOpenDatePicker() {
         return this._service.isOpenDatePicker;
+    }
+
+    private _dateSingleValue!: DateSingleValue;
+    public get dateSingleValue() {
+        return this._dateSingleValue
+    }
+    public set dateSingleValue(pDate) {
+        if(this._dateSingleValue === pDate) return;
+        this._dateSingleValue = pDate;
     }
 
     @ViewChild('pickerInput', {static: true})
@@ -84,12 +93,12 @@ export class BravoDateBoxComponent extends BravoDateControlComponent implements 
     public override _setInputValue(pValue: CompatibleDate) {
         const value = pValue as SingleDate;
         if(!value) {
-            this.inputValue = ''  
+            this.dateSingleValue = null; 
         } else {
-            const format = this.getFormat()
-            this.inputValue = `${value?.format(format)}`;
+            const date = new Date(value.getFullYear(), value.getMonth(), value.getDate());
+            this.dateSingleValue = date;
         }
-        this.updateValue(this.inputValue);
+        this.updateValue(this.dateSingleValue);
     }
 
     public override _setValue(pDate: SingleDate) {
