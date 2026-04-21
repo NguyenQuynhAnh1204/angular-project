@@ -19,7 +19,7 @@ export class BravoControlBaseComponent<T> implements ControlValueAccessor, Valid
 
     constructor() {}
     
-    private _text!: T;
+    protected _text!: T;
     public get textValue() {
         return this._text;
     }

@@ -111,6 +111,7 @@ export class BravoDateRangeComponent extends BravoDateBaseComponent implements O
     }
 
     public override _setInputValue(pValue: CompatibleDate) {
+
         const {start, end} = isRangeValue(pValue)
             ? pValue
             : {start: null, end: null};

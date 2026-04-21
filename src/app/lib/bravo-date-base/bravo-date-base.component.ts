@@ -60,10 +60,11 @@ export class BravoDateBaseComponent extends BravoControlBaseComponent<DateValue>
         }
         this._service.openDatePicker(pOpen);
     }
-
+    
     public handleOnClear(pEvent: MouseEvent) {
         pEvent.preventDefault();
         this._service.clearSelectDate();
+        this.updateValue(this._dateValue);
     }
 
     public getPlaceholder(partType?: RangePartType) {
