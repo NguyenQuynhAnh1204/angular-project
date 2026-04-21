@@ -37,17 +37,16 @@ export class BravoDateRangeComponent extends BravoDateBaseComponent implements O
     public get isOpenDatePicker() {
         return this._service.isOpenDatePicker;
     }
-    public get value() {
-        return this._service.value;
+    public get selectedValue() {
+        return this._service.selectedMoment;
     }
 
-    private _dateRangeValue!: DateRangeValue;
-    public get dateRangeValue() {
-        return this._dateRangeValue;
+    public override _dateValue!: DateRangeValue;
+    public get dateValue() {
+        return this._dateValue
     }
-    public set dateRangeValue(pDateRange) {
-        if(this._dateRangeValue === pDateRange) return;
-        this._dateRangeValue = pDateRange;
+    public set dateValue(value: DateRangeValue) {
+        this._dateValue = value;
     }
 
     @ViewChildren('rangePickerInput')
@@ -65,7 +64,7 @@ export class BravoDateRangeComponent extends BravoDateBaseComponent implements O
         this._formDir.ngSubmit
             .pipe(takeUntil(this._destroy$))
             .subscribe(() => {
-                this._service.value = [null, null];
+                this._service.selectedMoment = {start: null, end: null}
             })
         this.rangePickerInput.forEach((item) => {
             this._focusMonitor.monitor(item)
@@ -113,23 +112,23 @@ export class BravoDateRangeComponent extends BravoDateBaseComponent implements O
 
     public override _setInputValue(pValue: CompatibleDate) {
 
-        const [start, end] = Array.isArray(pValue)
+        const {start, end} = isRangeValue(pValue)
             ? pValue
-            : [null, null];
+            : {start: null, end: null};
 
-        this.dateRangeValue = {
+        this.dateValue = {
             start: normalizeDate(start),
             end: normalizeDate(end),
         };
 
-        this.updateValue(this.dateRangeValue);
+        this.updateValue(this.dateValue);
     }
     
     public override _setValue(pDate: SingleDate) {
-        const dateValue = isRangeValue(this.value)
-            ? this.value
-            : [null, null];
-        let [start, end] = dateValue;
+        const dateValue = isRangeValue(this.selectedValue)
+            ? this.selectedValue
+            : {start: null, end: null};
+        let {start, end} = dateValue;
         if (this.inputActive === 'start') {
             start = pDate;
         }
@@ -139,6 +138,6 @@ export class BravoDateRangeComponent extends BravoDateBaseComponent implements O
         if (start && end && start.getTime() > end.getTime()) {
             [start, end] = [end, start];
         }
-        this._service.value = [start, end];
+        this._service.selectedMoment = {start, end};
     }
 }

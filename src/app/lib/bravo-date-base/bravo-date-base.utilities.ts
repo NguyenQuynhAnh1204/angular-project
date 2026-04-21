@@ -14,8 +14,8 @@ export function offsetDate(mode: DateMode, date: BravoMoment, step: number) {
   }
 }
 
-export function isRangeValue(pValue: CompatibleDate) {
-    return Array.isArray(pValue);
+export function isRangeValue(value: CompatibleDate) {
+  return value !== null && typeof value === 'object' && 'start' in value && 'end' in value;
 }
 
 export function formatByPattern(pDate: Date, format: string) {

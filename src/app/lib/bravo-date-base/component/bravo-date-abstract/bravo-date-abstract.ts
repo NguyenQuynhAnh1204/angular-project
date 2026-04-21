@@ -20,7 +20,7 @@ export class BravoDateAbstractComponent {
     public selectedDate!: CompatibleDate;
 
     public handleOnHover(pDate: BravoMoment) {
-        if(!this._service.value && !this.isRange) return;
+        if(!this._service.selectedMoment && !this.isRange) return;
         this._service.hoverDate = pDate;
     }
 
@@ -32,14 +32,14 @@ export class BravoDateAbstractComponent {
 
     public isInRange(pDate: BravoMoment) {
         if (!isRangeValue(this.selectedDate)) return false;
-        const [start, end] = this.selectedDate;
+        const {start, end} = this.selectedDate;
         if (!start || !end) return false;
         return (pDate.isAfter(start) && pDate.isBefore(end));
     }
 
     public inHoverRange(pDate: BravoMoment) {
         if (!isRangeValue(this.selectedDate)) return false;
-        const [start, end] = this._service.value as RangeDate;
+        const {start, end}= this._service.selectedMoment as RangeDate;
         const hoverDate = this._service.hoverDate;
         if(!hoverDate || !(start ?? end)) return false;
         const anchorTime = start?.getTime() ?? end?.getTime();

@@ -21,6 +21,8 @@ export class BravoDateBaseComponent extends BravoControlBaseComponent<DateValue>
         return this._service.inputActive;
     }
 
+    protected _dateValue!: DateValue;
+
     private _mode: DateMode = 'date';
     @Input('mode')
     public get mode() {
@@ -104,9 +106,7 @@ export class BravoDateBaseComponent extends BravoControlBaseComponent<DateValue>
 
     public isEmptyValue(pDate: DateValue): boolean {
         if (!pDate) return true;
-
         if (pDate instanceof Date) return false;
-
         return !pDate.start && !pDate.end;
     }
 

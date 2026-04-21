@@ -58,13 +58,13 @@ export class BravoDateService {
     this._panels$.next(pValue);
   }
 
-  private _value$ = new BehaviorSubject<CompatibleDate>(null);
-  public readonly valueChange$ = this._value$.asObservable();
-  public get value() {
-    return this._value$.value;
+  private _selectedMoment$ = new BehaviorSubject<CompatibleDate>(null);
+  public readonly valueChange$ = this._selectedMoment$.asObservable();
+  public get selectedMoment() {
+    return this._selectedMoment$.value;
   }
-  public set value(pDate) {
-    this._value$.next(pDate)
+  public set selectedMoment(pDate) {
+    this._selectedMoment$.next(pDate)
     this._setPanels();
   }
 
@@ -79,12 +79,12 @@ export class BravoDateService {
 
   public selectDate(pDate: BravoMoment) {
     if (!this.isRange) {
-      this.value = pDate;
+      this.selectedMoment = pDate;
       this.openDatePicker(false);
       return;
     }
-    const current = Array.isArray(this.value) ? this.value : [null, null];
-    let [start, end] = current;
+    const current = isRangeValue(this.selectedMoment) ? this.selectedMoment : {start: null, end: null};
+    let {start, end} = current;
     if(this.inputActive == 'start') {
       start = pDate;
       this._selectSection.start = true;
@@ -95,7 +95,11 @@ export class BravoDateService {
     if (start && end && start.getTime() > end.getTime()) {
       [start, end] = [end, start];
     }
-    this.value = [start, end];
+    console.log(start, end)
+    this.selectedMoment = {
+      start,
+      end,
+    }
 
     if (this._selectSection.start && this._selectSection.end) {
       this.openDatePicker(false);
@@ -122,11 +126,12 @@ export class BravoDateService {
   }
 
   public clearSelectDate() {
-    this.value = this.isRange ? [null, null] : null;
+    this.selectedMoment = this.isRange ? {start: null, end: null} : null;
   }
 
   private _isEmptyValue() {
-    return !this.value || ((isRangeValue(this.value) && this.value.every(v => v == null)))
+    const value = this.selectedMoment;
+    return !value || (isRangeValue(value) && !value.start && !value.end);
   }
 
   private _initPanels() {
@@ -149,7 +154,7 @@ export class BravoDateService {
       return;
     }
     if (!this.isRange) {
-      const date = (this.value as BravoMoment).clone();
+      const date = (this.selectedMoment as BravoMoment).clone();
       this.panels = {
         ...this.panels,
         start: {
@@ -159,7 +164,7 @@ export class BravoDateService {
       };
       return;
     }
-    const [start, end] = this.value as RangeDate;
+    const {start, end} = this.selectedMoment as RangeDate;
     const active = this.inputActive;
     let startDate: BravoMoment;
     let endDate: BravoMoment;

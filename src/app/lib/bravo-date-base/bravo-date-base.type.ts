@@ -27,6 +27,9 @@ export interface PanelState {
 
 export type SingleDate = BravoMoment | null;
 
-export type RangeDate = [SingleDate, SingleDate];
+export type RangeDate = {
+  start: SingleDate, 
+  end: SingleDate
+};
 
 export type CompatibleDate = SingleDate | RangeDate;

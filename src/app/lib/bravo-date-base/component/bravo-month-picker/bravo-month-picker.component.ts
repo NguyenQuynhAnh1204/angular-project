@@ -83,7 +83,7 @@ export class BravoMonthPickerComponent extends BravoDateAbstractComponent implem
           return this.selectedDate?.isSameMonth(pDate);
         }
         // date range
-        const [start, end] = this.selectedDate;
+        const {start, end} = this.selectedDate;
         return (
           (start?.isSameMonth(pDate) ?? false) ||
           (end?.isSameMonth(pDate) ?? false)

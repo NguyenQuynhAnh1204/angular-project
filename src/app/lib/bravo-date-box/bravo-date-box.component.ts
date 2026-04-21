@@ -34,13 +34,12 @@ export class BravoDateBoxComponent extends BravoDateBaseComponent implements OnI
         return this._service.isOpenDatePicker;
     }
 
-    private _dateSingleValue!: DateSingleValue;
-    public get dateSingleValue() {
-        return this._dateSingleValue
+    public override _dateValue!: DateSingleValue;
+    public get dateValue() {
+        return this._dateValue;
     }
-    public set dateSingleValue(pDate) {
-        if(this._dateSingleValue === pDate) return;
-        this._dateSingleValue = pDate;
+    public set dateValue(pDate) {
+        this._dateValue = pDate;
     }
 
     @ViewChild('pickerInput', {static: true})
@@ -58,7 +57,7 @@ export class BravoDateBoxComponent extends BravoDateBaseComponent implements OnI
         this._formDir.ngSubmit
         .pipe(takeUntil(this._destroy$))
         .subscribe(() => {
-            this._service.value = null;
+            this._service.selectedMoment = null;
         })
         this._focusMonitor.monitor(this.pickerInput)
             .pipe(takeUntil(this._destroy$))
@@ -84,16 +83,16 @@ export class BravoDateBoxComponent extends BravoDateBaseComponent implements OnI
     public override _setInputValue(pValue: CompatibleDate) {
         const value = pValue as SingleDate;
         if(!value) {
-            this.dateSingleValue = null; 
+            this.dateValue = null; 
         } else {
             const date = normalizeDate(value);
-            this.dateSingleValue = date;
+            this.dateValue = date;
         }
-        this.updateValue(this.dateSingleValue);
+        this.updateValue(this.dateValue);
     }
 
     public override _setValue(pDate: SingleDate) {
-        this._service.value = pDate;
+        this._service.selectedMoment = pDate;
     }
 }
 

@@ -97,7 +97,7 @@ export class BravoYearPickerComponent extends BravoDateAbstractComponent impleme
           return this.selectedDate?.isSameYear(pDate);
         }
         // date range
-        const [start, end] = this.selectedDate;
+        const {start, end} = this.selectedDate;
         return (
           (start?.isSameYear(pDate) ?? false) ||
           (end?.isSameYear(pDate) ?? false)

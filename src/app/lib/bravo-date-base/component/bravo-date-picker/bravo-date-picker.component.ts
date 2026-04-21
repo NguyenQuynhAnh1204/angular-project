@@ -57,7 +57,7 @@ export class BravoDatePickerComponent extends BravoDateAbstractComponent impleme
       return this.selectedDate?.isSameDay(pDate);
     }
     // date range
-    const [start, end] = this.selectedDate;
+    const {start, end} = this.selectedDate;
     return (
       (start?.isSameDay(pDate) ?? false) ||
       (end?.isSameDay(pDate) ?? false)

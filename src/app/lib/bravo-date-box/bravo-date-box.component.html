@@ -7,8 +7,8 @@
     >
         <p
             class="label"
-            [class.have-text]="focus || !isEmptyValue(dateSingleValue)"
-            [class.no-text]="isEmptyValue(dateSingleValue) && !focus"
+            [class.have-text]="focus || !isEmptyValue(dateValue)"
+            [class.no-text]="isEmptyValue(dateValue) && !focus"
         >
             {{label || 'Date'}}: 
         </p>
@@ -16,9 +16,9 @@
         <input type="text" 
             #pickerInput
             class="input-under-line date-box"
-            [class.show-input]="focus || !isEmptyValue(dateSingleValue) "
+            [class.show-input]="focus || !isEmptyValue(dateValue) "
             [readOnly]="readOnly"
-            [value]="displayValue(dateSingleValue)"
+            [value]="displayValue(dateValue)"
             [placeholder]="getPlaceholder()"
             (mousedown)="onClickInputBox('start')"
             (input)="onInputChange($event)"
@@ -26,14 +26,14 @@
 
         <div class="date-icon-container">
             <span class="material-symbols-outlined close-icon" 
-                [class.show-icon]='!isEmptyValue(dateSingleValue) '
+                [class.show-icon]='!isEmptyValue(dateValue) '
                 (mousedown)="handleOnClear($event)"
             >
                 close
             </span>
 
             <span class="material-symbols-outlined calendar-icon"
-                [class.select-date]="focus || !isEmptyValue(dateSingleValue) " 
+                [class.select-date]="focus || !isEmptyValue(dateValue) " 
                 (mousedown)="showDatePicker($event)"
                 >
                 calendar_month
