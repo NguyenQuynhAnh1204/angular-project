@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
-import { BravoDateService } from '../../bravo-control-date.service';
-import { CompatibleDate, DateMode, RangeDate } from '../../bravo-control-date.type';
-import { isRangeValue } from '../../bravo-control-date.until';
+import { BravoDateService } from '../../bravo-date-base.service';
+import { CompatibleDate, DateMode, RangeDate } from '../../bravo-date-base.type';
+import { isRangeValue } from '../../bravo-date-base.until';
 
 export class BravoDateAbstractComponent {
     protected _service = inject(BravoDateService);

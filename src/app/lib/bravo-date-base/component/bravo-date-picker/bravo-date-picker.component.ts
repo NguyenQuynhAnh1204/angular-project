@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { Subject, takeUntil } from 'rxjs';
-import { RangePartType } from '../../bravo-control-date.type';
-import { isRangeValue } from '../../bravo-control-date.until';
+import { RangePartType } from '../../bravo-date-base.type';
+import { isRangeValue } from '../../bravo-date-base.until';
 import { BravoDateAbstractComponent } from '../bravo-date-abstract';
 
 

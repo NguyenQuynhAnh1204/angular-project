@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, forwardRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
 import { skip, Subject, takeUntil } from 'rxjs';
 import { BravoControlDirective } from '../bravo-control-base';
-import { BravoDateControlComponent, BravoDatePopupComponent, BravoDateService, CompatibleDate, DateRangeValue, DateSingleValue, SingleDate } from '../bravo-control-date-base';
-import { isRangeValue, normalizeDate } from '../bravo-control-date-base/bravo-control-date.until';
+import { BravoDateBaseComponent, BravoDatePopupComponent, BravoDateService, CompatibleDate, DateRangeValue, SingleDate } from '../bravo-date-base';
+import { isRangeValue, normalizeDate } from '../bravo-date-base/bravo-date-base.until';
+
 
 
 @Component({
@@ -16,11 +17,6 @@ import { isRangeValue, normalizeDate } from '../bravo-control-date-base/bravo-co
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => BravoDateRangeComponent),
-            multi: true
-        },
-        {
-            provide: NG_VALIDATORS,
             useExisting: forwardRef(() => BravoDateRangeComponent),
             multi: true
         },
@@ -36,7 +32,7 @@ import { isRangeValue, normalizeDate } from '../bravo-control-date-base/bravo-co
         }
     ]
 })
-export class BravoDateRangeComponent extends BravoDateControlComponent implements OnInit, AfterViewInit, OnDestroy {
+export class BravoDateRangeComponent extends BravoDateBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     private _destroy$ = new Subject<void>();
     public get isOpenDatePicker() {
         return this._service.isOpenDatePicker;

@@ -1,5 +1,5 @@
 import { BravoMoment } from "@bravo-infra/core/utils/dates";
-import { CompatibleDate, DateMode, DateSingleValue, SingleDate } from "./bravo-control-date.type";
+import { CompatibleDate, DateMode, SingleDate } from "./bravo-date-base.type";
 
 export function offsetDate(mode: DateMode, date: BravoMoment, step: number) {
   switch (mode) {

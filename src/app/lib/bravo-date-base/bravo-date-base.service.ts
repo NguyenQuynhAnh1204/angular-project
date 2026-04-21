@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BravoMoment } from '@bravo-infra/core/utils/dates';
 import { BehaviorSubject } from 'rxjs';
-import { CompatibleDate, DateMode, PanelState, RangeDate, RangePartType, SingleDate } from './bravo-control-date.type';
-import { isRangeValue, offsetDate } from './bravo-control-date.until';
+import { CompatibleDate, DateMode, PanelState, RangeDate, RangePartType, SingleDate } from './bravo-date-base.type';
+import { isRangeValue, offsetDate } from './bravo-date-base.until';
 @Injectable()
 export class BravoDateService {
   private _isRange!: boolean;

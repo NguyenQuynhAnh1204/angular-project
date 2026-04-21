@@ -1,8 +1,8 @@
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { BravoDropdownBaseModule } from "@bravo-infra/ui/bravo-dropdown-base";
 import { Subject, takeUntil } from 'rxjs';
-import { BravoDateService } from '../../bravo-control-date.service';
-import { DateMode, RangePartType } from '../../bravo-control-date.type';
+import { BravoDateService } from '../../bravo-date-base.service';
+import { DateMode, RangePartType } from '../../bravo-date-base.type';
 import { BravoDatePickerComponent } from '../bravo-date-picker';
 import { BravoMonthPickerComponent } from '../bravo-month-picker';
 import { BravoYearPickerComponent } from '../bravo-year-picker';

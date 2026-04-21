@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { BravoInnerPopupComponent } from '../bravo-inner-popup';
-import { DateMode } from '../../bravo-control-date.type';
-import { BravoDateService } from '../../bravo-control-date.service';
+import { DateMode } from '../../bravo-date-base.type';
+import { BravoDateService } from '../../bravo-date-base.service';
 
 @Component({
     selector: 'br-date-popup',
