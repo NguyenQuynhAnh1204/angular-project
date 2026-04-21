@@ -5,7 +5,7 @@ import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-in
 import { skip, Subject, takeUntil } from 'rxjs';
 import { BravoControlDirective } from '../bravo-control-base';
 import { BravoDateControlComponent, BravoDatePopupComponent, BravoDateService, CompatibleDate, DateRangeValue, DateSingleValue, SingleDate } from '../bravo-control-date-base';
-import { isRangeValue } from '../bravo-control-date-base/bravo-control-date.until';
+import { isRangeValue, normalizeDate } from '../bravo-control-date-base/bravo-control-date.until';
 
 
 @Component({
@@ -121,26 +121,16 @@ export class BravoDateRangeComponent extends BravoDateControlComponent implement
     }
 
     public override _setInputValue(pValue: CompatibleDate) {
-        const dateRange = Array.isArray(pValue) ? pValue : [null, null];
-        const [start, end] = dateRange;
-        const format = this.getFormat();
-        let inputStart!: DateSingleValue;
-        let inputEnd!: DateSingleValue;
-        if(!start && !end) {
-            inputStart = null,
-            inputEnd = null;
-        } else if(start && !end) {
-            inputStart = new Date(start.getFullYear(), start.getMonth(), start.getDate());
-        } else if(!start && end) {
-            inputEnd = new Date(end.getFullYear(), end.getMonth(), end.getDate())
-        } else if (start && end) {
-            inputStart = new Date(start.getFullYear(), start.getMonth(), start.getDate());
-            inputEnd = new Date(end.getFullYear(), end.getMonth(), end.getDate())
-        }
+
+        const [start, end] = Array.isArray(pValue)
+            ? pValue
+            : [null, null];
+
         this.dateRangeValue = {
-            start: inputStart,
-            end: inputEnd,
-        }
+            start: normalizeDate(start),
+            end: normalizeDate(end),
+        };
+
         this.updateValue(this.dateRangeValue);
     }
     

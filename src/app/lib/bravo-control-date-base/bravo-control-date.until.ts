@@ -1,5 +1,5 @@
 import { BravoMoment } from "@bravo-infra/core/utils/dates";
-import { CompatibleDate, DateMode } from "./bravo-control-date.type";
+import { CompatibleDate, DateMode, DateSingleValue, SingleDate } from "./bravo-control-date.type";
 
 export function offsetDate(mode: DateMode, date: BravoMoment, step: number) {
   switch (mode) {
@@ -18,15 +18,25 @@ export function isRangeValue(pValue: CompatibleDate) {
     return Array.isArray(pValue);
 }
 
-export function formatByPattern(date: Date, format: string): string {
-  if (!date) return '';
+export function formatByPattern(pDate: Date, format: string) {
+  if (!pDate) return '';
 
-  const dd = String(date.getDate()).padStart(2, '0');
-  const MM = String(date.getMonth() + 1).padStart(2, '0');
-  const yyyy = String(date.getFullYear());
+  const dd = String(pDate.getDate()).padStart(2, '0');
+  const MM = String(pDate.getMonth() + 1).padStart(2, '0');
+  const yyyy = String(pDate.getFullYear());
 
   return format
     .replace('dd', dd)
     .replace('MM', MM)
     .replace('yyyy', yyyy);
+}
+
+
+export function normalizeDate(pDate: SingleDate) {
+  if (!pDate) return null;
+  return new Date(
+    pDate.getFullYear(),
+    pDate.getMonth(),
+    pDate.getDate()
+  );
 }

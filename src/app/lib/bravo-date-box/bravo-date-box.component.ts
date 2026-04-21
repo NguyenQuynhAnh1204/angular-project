@@ -6,6 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { BravoControlDirective } from '../bravo-control-base';
 import { BravoDateControlComponent, BravoDatePopupComponent, BravoDateService } from '../bravo-control-date-base';
 import { CompatibleDate, DateSingleValue, SingleDate } from '../bravo-control-date-base/bravo-control-date.type';
+import { normalizeDate } from '../bravo-control-date-base/bravo-control-date.until';
 
 @Component({
     selector: 'br-date-box',
@@ -95,7 +96,7 @@ export class BravoDateBoxComponent extends BravoDateControlComponent implements 
         if(!value) {
             this.dateSingleValue = null; 
         } else {
-            const date = new Date(value.getFullYear(), value.getMonth(), value.getDate());
+            const date = normalizeDate(value);
             this.dateSingleValue = date;
         }
         this.updateValue(this.dateSingleValue);
