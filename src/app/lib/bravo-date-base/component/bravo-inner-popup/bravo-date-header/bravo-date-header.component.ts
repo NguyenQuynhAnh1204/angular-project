@@ -88,7 +88,7 @@ export class BravoDateHeaderComponent implements OnInit, OnDestroy {
     }
 
     private _moveCalendar(pStep: number, pPanel: RangePartType) {
-        const state = this.panels[pPanel]; // để lấy ra mode & date của input active
+        const state = this.panels[pPanel];
         const date = state.date; 
         const mode = state.mode
         let newDate = offsetDate(mode, date, pStep);

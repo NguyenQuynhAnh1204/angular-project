@@ -164,6 +164,7 @@ export class BravoDateService {
       };
       return;
     }
+    // range
     const {start, end} = this.selectedMoment as RangeDate;
     const active = this.inputActive;
     let startDate: BravoMoment;

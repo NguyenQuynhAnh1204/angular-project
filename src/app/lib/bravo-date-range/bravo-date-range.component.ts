@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, forwardRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BravoDropdownAnchorDirective, BravoDropdownBaseModule } from '@bravo-infra/ui/bravo-dropdown-base';
 import { skip, Subject, takeUntil } from 'rxjs';
 import { BravoControlDirective } from '../bravo-control-base';
@@ -93,7 +93,7 @@ export class BravoDateRangeComponent extends BravoDateBaseComponent implements O
             });
     }
     
-    public ngOnDestroy(): void {
+    public ngOnDestroy() {
         this.rangePickerInput.forEach((item) => {
             this._focusMonitor.stopMonitoring(item);
         })
